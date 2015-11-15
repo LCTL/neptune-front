@@ -9,7 +9,13 @@
       "commit": "421d6610bdb09e1015b71f5991d7a68d079eca21"
     },
     "react/react.d.ts": {
-      "commit": "efd40e67ff323f7147651bdbef03c03ead7b1675"
+      "commit": "aed176536a202b9a2475ce1989ea6d2d0226a185"
+    },
+    "react/react-dom.d.ts": {
+      "commit": "aed176536a202b9a2475ce1989ea6d2d0226a185"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "aed176536a202b9a2475ce1989ea6d2d0226a185"
     }
   }
 }
