@@ -14,7 +14,7 @@
     "maanger"
   ],
   "author": "Lawrence Cheung",
-  "license": "MIT",
+  "license": "Apache Licence 2.0",
   "dependencies": {
     "react": "^0.14.2"
   },
