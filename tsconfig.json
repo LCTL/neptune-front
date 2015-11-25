@@ -16,7 +16,11 @@
     "!./typings/*/**/*.ts"
   ],
   "files": [
+    "./src/actions/machines-action.ts",
     "./src/app.tsx",
+    "./src/components/machine.tsx",
+    "./src/components/machines.tsx",
+    "./src/stores/machines-store.ts",
     "./typings/tsd.d.ts"
   ],
   "atom": {
