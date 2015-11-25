@@ -19,7 +19,8 @@
     "jquery": "^2.1.4",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
-    "semantic-ui": "^2.1.6"
+    "semantic-ui": "^2.1.6",
+    "superagent": "^1.4.0"
   },
   "devDependencies": {
     "chai": "^3.4.0",

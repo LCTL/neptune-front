@@ -6,7 +6,7 @@
   "bundle": "typings/tsd.d.ts",
   "installed": {
     "node/node.d.ts": {
-      "commit": "421d6610bdb09e1015b71f5991d7a68d079eca21"
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
     },
     "react/react.d.ts": {
       "commit": "aed176536a202b9a2475ce1989ea6d2d0226a185"
@@ -16,6 +16,9 @@
     },
     "jquery/jquery.d.ts": {
       "commit": "aed176536a202b9a2475ce1989ea6d2d0226a185"
+    },
+    "superagent/superagent.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
     }
   }
 }
