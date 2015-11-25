@@ -46,5 +46,14 @@ module.exports = {
       title: 'Docker Machine Manager',
       filename: 'index.html'
     })
-  ]
+  ],
+  devServer: {
+    proxy: [{
+      path: /\/api\/(.+)/,
+      target: 'http://127.0.0.1:3000/',
+      rewrite: function(req, opt) {
+        req.url = req.url.replace(opt.path, '/$1');
+      }
+    }]
+  }
 };
