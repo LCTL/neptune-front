@@ -4,9 +4,9 @@
   "description": "Docker Machine Manager (Frontend)",
   "main": "/dist/app.js",
   "scripts": {
-    "setup": "npm install && node node_modules/tsd/build/cli.js install && node node_modules/tsd/build/cli.js link",
-    "build": "npm run setup && node node_modules/typescript/bin/tsc && node node_modules/webpack/bin/webpack -p",
-    "dev": "node node_modules/webpack-dev-server/bin/webpack-dev-server",
+    "setup": "npm install && tsd install && tsd link",
+    "build": "npm run setup && webpack -p",
+    "dev": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
