@@ -1,6 +1,16 @@
+var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-  entry: './src/app.tsx',
+  entry: {
+    app: './src/app.tsx',
+    vendor: [
+      'jquery',
+      'react',
+      'react-dom',
+      './node_modules/semantic-ui/dist/semantic.js',
+      './node_modules/semantic-ui/dist/semantic.css'
+    ]
+  },
   output: {
     path: './dist',
     filename: "bundle.js"
@@ -45,7 +55,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Docker Machine Manager',
       filename: 'index.html'
-    })
+    }),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
   ],
   devServer: {
     proxy: [{
