@@ -5,8 +5,8 @@
   "main": "/dist/app.js",
   "scripts": {
     "setup": "npm install && tsd install && tsd link",
-    "build": "npm run setup && webpack -p",
-    "dev": "webpack-dev-server",
+    "build": "npm run setup && webpack",
+    "dev": "npm run setup && webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
