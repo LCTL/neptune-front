@@ -6,7 +6,8 @@
   "scripts": {
     "setup": "npm install && tsd install && tsd link",
     "build": "npm run setup && webpack",
-    "dev": "npm run setup && webpack-dev-server",
+    "dev": "npm run setup && npm run dev:webpack",
+    "dev:webpack": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,9 +17,13 @@
   "author": "Lawrence Cheung",
   "license": "Apache-2.0",
   "dependencies": {
+    "history": "^1.13.1",
     "jquery": "^2.1.4",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
+    "react-router": "^1.0.0",
+    "react-semantify": "^0.4.1",
+    "reflux": "^0.3.0",
     "semantic-ui": "^2.1.6",
     "superagent": "^1.4.0"
   },

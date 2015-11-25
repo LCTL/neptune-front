@@ -7,6 +7,9 @@ module.exports = {
       'jquery',
       'react',
       'react-dom',
+      'reflux',
+      'react-router',
+      'superagent',
       './node_modules/semantic-ui/dist/semantic.js',
       './node_modules/semantic-ui/dist/semantic.css'
     ]
@@ -55,6 +58,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Docker Machine Manager',
       filename: 'index.html'
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
     }),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
   ],

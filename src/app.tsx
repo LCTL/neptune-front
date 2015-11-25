@@ -1,21 +1,9 @@
-import jQuery = require('jquery');
-import React = require('react');
-import ReactDOM = require('react-dom');
+import * as React from 'react';
+import { render } from 'react-dom';
 
-var CommentBox = React.createClass({
-  render: function() {
-    return (
-      <div className="commentBox">
-        Hello, world! I am a CommentBox.
-      </div>
-    );
-  }
-});
+const Router = require('react-router').Router;
+const Route = require('react-router').Route;
 
-var content = document.createElement("div");
-document.body.appendChild(content);
-
-ReactDOM.render(
-  <CommentBox />,
-  content
-);
+render((
+  <Router></Router>
+), document.body);
