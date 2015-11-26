@@ -1,7 +1,5 @@
 import * as Reflux from 'reflux';
 
-const MachinesActions = Reflux.createActions([
+export const MachinesActions = Reflux.createActions([
   'load',
 ]);
-
-export = MachinesActions;

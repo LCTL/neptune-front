@@ -1,11 +1,16 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import * as MachinesActions from '../actions/machines-action';
-import * as MachinesStore from '../stores/machines-store';
+import { MachinesActions } from '../actions/machines-action';
+import { MachinesStore, MachineModel } from '../stores/machines-store';
+import { Machine } from './machine';
 
-const Machine = require('./machine').Machine;
+export interface Props {}
 
-export const Machines = React.createClass({
+export interface State {
+  machines: MachineModel[]
+}
+
+export const Machines = React.createClass<Props, State>({
   mixins: [Reflux.connect(MachinesStore, 'machines')],
   componentDidMount: function () {
     MachinesActions.load();
@@ -23,4 +28,4 @@ export const Machines = React.createClass({
       </div>
     )
   }
-})
+});

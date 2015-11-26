@@ -1,8 +1,15 @@
 import * as React from 'react';
+import { MachineModel } from '../stores/machines-store';
 
 const Link = require('react-router').Link
 
-export const Machine = React.createClass({
+export interface Props {
+  key: string,
+  machine: MachineModel
+}
+export interface State {}
+
+export const Machine = React.createClass<Props, State>({
   render: function() {
     return (
       <div>
