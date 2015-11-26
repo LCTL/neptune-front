@@ -1,5 +1,7 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 module.exports = {
   entry: {
     app: './src/app.tsx',
@@ -11,7 +13,7 @@ module.exports = {
       'react-router',
       'superagent',
       './node_modules/semantic-ui/dist/semantic.js',
-      './node_modules/semantic-ui/dist/semantic.css'
+      '!style!css!./node_modules/semantic-ui/dist/semantic.css'
     ]
   },
   output: {
@@ -24,7 +26,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.css$/,
-      loader: "style!css"
+      loader: "style!css!postcss"
     }, {
       test: /\.tsx?$/,
       loader: 'ts-loader'
@@ -66,6 +68,9 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
   ],
+  postcss: function() {
+    return [autoprefixer, precss];
+  },
   devServer: {
     proxy: [{
       path: /\/api\/(.+)/,
