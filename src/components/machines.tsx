@@ -4,6 +4,9 @@ import { MachinesActions } from '../actions/machines-action';
 import { MachinesStore, MachineModel } from '../stores/machines-store';
 import { Machine } from './machine';
 
+const Link = require('react-router').Link
+const Table = require('react-semantify').Table;
+
 export interface Props {}
 
 export interface State {
@@ -17,15 +20,36 @@ export const Machines = React.createClass<Props, State>({
   },
   render: function() {
     return (
-      <div className='ui relaxed divided list'>
-        <div className='item'>
+      <Table className="celled padded">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Driver</td>
+            <td>State</td>
+            <td>URL</td>
+            <td>SWARM</td>
+          </tr>
+        </thead>
+        <tbody>
           {
             this.state.machines.map(machine => {
-              return <Machine key={machine.name} machine={machine} />
+              return (
+                <tr>
+                  <td>
+                    <Link to={`/machines/${machine.name}`}>
+                      <i className='server icon'></i>{machine.name}
+                    </Link>
+                  </td>
+                  <td>{machine.driver}</td>
+                  <td>{machine.state}</td>
+                  <td>{machine.url}</td>
+                  <td>{machine.swarm}</td>
+                </tr>
+              )
             })
           }
-        </div>
-      </div>
+        </tbody>
+      </Table>
     )
   }
 });
