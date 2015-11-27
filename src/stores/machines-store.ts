@@ -1,12 +1,12 @@
 import * as Reflux from 'reflux';
-import * as request from 'superagent';
+import api from '../api/machine-api';
 import { MachinesActions } from '../actions/machines-action';
 
 export interface MachineModel {
   name: string,
   active: boolean,
   driver: string,
-  state:  string,
+  state: string,
   url: string,
   swarm?: string
 }
@@ -18,8 +18,8 @@ export const MachinesStore = Reflux.createStore({
     return this.machines;
   },
   onLoad: function() {
-    request.get('/api/machines').end((err, res) => {
-      this.machines = res.body
+    api.list().then(res => {
+      this.machines = res.body;
       this.trigger(this.machines);
     });
   }

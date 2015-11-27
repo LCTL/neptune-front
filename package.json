@@ -17,6 +17,7 @@
   "author": "Lawrence Cheung",
   "license": "Apache-2.0",
   "dependencies": {
+    "bluebird": "^3.0.5",
     "history": "^1.13.1",
     "http-proxy": "^1.12.0",
     "jquery": "^2.1.4",
@@ -26,7 +27,8 @@
     "react-semantify": "^0.4.1",
     "reflux": "^0.3.0",
     "semantic-ui": "^2.1.6",
-    "superagent": "^1.4.0"
+    "superagent": "^1.4.0",
+    "superagent-promise": "^1.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.1",
