@@ -1,10 +1,10 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var autoprefixer = require('autoprefixer');
-var precss = require('precss');
 module.exports = {
   entry: {
-    app: './src/app.tsx',
+    app: [
+      './src/app.tsx'
+    ],
     vendor: [
       'jquery',
       'react',
@@ -26,7 +26,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.css$/,
-      loader: "style!css!postcss"
+      loader: 'style-loader!css-loader!postcss-loader'
     }, {
       test: /\.tsx?$/,
       loader: 'ts-loader'
@@ -69,7 +69,11 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
   ],
   postcss: function() {
-    return [autoprefixer, precss];
+    return [
+      require('postcss-nested'),
+      require('cssnext')(),
+      require('autoprefixer')
+    ];
   },
   devServer: {
     proxy: [{
