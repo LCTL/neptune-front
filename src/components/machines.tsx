@@ -136,6 +136,36 @@ export const MachinesBody = React.createClass<MachinesProps, any>({
   }
 });
 
+export const ShowCreateMachineModalButton = React.createClass<any, any>({
+  render: function () {
+    return (
+      <div>
+        <Link to="/create-machine">
+          <div className="ui right floated small primary labeled icon button" onClick={this.showModal}>
+            <i className="server icon"></i> Create Machine
+          </div>
+        </Link>
+      </div>
+    )
+  }
+})
+
+export const MachinesFooter = React.createClass<any, any>({
+  render: function () {
+    return (
+      <tfoot className="full-width">
+        <tr>
+          <th></th>
+          <th colSpan={5}>
+            <ShowCreateMachineModalButton />
+          </th>
+          <th></th>
+        </tr>
+      </tfoot>
+    );
+  }
+});
+
 export const Machines = React.createClass<any, MachinesState>({
   mixins: [Reflux.connect(MachinesStore, 'machines')],
   componentDidMount: function () {
@@ -146,6 +176,7 @@ export const Machines = React.createClass<any, MachinesState>({
       <Table className="machines-table">
         <MachinesHeader />
         <MachinesBody machines={this.state.machines} />
+        <MachinesFooter />
       </Table>
     );
   }
