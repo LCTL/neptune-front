@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { MachinesActions } from '../actions/machines-action';
-import { MachinesStore, MachineModel } from '../stores/machines-store';
+import { MachineActions } from '../actions/machine-action';
+import { MachinesStore, MachineModel } from '../stores/machine-store';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link
@@ -169,7 +169,7 @@ export const MachinesFooter = React.createClass<any, any>({
 export const Machines = React.createClass<any, MachinesState>({
   mixins: [Reflux.connect(MachinesStore, 'machines')],
   componentDidMount: function () {
-    MachinesActions.load();
+    MachineActions.load();
   },
   render: function() {
     return (
@@ -177,6 +177,7 @@ export const Machines = React.createClass<any, MachinesState>({
         <MachinesHeader />
         <MachinesBody machines={this.state.machines} />
         <MachinesFooter />
+        {this.props.children}
       </Table>
     );
   }

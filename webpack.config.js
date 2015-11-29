@@ -7,6 +7,7 @@ module.exports = {
     ],
     vendor: [
       'jquery',
+      'lodash',
       'react',
       'react-dom',
       'reflux',
