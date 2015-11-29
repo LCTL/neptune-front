@@ -1,18 +1,25 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { MachineTable } from './components/machine-table';
-import { CreateMachineForm } from './components/create-machine-form';
+import { RouteActions } from './actions/route-action';
+import {
+  AppContainer,
+  MachineContainer,
+  CreateMachineFormContainer
+} from './components/container';
 
 const Router = require('react-router').Router;
+const IndexRoute = require('react-router').IndexRoute;
 const Route = require('react-router').Route;
+const Redirect = require('react-router').Redirect;
 const content = document.createElement('div');
 
 document.body.appendChild(content);
 
 render((
   <Router>
-    <Route path='/index.html' component={MachineTable} />
-    <Route path='/' component={MachineTable} />
-    <Route path='/create-machine' component={CreateMachineForm} />
+    <Route path='/' component={AppContainer} onEnter={RouteActions.enter}>
+      <IndexRoute component={MachineContainer} onEnter={RouteActions.enter} />
+      <Route path='/create-machine' component={CreateMachineFormContainer} onEnter={RouteActions.enter} />
+    </Route>
   </Router>
 ), content);
