@@ -166,7 +166,7 @@ export const MachinesFooter = React.createClass<any, any>({
   }
 });
 
-export const Machines = React.createClass<any, MachinesState>({
+export const MachineTable = React.createClass<any, MachinesState>({
   mixins: [Reflux.connect(MachinesStore, 'machines')],
   componentDidMount: function () {
     MachineActions.load();
