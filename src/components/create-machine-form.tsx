@@ -13,6 +13,7 @@ const Input = reactSemantify.Input;
 const Dropdown = reactSemantify.Dropdown;
 const Icon = reactSemantify.Icon;
 const Button = reactSemantify.Button;
+const Divider = reactSemantify.Divider;
 
 export const CallbackableField = React.createClass<any, any>({
   render: function() {
@@ -113,6 +114,7 @@ export const CreateMachineForm = React.createClass<any, any>({
     return (
       <div>
         <DriverSelection />
+        <Divider />
         {formComponent}
       </div>
     );

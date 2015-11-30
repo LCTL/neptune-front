@@ -4,7 +4,10 @@ import { RouteStore } from '../stores/route-store';
 import { MachineTable } from '../components/machine-table';
 import { CreateMachineForm } from '../components/create-machine-form';
 
+const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
+const Divider = reactSemantify.Divider;
+const Menu = reactSemantify.Menu;
 
 interface ActiveLinkProps {
   to: string,
@@ -27,10 +30,10 @@ const TopMenu = React.createClass<any, any>({
   mixins: [Reflux.connect(RouteStore, 'route')],
   render: function(){
     return (
-      <div className="ui secondary menu">
+      <Menu className="top secondary">
         <div className="header item">DMM</div>
         <ActiveLink route={this.state.route} to="/">Machine</ActiveLink>
-      </div>
+      </Menu>
     );
   }
 });
@@ -51,10 +54,8 @@ export const AppContainer = React.createClass<any, any>({
   render: function() {
     return (
       <div className="ui container">
-        <br />
         <TopMenu />
-        <div className="ui divider" />
-        <br />
+        <Divider className="bottom-space" />
         {this.props.children}
       </div>
     );
