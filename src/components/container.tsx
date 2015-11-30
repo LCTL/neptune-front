@@ -66,6 +66,12 @@ export const MachineContainer = React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
+        <div className="ui huge header">
+          <i className="server icon"></i>
+          <div className="content">
+            Machines
+          </div>
+        </div>
         <MachineTable />
       </OneColumn>
     )
@@ -76,6 +82,12 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
+        <div className="ui huge header">
+          <i className="server icon"></i>
+          <div className="content">
+            Create Machine
+          </div>
+        </div>
         <CreateMachineForm />
       </OneColumn>
     )
