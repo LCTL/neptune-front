@@ -4,60 +4,42 @@ import * as Reflux from 'reflux';
 import { DriverActions } from '../actions/driver-action'
 import { MachineActions } from '../actions/machine-action'
 import { DriversStore, SelectedDriverStore } from '../stores/driver-store'
+import {
+  Form,
+  Field,
+  InputField,
+  HiddenField,
+  SubmitButton,
+  SubmitButtonControlMixin
+} from './form';
 
 const reactSemantify = require('react-semantify');
-const Form = reactSemantify.Form;
-const Field = reactSemantify.Field;
-const Label = reactSemantify.Label;
-const Input = reactSemantify.Input;
 const Dropdown = reactSemantify.Dropdown;
-const Icon = reactSemantify.Icon;
-const Button = reactSemantify.Button;
 const Divider = reactSemantify.Divider;
 
-export const CallbackableField = React.createClass<any, any>({
-  render: function() {
-    return (
-      <Field>
-        <Label>{this.props.label}</Label>
-        <Input {...this.props} />
-      </Field>
-    );
+const MachineFormMixin = {
+  create: function(data) {
+    MachineActions.create(data.name, data.driver, data.swarm);
   }
-});
+}
 
 export const VirtualBoxForm = React.createClass<any, any>({
-  getInitialState: function() {
-    return {
-      name: '',
-      driver: {
-        name: 'virtualbox',
-        options: {
-          'virtualbox-memory': 512
-        }
-      }
-    }
-  },
-  fieldUpdate: function(event) {
-    var property = event.target.name
-    var value = event.target.value
-    _.set(this.state, property, value);
-    this.setState(this.state);
-  },
-  create: function() {
-    MachineActions.create(this.state.name, this.state.driver);
-  },
+  mixins: [SubmitButtonControlMixin, MachineFormMixin],
   render: function() {
     return (
-      <Form>
-        <CallbackableField name="name" label="Machine Name" onChange={this.fieldUpdate} />
-        <CallbackableField
+      <Form onValidSubmit={this.create} onValid={this.enableButton} onInvalid={this.disableButton}>
+        <HiddenField name="driver.name" value="virtualbox" />
+        <InputField
+          name="name"
+          label="Machine Name"
+          required />
+        <InputField
           type="number"
           name="driver.options.virtualbox-memory"
           label="Memory"
-          value={this.state.driver.options['virtualbox-memory']}
-          onChange={this.fieldUpdate} />
-        <Button className="green" onClick={this.create}>Create</Button>
+          value="512" />
+        {this.state.x}
+        <SubmitButton className="green" disabled={this.state.disableSubmit} text="Create" />
       </Form>
     );
   }
@@ -87,7 +69,7 @@ export const DriverSelection = React.createClass<any, any>({
     return (
       <Form>
         <Field>
-          <Label>Driver</Label>
+          <label>Driver</label>
           <Dropdown className="selection" init={true}>
             <div className="default text">Driver</div>
             <div className="menu">
@@ -114,7 +96,7 @@ export const CreateMachineForm = React.createClass<any, any>({
     return (
       <div>
         <DriverSelection />
-        <Divider />
+        <Divider className="bottom-space" />
         {formComponent}
       </div>
     );
