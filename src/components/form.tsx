@@ -1,0 +1,146 @@
+import * as React from 'react';
+
+const Semantify = require('react-semantify');
+const Formsy = require('formsy-react');
+
+interface FieldErrorProps {
+  message: string
+}
+
+interface FormProps {
+  onSubmit?: (data:any, resetForm:any, invalidateForm:any) => void,
+  onValidSubmit?: (data:any, resetForm:any, invalidateForm:any) => void,
+  onInvalidSubmit?: (data:any, resetForm:any, invalidateForm:any) => void,
+  onValid?: () => void,
+  onInvalid?: () => void,
+  onChange?: (currentValues:any, isChanged:boolean) => void,
+  className?: string
+}
+
+interface FieldProps {
+  name: string,
+  label: string,
+  className?: string,
+  placeholder?: string,
+  value?: string|number,
+  type?: string,
+  validations?: string,
+  validationError?: string,
+  required?: boolean
+}
+
+interface HiddenFieldProps {
+  name: string,
+  value: string
+}
+
+interface SubmitButtonProps {
+  text: string,
+  disabled?: boolean,
+  className?: string,
+}
+
+const InputMixin = {
+  getInitialState: function(){
+    return {
+      id: Date.now()
+    }
+  },
+  changeValue: function(event) {
+    this.setValue(event.currentTarget[this.props.type === 'checkbox' ? 'checked' : 'value']);
+  }
+}
+
+const FieldError = React.createClass<FieldErrorProps, any>({
+  render: function(){
+    return (
+      <div className="ui basic red pointing prompt label transition visible">
+        {this.props.message}
+      </div>
+    );
+  }
+});
+
+export const SubmitButtonControlMixin = {
+  getInitialState() {
+    return {
+      disableSubmit: true
+    };
+  },
+  enableButton() {
+    this.state.disableSubmit = false;
+    this.setState(this.state);
+  },
+  disableButton() {
+    this.state.disableSubmit = true;
+    this.setState(this.state);
+  }
+}
+
+export const Form = React.createClass<FormProps, any>({
+  render: function(){
+    return (
+      <Formsy.Form {...this.props} className={`ui form ${this.props.className || ""}`}>
+        {this.props.children}
+      </Formsy.Form>
+    );
+  }
+});
+
+export const Field = React.createClass<any, any>({
+  render: function() {
+    return (
+      <Semantify.Field {...this.props} />
+    );
+  }
+});
+
+export const InputField = React.createClass<FieldProps, any>({
+  mixins: [Formsy.Mixin, InputMixin],
+  render: function() {
+    const errorMessage = this.getErrorMessage();
+    const fieldClass = errorMessage ? 'error' : '';
+    var errorComp = (<div></div>);
+    if (errorMessage) {
+      errorComp = (
+        <FieldError message={errorMessage} />
+      )
+    }
+    return (
+      <Field className={fieldClass}>
+        <label htmlFor={this.state.id}>{this.props.label}</label>
+        <Semantify.Input
+          {...this.props}
+          id={this.state.id}
+          type={this.props.type || 'text'}
+          onChange={this.changeValue} />
+        {errorComp}
+      </Field>
+    );
+  }
+});
+
+export const HiddenField = React.createClass<HiddenFieldProps, any>({
+  mixins: [Formsy.Mixin, InputMixin],
+  render: function() {
+    return (
+      <Semantify.Input
+        {...this.props}
+        type="hidden"
+        onChange={this.changeValue} />
+    )
+  }
+});
+
+export const SubmitButton = React.createClass<SubmitButtonProps, any>({
+  render: function() {
+    return (
+      <button
+        {...this.props}
+        className={`ui button ${this.props.className}`}
+        type="submit">
+        {this.props.text}
+      </button>
+    );
+  }
+});
