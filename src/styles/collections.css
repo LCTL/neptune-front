@@ -1,0 +1,7 @@
+@import "./variables.css";
+
+.menu {
+  &.top{
+    padding-top: var(--space);
+  }
+}

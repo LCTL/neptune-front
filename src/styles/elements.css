@@ -1,0 +1,10 @@
+@import "./variables.css";
+
+.divider {
+  &.bottom-space{
+    padding-bottom: var(--space);
+  }
+  &.top-space{
+    padding-top: var(--space);
+  }
+}

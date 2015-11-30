@@ -3,7 +3,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
     app: [
-      './src/app.tsx'
+      './src/app.tsx',
+      './src/styles/app.css'
     ],
     vendor: [
       'jquery',
@@ -69,8 +70,11 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
   ],
-  postcss: function() {
+  postcss: function(webpack) {
     return [
+      require('postcss-import')({
+        addDependencyTo: webpack
+      }),
       require('postcss-nested'),
       require('cssnext')(),
       require('autoprefixer')
