@@ -156,11 +156,9 @@ export const MachinesFooter = React.createClass<any, any>({
     return (
       <tfoot className="full-width">
         <tr>
-          <th></th>
-          <th colSpan={5}>
+          <th colSpan={7}>
             <ShowCreateMachineModalButton />
           </th>
-          <th></th>
         </tr>
       </tfoot>
     );
