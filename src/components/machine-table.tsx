@@ -2,7 +2,11 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import * as Reflux from 'reflux';
 import { MachineActions } from '../actions/machine-action';
-import { MachinesStore, MachineModel } from '../stores/machine-store';
+import {
+  MachineIndexedStore,
+  MachineNameOperatingStore,
+  MachineModel
+} from '../stores/machine-store';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link
@@ -21,6 +25,28 @@ interface MachineState {
 interface MachinesProps extends MachinesState {}
 interface MachineProps extends MachineState {
   key: string
+}
+
+const MachineOperationButtonMixin = {
+  getInitialState: function(){
+    return {
+      loading: false,
+      disabled: false
+    };
+  },
+  onOperating: function(names) {
+    var operating = false;
+    names.forEach(name => {
+      if (name === this.props.machine.name) {
+        operating = true
+        this.state.disabled = true;
+        this.setState(this.state);
+      }
+    });
+    if (operating === false) {
+      this.setState(this.getInitialState());
+    }
+  },
 }
 
 export const MachinesHeader = React.createClass<any, any>({
@@ -42,32 +68,40 @@ export const MachinesHeader = React.createClass<any, any>({
 });
 
 export const MachineControlButton = React.createClass<MachineProps, MachineState>({
-  getInitialState: function(){
-    return {
-      machine: this.props.machine
-    };
-  },
+  mixins: [MachineOperationButtonMixin, Reflux.listenTo(MachineNameOperatingStore, 'onOperating')],
   start: function() {
-    console.log('start', this.state.machine);
+    MachineActions.start(this.props.machine);
+    this.updateButtonState();
   },
   stop: function() {
-    console.log('stop', this.state.machine);
+    MachineActions.stop(this.props.machine);
+    this.updateButtonState();
+  },
+  updateButtonState: function() {
+    this.setState({
+      loading: true,
+      disabled: true
+    });
   },
   render: function() {
-    const machine = this.state.machine;
+    const machine = this.props.machine;
     let button;
     if (/running/i.test(machine.state)) {
       button = (
-        <Button className="tiny icon yellow" onClick={this.stop}>
+        <Button className="tiny icon yellow" loading={this.state.loading} disabled={this.state.disabled} onClick={this.stop}>
           <i className='stop icon'></i>
         </Button>
       );
     } else if (/stopped/i.test(machine.state)) {
       button =  (
-        <Button className="tiny icon green" onClick={this.start}>
+        <Button className="tiny icon green" loading={this.state.loading} disabled={this.state.disabled} onClick={this.start}>
           <i className='play icon'></i>
         </Button>
       );
+    } else {
+      button = (
+        <span />
+      )
     }
 
     return button;
@@ -86,12 +120,17 @@ export const MachineNameLink = React.createClass<MachineProps, MachineState>({
 });
 
 export const RemoveMachineButton = React.createClass<MachineProps, any>({
+  mixins: [MachineOperationButtonMixin, Reflux.listenTo(MachineNameOperatingStore, 'onOperating')],
   remove: function(){
-    console.log('remove', this.props.machine);
+    MachineActions.remove(this.props.machine);
+    this.setState({
+      loading: true,
+      disabled: true
+    });
   },
   render: function() {
     return (
-      <Button className="tiny icon red" onClick={this.remove}>
+      <Button className="tiny icon red" loading={this.state.loading} disabled={this.state.disabled} onClick={this.remove}>
         <i className='trash icon'></i>
       </Button>
     );
@@ -126,7 +165,7 @@ export const MachinesBody = React.createClass<MachinesProps, any>({
     return (
       <tbody>
         {
-          this.props.machines.map(machine => {
+          _.values(this.props.machines).map((machine:MachineModel) => {
             return (
               <MachineRow key={machine.name} machine={machine}/>
             )
@@ -166,7 +205,7 @@ export const MachinesFooter = React.createClass<any, any>({
 });
 
 export const MachineTable = React.createClass<any, MachinesState>({
-  mixins: [Reflux.connect(MachinesStore, 'machines')],
+  mixins: [Reflux.connect(MachineIndexedStore, 'machines')],
   componentDidMount: function () {
     MachineActions.load();
   },

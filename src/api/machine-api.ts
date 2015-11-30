@@ -16,6 +16,18 @@ class MachineApi extends Base {
     }));
   }
 
+  remove(name): Promise<Response> {
+    return this._exec(request.del(`${this.baseUrl}/machines/${name}`));
+  }
+
+  start(name): Promise<Response> {
+    return this._exec(request.post(`${this.baseUrl}/machines/${name}/start`));
+  }
+
+  stop(name): Promise<Response> {
+    return this._exec(request.post(`${this.baseUrl}/machines/${name}/stop`));
+  }
+
 }
 
 export default new MachineApi();
