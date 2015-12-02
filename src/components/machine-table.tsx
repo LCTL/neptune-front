@@ -70,11 +70,11 @@ export const MachinesHeader = React.createClass<any, any>({
 export const MachineControlButton = React.createClass<MachineProps, MachineState>({
   mixins: [MachineOperationButtonMixin, Reflux.listenTo(MachineNameOperatingStore, 'onOperating')],
   start: function() {
-    MachineActions.start(this.props.machine);
+    MachineActions.start(this.props.machine.name);
     this.updateButtonState();
   },
   stop: function() {
-    MachineActions.stop(this.props.machine);
+    MachineActions.stop(this.props.machine.name);
     this.updateButtonState();
   },
   updateButtonState: function() {
@@ -122,7 +122,7 @@ export const MachineNameLink = React.createClass<MachineProps, MachineState>({
 export const RemoveMachineButton = React.createClass<MachineProps, any>({
   mixins: [MachineOperationButtonMixin, Reflux.listenTo(MachineNameOperatingStore, 'onOperating')],
   remove: function(){
-    MachineActions.remove(this.props.machine);
+    MachineActions.remove(this.props.machine.name);
     this.setState({
       loading: true,
       disabled: true
