@@ -9,7 +9,7 @@ export function bindApi(action, apiMethodName) {
   action.listen(function() {
     const args = arguments
     this.start.apply(this, args);
-    api[apiMethodName].apply(api, arguments)
+    api[apiMethodName].apply(api, args)
       .then(this.completed)
       .catch(this.failed)
       .finally(() => this.end.apply(this, args));
