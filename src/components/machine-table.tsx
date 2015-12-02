@@ -205,9 +205,17 @@ export const MachinesFooter = React.createClass<any, any>({
 });
 
 export const MachineTable = React.createClass<any, MachinesState>({
-  mixins: [Reflux.connect(MachineIndexedStore, 'machines')],
+  mixins: [
+    Reflux.connect(MachineIndexedStore, 'machines'),
+    Reflux.listenTo(MachineNameOperatingStore, 'reload')
+  ],
   componentDidMount: function () {
     MachineActions.load();
+  },
+  reload: function(names: string[]) {
+    if (_.isEmpty(names)){
+      MachineActions.load();
+    }
   },
   render: function() {
     return (
