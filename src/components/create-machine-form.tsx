@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as Reflux from 'reflux';
 import { DriverActions } from '../actions/driver-action'
 import { MachineActions } from '../actions/machine-action'
+import { MachineNameOperatingStore } from '../stores/machine-store';
 import { DriversStore, SelectedDriverStore } from '../stores/driver-store'
 import {
   Form,
@@ -12,19 +13,33 @@ import {
   SubmitButton,
   SubmitButtonControlMixin
 } from './form';
+import { MachineOperationMixin } from './mixin/machine-mixin';
 
 const reactSemantify = require('react-semantify');
 const Dropdown = reactSemantify.Dropdown;
 const Divider = reactSemantify.Divider;
 
 const MachineFormMixin = {
+  getInitialState: function() {
+    return {
+      submitLoading: false
+    };
+  },
   create: function(data) {
     MachineActions.create(data.name, data.driver, data.swarm);
+    this.state.data = data;
+  },
+  getMachineName: function(name) {
+    return this.state.data.name || '';
   }
 }
 
 export const VirtualBoxForm = React.createClass<any, any>({
-  mixins: [SubmitButtonControlMixin, MachineFormMixin],
+  mixins: [
+    SubmitButtonControlMixin,
+    MachineFormMixin,
+    MachineOperationMixin
+  ],
   render: function() {
     return (
       <Form onValidSubmit={this.create} onValid={this.enableButton} onInvalid={this.disableButton}>
@@ -38,8 +53,7 @@ export const VirtualBoxForm = React.createClass<any, any>({
           name="driver.options.virtualbox-memory"
           label="Memory"
           value="512" />
-        {this.state.x}
-        <SubmitButton className="green" disabled={this.state.disableSubmit} text="Create" />
+        <SubmitButton className="green" disabled={this.state.disableSubmit || this.state.operating} loading={this.state.operating} text="Create" />
       </Form>
     );
   }

@@ -38,6 +38,7 @@ interface SubmitButtonProps {
   text: string,
   disabled?: boolean,
   className?: string,
+  loading?: boolean
 }
 
 const InputMixin = {
@@ -134,10 +135,11 @@ export const HiddenField = React.createClass<HiddenFieldProps, any>({
 
 export const SubmitButton = React.createClass<SubmitButtonProps, any>({
   render: function() {
+    const loadingClass:string = this.props.loading ? 'loading' : '';
     return (
       <button
         {...this.props}
-        className={`ui button ${this.props.className}`}
+        className={`ui button ${this.props.className} ${loadingClass}`}
         type="submit">
         {this.props.text}
       </button>
