@@ -15,6 +15,7 @@ import {
 } from './form';
 import { MachineActionMixin, MachineOperationMixin } from './mixin/machine-mixin';
 
+const History = require('react-router').History;
 const reactSemantify = require('react-semantify');
 const Dropdown = reactSemantify.Dropdown;
 const Divider = reactSemantify.Divider;
@@ -26,15 +27,22 @@ const MachineFormMixin = {
     };
   },
   create: function(data) {
-    this.state.machineName = data.name;
-    this.setState(this.state);
+    var nextState = _.clone(this.state);
+    nextState.machineName = data.name;
+    this.setState(nextState);
     MachineActions.create(data.name, data.driver, data.swarm);
     this.onAction();
+  },
+  componentWillUpdate: function(nextProps, nextState) {
+    if (this.state.operating === true && nextState.operating === false) {
+      this.history.pushState(null, '/');
+    }
   }
 }
 
 export const VirtualBoxForm = React.createClass<any, any>({
   mixins: [
+    History,
     SubmitButtonControlMixin,
     MachineFormMixin,
     MachineActionMixin,
@@ -42,7 +50,7 @@ export const VirtualBoxForm = React.createClass<any, any>({
   ],
   render: function() {
     return (
-      <Form onValidSubmit={this.create} onValid={this.enableButton} onInvalid={this.disableButton}>
+      <Form className={this.state.loading ? 'loading' : ''} onValidSubmit={this.create} onValid={this.enableButton} onInvalid={this.disableButton}>
         <HiddenField name="driver.name" value="virtualbox" />
         <InputField
           name="name"
