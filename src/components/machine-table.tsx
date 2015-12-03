@@ -8,12 +8,12 @@ import {
   MachineModel
 } from '../stores/machine-store';
 import { MachineActionMixin, MachineOperationMixin } from './mixin/machine-mixin';
+import { Button } from './button';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link
 
 const Table = reactSemantify.Table;
-const Button = reactSemantify.Button;
 
 interface MachinesState {
   machines: MachineModel[]

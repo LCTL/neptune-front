@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Button } from './button';
 
 const Semantify = require('react-semantify');
 const Formsy = require('formsy-react');
@@ -137,12 +138,12 @@ export const SubmitButton = React.createClass<SubmitButtonProps, any>({
   render: function() {
     const loadingClass:string = this.props.loading ? 'loading' : '';
     return (
-      <button
+      <Button
         {...this.props}
-        className={`ui button ${this.props.className} ${loadingClass}`}
+        className={`${this.props.className} ${loadingClass}`}
         type="submit">
         {this.props.text}
-      </button>
+      </Button>
     );
   }
 });
