@@ -13,7 +13,7 @@ import {
   SubmitButton,
   SubmitButtonControlMixin
 } from './form';
-import { MachineOperationMixin } from './mixin/machine-mixin';
+import { MachineActionMixin, MachineOperationMixin } from './mixin/machine-mixin';
 
 const reactSemantify = require('react-semantify');
 const Dropdown = reactSemantify.Dropdown;
@@ -26,11 +26,10 @@ const MachineFormMixin = {
     };
   },
   create: function(data) {
+    this.state.machineName = data.name;
+    this.setState(this.state);
     MachineActions.create(data.name, data.driver, data.swarm);
-    this.state.data = data;
-  },
-  getMachineName: function(name) {
-    return this.state.data.name || '';
+    this.onAction();
   }
 }
 
@@ -38,6 +37,7 @@ export const VirtualBoxForm = React.createClass<any, any>({
   mixins: [
     SubmitButtonControlMixin,
     MachineFormMixin,
+    MachineActionMixin,
     MachineOperationMixin
   ],
   render: function() {
@@ -53,7 +53,7 @@ export const VirtualBoxForm = React.createClass<any, any>({
           name="driver.options.virtualbox-memory"
           label="Memory"
           value="512" />
-        <SubmitButton className="green" disabled={this.state.disableSubmit || this.state.operating} loading={this.state.operating} text="Create" />
+        <SubmitButton className="green" disabled={this.state.disableSubmit || this.state.operating} loading={this.state.loading} text="Create" />
       </Form>
     );
   }

@@ -7,6 +7,7 @@ import {
   MachineNameOperatingStore,
   MachineModel
 } from '../stores/machine-store';
+import { MachineActionMixin, MachineOperationMixin } from './mixin/machine-mixin';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link
@@ -67,34 +68,33 @@ export const MachinesHeader = React.createClass<any, any>({
   }
 });
 
-export const MachineControlButton = React.createClass<MachineProps, MachineState>({
-  mixins: [MachineOperationButtonMixin, Reflux.listenTo(MachineNameOperatingStore, 'onOperating')],
+export const MachineControlButton = React.createClass<MachineProps, any>({
+  mixins: [MachineOperationMixin, MachineActionMixin],
+  getInitialState: function() {
+    return {
+      machineName: this.props.machine.name
+    };
+  },
   start: function() {
     MachineActions.start(this.props.machine.name);
-    this.updateButtonState();
+    this.onAction();
   },
   stop: function() {
     MachineActions.stop(this.props.machine.name);
-    this.updateButtonState();
-  },
-  updateButtonState: function() {
-    this.setState({
-      loading: true,
-      disabled: true
-    });
+    this.onAction();
   },
   render: function() {
     const machine = this.props.machine;
     let button;
     if (/running/i.test(machine.state)) {
       button = (
-        <Button className="tiny icon yellow" loading={this.state.loading} disabled={this.state.disabled} onClick={this.stop}>
+        <Button className="tiny icon yellow" loading={this.state.loading} disabled={this.state.operating} onClick={this.stop}>
           <i className='stop icon'></i>
         </Button>
       );
     } else if (/stopped/i.test(machine.state)) {
       button =  (
-        <Button className="tiny icon green" loading={this.state.loading} disabled={this.state.disabled} onClick={this.start}>
+        <Button className="tiny icon green" loading={this.state.loading} disabled={this.state.operating} onClick={this.start}>
           <i className='play icon'></i>
         </Button>
       );
@@ -120,17 +120,19 @@ export const MachineNameLink = React.createClass<MachineProps, MachineState>({
 });
 
 export const RemoveMachineButton = React.createClass<MachineProps, any>({
-  mixins: [MachineOperationButtonMixin, Reflux.listenTo(MachineNameOperatingStore, 'onOperating')],
+  mixins: [MachineOperationMixin, MachineActionMixin],
+  getInitialState: function() {
+    return {
+      machineName: this.props.machine.name
+    };
+  },
   remove: function(){
     MachineActions.remove(this.props.machine.name);
-    this.setState({
-      loading: true,
-      disabled: true
-    });
+    this.onAction();
   },
   render: function() {
     return (
-      <Button className="tiny icon red" loading={this.state.loading} disabled={this.state.disabled} onClick={this.remove}>
+      <Button className="tiny icon red" loading={this.state.loading} disabled={this.state.operating} onClick={this.remove}>
         <i className='trash icon'></i>
       </Button>
     );
