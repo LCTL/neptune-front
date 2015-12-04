@@ -21,13 +21,16 @@ interface FormProps {
 interface FieldProps {
   name: string,
   label: string,
+  fieldClassName? :string,
   className?: string,
   placeholder?: string,
   value?: string|number,
   type?: string,
   validations?: string,
   validationError?: string,
-  required?: boolean
+  required?: boolean,
+  disabled?: boolean,
+  readOnly?: boolean
 }
 
 interface HiddenFieldProps {
@@ -45,7 +48,7 @@ interface SubmitButtonProps {
 const InputMixin = {
   getInitialState: function(){
     return {
-      id: Date.now()
+      id: Date.now() + (Math.random() * 10000)
     }
   },
   changeValue: function(event) {
@@ -101,7 +104,7 @@ export const InputField = React.createClass<FieldProps, any>({
   mixins: [Formsy.Mixin, InputMixin],
   render: function() {
     const errorMessage = this.getErrorMessage();
-    const fieldClass = errorMessage ? 'error' : '';
+    const errorClass = errorMessage ? 'error' : '';
     var errorComp = (<div></div>);
     if (errorMessage) {
       errorComp = (
@@ -109,7 +112,7 @@ export const InputField = React.createClass<FieldProps, any>({
       )
     }
     return (
-      <Field className={fieldClass}>
+      <Field className={`${errorClass} ${this.props.filedClassName}`}>
         <label htmlFor={this.state.id}>{this.props.label}</label>
         <Semantify.Input
           {...this.props}
@@ -131,6 +134,29 @@ export const HiddenField = React.createClass<HiddenFieldProps, any>({
         type="hidden"
         onChange={this.changeValue} />
     )
+  }
+});
+
+export const CheckboxField = React.createClass<FieldProps, any>({
+  mixins: [Formsy.Mixin, InputMixin],
+  onChecked: function() {
+    this.setValue(true);
+  },
+  onUnchecked: function() {
+    this.setValue(false);
+  },
+  render: function() {
+    return (
+      <Field className={`inline ${this.props.filedClassName}`}>
+        <Semantify.Checkbox
+          init={{onChecked: this.onChecked, onUnchecked: this.onUnchecked}}
+          disabled={this.props.disabled}
+          readOnly={this.props.readOnly}>
+          <input type="checkbox" name={this.props.name} id={this.state.id} />
+          <label htmlFor={this.state.id}>{this.props.label}</label>
+        </Semantify.Checkbox>
+      </Field>
+    );
   }
 });
 
