@@ -25,11 +25,6 @@ export const MachineIndexedStore = Reflux.createStore({
     this.machines = {};
     res.body.forEach(machine => this.machines[machine.name] = machine);
     this.trigger(this.machines);
-  },
-  onCreateCompleted: function(res:Response) {
-    let name = res.body.Driver.MachineName;
-    this.machines[name] = res.body;
-    this.trigger(this.machines);
   }
 });
 

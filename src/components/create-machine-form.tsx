@@ -34,7 +34,6 @@ const MachineFormMixin = {
       machineName: data.name
     });
     MachineActions.create(data.name, data.driver, data.swarm);
-    this.onAction();
   },
   componentWillUpdate: function(nextProps, nextState) {
     if (this.state.operating === true && nextState.operating === false) {
