@@ -10,6 +10,7 @@ import {
   Field,
   InputField,
   HiddenField,
+  CheckboxField,
   SubmitButton,
   SubmitButtonControlMixin
 } from './form';
@@ -61,8 +62,38 @@ export const VirtualBoxForm = React.createClass<any, any>({
         <InputField
           type="number"
           name="driver.options.virtualbox-memory"
-          label="Memory"
-          value="512" />
+          label="Memory" />
+        <InputField
+          type="number"
+          name="driver.options.virtualbox-cpu-count"
+          label="CPU Count" />
+        <InputField
+          type="number"
+          name="driver.options.virtualbox-disk-size"
+          label="Disk Size (MB)" />
+        <InputField
+          type="text"
+          name="driver.options.virtualbox-boot2docker-url"
+          label="Boot2Docker Image URL" />
+        <InputField
+          type="text"
+          name="driver.options.virtualbox-import-boot2docker-vm"
+          label="Boot2Docker VM to import" />
+        <InputField
+          type="text"
+          name="driver.options.virtualbox-hostonly-cidr"
+          label="CIDR of the host only adapter" />
+        <InputField
+          type="text"
+          name="driver.options.virtualbox-hostonly-nictype"
+          label="Host Only Network Adapter Type" />
+        <InputField
+          type="text"
+          name="driver.options.virtualbox-hostonly-nicpromisc"
+          label="Host Only Network Adapter Promiscuous Mode" />
+        <CheckboxField
+          name="driver.options.virtualbox-no-share"
+          label="Disable the mount of your home directory" />
         <SubmitButton className="green" disabled={this.state.disableSubmit || this.state.operating} loading={this.state.loading} text="Create" />
       </Form>
     );
