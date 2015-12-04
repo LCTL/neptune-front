@@ -1,17 +1,39 @@
 import * as _ from 'lodash';
 import * as Reflux from 'reflux';
-import { MachineNameOperatingStore } from '../../stores/machine-store';
+import {
+  MachineNameOperatingDetailStore,
+  MachineNameOperatingStore
+} from '../../stores/machine-store';
 
-export const MachineActionMixin = {
-  getInitialState: function() {
-    return {
-      loading: false
-    };
-  },
-  onAction: function() {
-    this.setState({
-      loading: true
-    });
+function getStateMachineName(state:any) {
+  if (_.has(state, 'machineName')){
+    return state.machineName;
+  } else {
+    return undefined;
+  }
+}
+
+export const MachineActionLoadingMixin = function(action:string) {
+  return {
+    getInitialState: function() {
+      return {
+        loading: false
+      };
+    },
+    componentDidMount: function() {
+      var store:any = MachineNameOperatingDetailStore;
+      this.unsubscribe = store.listen(this.onOperatingDetail);
+      this.onOperatingDetail(store.operating);
+    },
+    componentWillUnmount: function() {
+      this.unsubscribe();
+    },
+    onOperatingDetail: function(operating) {
+      var exist = _.includes(operating[action], getStateMachineName(this.state));
+      this.setState({
+        loading: exist
+      });
+    }
   }
 }
 
@@ -30,23 +52,10 @@ export const MachineOperationMixin = {
     };
   },
   onOperating: function(names) {
-    if (_.has(this.state, 'machineName')) {
-      var operating = false;
-      var nextState = _.clone(this.state);
-      names.forEach(name => {
-        if (name === this.state.machineName) {
-          operating = true
-          this.setState({
-            operating: true
-          });
-        }
-      });
-      if (operating === false) {
-        this.setState({
-          operating: false
-        });
-      }
-    }
+    var exist = _.includes(names, getStateMachineName(this.state));
+    this.setState({
+      operating: exist
+    });
   },
 }
 

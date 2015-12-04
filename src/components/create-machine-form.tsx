@@ -13,7 +13,10 @@ import {
   SubmitButton,
   SubmitButtonControlMixin
 } from './form';
-import { MachineActionMixin, MachineOperationMixin } from './mixin/machine-mixin';
+import {
+  MachineActionLoadingMixin,
+  MachineOperationMixin
+} from './mixin/machine-mixin';
 
 const History = require('react-router').History;
 const reactSemantify = require('react-semantify');
@@ -45,7 +48,7 @@ export const VirtualBoxForm = React.createClass<any, any>({
     History,
     SubmitButtonControlMixin,
     MachineFormMixin,
-    MachineActionMixin,
+    MachineActionLoadingMixin('create'),
     MachineOperationMixin
   ],
   render: function() {

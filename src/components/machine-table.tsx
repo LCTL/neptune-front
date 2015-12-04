@@ -8,7 +8,7 @@ import {
   MachineModel
 } from '../stores/machine-store';
 import {
-  MachineActionMixin,
+  MachineActionLoadingMixin,
   MachineOperationMixin,
   MachinePropsMixin
 } from './mixin/machine-mixin';
@@ -51,10 +51,9 @@ const MachinesHeader = React.createClass<any, any>({
 });
 
 const StopMachineButton = React.createClass<MachineProps, any>({
-  mixins: [MachineOperationMixin, MachineActionMixin, MachinePropsMixin],
+  mixins: [MachineActionLoadingMixin('stop'), MachineOperationMixin, MachinePropsMixin],
   stop: function() {
     MachineActions.stop(this.props.machine.name);
-    this.onAction();
   },
   render: function(){
     return (
@@ -66,10 +65,9 @@ const StopMachineButton = React.createClass<MachineProps, any>({
 });
 
 const StartMachineButton = React.createClass<MachineProps, any>({
-  mixins: [MachineOperationMixin, MachineActionMixin, MachinePropsMixin],
+  mixins: [MachineActionLoadingMixin('start'), MachineOperationMixin, MachinePropsMixin],
   start: function() {
     MachineActions.start(this.props.machine.name);
-    this.onAction();
   },
   render: function(){
     return (
@@ -113,15 +111,9 @@ const MachineNameLink = React.createClass<MachineProps, MachineState>({
 });
 
 const RemoveMachineButton = React.createClass<MachineProps, any>({
-  mixins: [MachineOperationMixin, MachineActionMixin],
-  getInitialState: function() {
-    return {
-      machineName: this.props.machine.name
-    };
-  },
+  mixins: [MachineActionLoadingMixin('remove'), MachineOperationMixin, MachinePropsMixin],
   remove: function(){
     MachineActions.remove(this.props.machine.name);
-    this.onAction();
   },
   render: function() {
     return (

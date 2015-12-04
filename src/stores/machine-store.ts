@@ -33,21 +33,15 @@ export const MachineIndexedStore = Reflux.createStore({
   }
 });
 
-export const MachineNameOperatingStore = Reflux.createStore({
+export const MachineNameOperatingDetailStore = Reflux.createStore({
   listenables: MachineActions,
   init: function() {
-    this.names = [];
     this.operating = {
       create: [],
       remove: [],
       start: [],
       stop: []
     }
-  },
-  emit: function() {
-    this.names = []
-    _.values(this.operating).forEach(names => this.names = this.names.concat(names));
-    this.trigger(this.names);
   },
   onCreateStart: function(name) {
     this._push('create', name);
@@ -75,10 +69,22 @@ export const MachineNameOperatingStore = Reflux.createStore({
   },
   _push: function(action:string, name) {
     this.operating[action].push(name);
-    this.emit()
+    this.trigger(this.operating);
   },
   _remove: function(action:string, name) {
     _.pull(this.operating[action], name);
-    this.emit()
+    this.trigger(this.operating);
   }
+});
+
+export const MachineNameOperatingStore = Reflux.createStore({
+  init: function() {
+    this.names = [];
+    this.listenTo(MachineNameOperatingDetailStore, this.mergeName);
+  },
+  mergeName: function(operating) {
+    this.names = []
+    _.values(operating).forEach(names => this.names = this.names.concat(names));
+    this.trigger(this.names);
+  },
 });
