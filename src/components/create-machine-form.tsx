@@ -27,9 +27,9 @@ const MachineFormMixin = {
     };
   },
   create: function(data) {
-    var nextState = _.clone(this.state);
-    nextState.machineName = data.name;
-    this.setState(nextState);
+    this.setState({
+      machineName: data.name
+    });
     MachineActions.create(data.name, data.driver, data.swarm);
     this.onAction();
   },

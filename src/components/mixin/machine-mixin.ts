@@ -9,9 +9,9 @@ export const MachineActionMixin = {
     };
   },
   onAction: function() {
-    var nextState = _.clone(this.state);
-    nextState.loading = true;
-    this.setState(nextState);
+    this.setState({
+      loading: true
+    });
   }
 }
 
@@ -36,13 +36,15 @@ export const MachineOperationMixin = {
       names.forEach(name => {
         if (name === this.state.machineName) {
           operating = true
-          nextState.operating = true;
-          this.setState(nextState);
+          this.setState({
+            operating: true
+          });
         }
       });
       if (operating === false) {
-        nextState.operating = false;
-        this.setState(nextState);
+        this.setState({
+          operating: false
+        });
       }
     }
   },
