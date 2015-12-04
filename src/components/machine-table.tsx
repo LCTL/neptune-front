@@ -7,7 +7,11 @@ import {
   MachineNameOperatingStore,
   MachineModel
 } from '../stores/machine-store';
-import { MachineActionMixin, MachineOperationMixin } from './mixin/machine-mixin';
+import {
+  MachineActionMixin,
+  MachineOperationMixin,
+  MachinePropsMixin
+} from './mixin/machine-mixin';
 import { Button } from './button';
 
 const reactSemantify = require('react-semantify');
@@ -28,98 +32,87 @@ interface MachineProps extends MachineState {
   key: string
 }
 
-const MachineOperationButtonMixin = {
-  getInitialState: function(){
-    return {
-      loading: false,
-      disabled: false
-    };
-  },
-  onOperating: function(names) {
-    var operating = false;
-    names.forEach(name => {
-      if (name === this.props.machine.name) {
-        operating = true
-        this.state.disabled = true;
-        this.setState(this.state);
-      }
-    });
-    if (operating === false) {
-      this.setState(this.getInitialState());
-    }
-  },
-}
-
-export const MachinesHeader = React.createClass<any, any>({
+const MachinesHeader = React.createClass<any, any>({
   render: function() {
     return (
       <thead>
         <tr>
-          <td className="collapsing"></td>
-          <td>Name</td>
-          <td>State</td>
-          <td>Driver</td>
-          <td>URL</td>
-          <td>SWARM</td>
-          <td className="collapsing"></td>
+          <th className="collapsing"></th>
+          <th>Name</th>
+          <th>State</th>
+          <th>Driver</th>
+          <th>URL</th>
+          <th>SWARM</th>
+          <th className="collapsing"></th>
         </tr>
       </thead>
     )
   }
 });
 
-export const MachineControlButton = React.createClass<MachineProps, any>({
-  mixins: [MachineOperationMixin, MachineActionMixin],
-  getInitialState: function() {
-    return {
-      machineName: this.props.machine.name
-    };
-  },
-  start: function() {
-    MachineActions.start(this.props.machine.name);
-    this.onAction();
-  },
+const StopMachineButton = React.createClass<MachineProps, any>({
+  mixins: [MachineOperationMixin, MachineActionMixin, MachinePropsMixin],
   stop: function() {
     MachineActions.stop(this.props.machine.name);
     this.onAction();
   },
+  render: function(){
+    return (
+      <Button className="tiny icon yellow" loading={this.state.loading} disabled={this.state.operating} onClick={this.stop}>
+        <i className='stop icon'></i>
+      </Button>
+    )
+  }
+});
+
+const StartMachineButton = React.createClass<MachineProps, any>({
+  mixins: [MachineOperationMixin, MachineActionMixin, MachinePropsMixin],
+  start: function() {
+    MachineActions.start(this.props.machine.name);
+    this.onAction();
+  },
+  render: function(){
+    return (
+      <Button className="tiny icon green" loading={this.state.loading} disabled={this.state.operating} onClick={this.start}>
+        <i className='play icon'></i>
+      </Button>
+    )
+  }
+});
+
+const MachineControlButton = React.createClass<MachineProps, any>({
   render: function() {
     const machine = this.props.machine;
     let button;
     if (/running/i.test(machine.state)) {
       button = (
-        <Button className="tiny icon yellow" loading={this.state.loading} disabled={this.state.operating} onClick={this.stop}>
-          <i className='stop icon'></i>
-        </Button>
+        <StopMachineButton key={machine.name} machine={machine} />
       );
     } else if (/stopped/i.test(machine.state)) {
       button =  (
-        <Button className="tiny icon green" loading={this.state.loading} disabled={this.state.operating} onClick={this.start}>
-          <i className='play icon'></i>
-        </Button>
+        <StartMachineButton key={machine.name} machine={machine} />
       );
     } else {
       button = (
         <span />
       )
     }
-
     return button;
   }
 });
 
-export const MachineNameLink = React.createClass<MachineProps, MachineState>({
+const MachineNameLink = React.createClass<MachineProps, MachineState>({
   render: function() {
     const machine = this.props.machine;
     return (
       <Link to={`/machines/${machine.name}`}>
-        <i className='server icon'></i>{machine.name}
+        {machine.name}
       </Link>
     );
   }
 });
 
-export const RemoveMachineButton = React.createClass<MachineProps, any>({
+const RemoveMachineButton = React.createClass<MachineProps, any>({
   mixins: [MachineOperationMixin, MachineActionMixin],
   getInitialState: function() {
     return {
@@ -139,7 +132,7 @@ export const RemoveMachineButton = React.createClass<MachineProps, any>({
   }
 });
 
-export const MachineRow = React.createClass<MachineProps, MachineState>({
+const MachineRow = React.createClass<MachineProps, MachineState>({
   render: function() {
     const machine = this.props.machine;
     return (
@@ -162,7 +155,7 @@ export const MachineRow = React.createClass<MachineProps, MachineState>({
   }
 });
 
-export const MachinesBody = React.createClass<MachinesProps, any>({
+const MachinesBody = React.createClass<MachinesProps, any>({
   render: function () {
     return (
       <tbody>
@@ -178,33 +171,45 @@ export const MachinesBody = React.createClass<MachinesProps, any>({
   }
 });
 
-export const ShowCreateMachineModalButton = React.createClass<any, any>({
+const CreateMachineButton = React.createClass<any, any>({
   render: function () {
     return (
-      <div>
-        <Link to="/create-machine">
-          <div className="ui right floated small primary labeled icon button" onClick={this.showModal}>
-            <i className="server icon"></i> Create Machine
-          </div>
-        </Link>
-      </div>
+      <Link to="/create-machine">
+        <Button className="right floated primary">
+          Create Machine
+        </Button>
+      </Link>
     )
   }
 })
 
-export const MachinesFooter = React.createClass<any, any>({
+const MachinesFooter = React.createClass<any, any>({
   render: function () {
     return (
       <tfoot className="full-width">
         <tr>
           <th colSpan={7}>
-            <ShowCreateMachineModalButton />
+            <CreateMachineButton />
           </th>
         </tr>
       </tfoot>
     );
   }
 });
+
+const NoMachineBody = React.createClass<any, MachinesState>({
+  render: function() {
+    return (
+      <tbody>
+        <tr>
+          <td colSpan={7}>
+            <p className="not-found">No machine found</p>
+          </td>
+        </tr>
+      </tbody>
+    )
+  }
+})
 
 export const MachineTable = React.createClass<any, MachinesState>({
   mixins: [
@@ -220,10 +225,16 @@ export const MachineTable = React.createClass<any, MachinesState>({
     }
   },
   render: function() {
+    var body;
+    if (_.isEmpty(this.state.machines)){
+      body = (<NoMachineBody />);
+    } else {
+      body = (<MachinesBody machines={this.state.machines} />);
+    }
     return (
       <Table className="machines-table">
         <MachinesHeader />
-        <MachinesBody machines={this.state.machines} />
+        {body}
         <MachinesFooter />
         {this.props.children}
       </Table>
