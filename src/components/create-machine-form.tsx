@@ -34,6 +34,9 @@ const MachineFormMixin = {
     this.setState({
       machineName: data.name
     });
+    if (data.driver.options['virtualbox-no-share'] === true) {
+      data.driver.options['virtualbox-no-share'] = "";
+    }
     MachineActions.create(data.name, data.driver, data.swarm);
   },
   componentWillUpdate: function(nextProps, nextState) {
