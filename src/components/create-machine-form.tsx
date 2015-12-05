@@ -11,6 +11,7 @@ import {
   InputField,
   HiddenField,
   CheckboxField,
+  DropdownField,
   SubmitButton,
   SubmitButtonControlMixin
 } from './form';
@@ -119,29 +120,27 @@ export const DriverSelection = React.createClass<any, any>({
   componentDidMount: function () {
     DriverActions.load();
   },
-  select: function(driver) {
+  select: function(data) {
+    var driver = this.state.drivers.filter(driver => driver.name === data.driver)[0];
     DriverActions.select(driver);
   },
   render: function() {
     var options = [];
     this.state.drivers.forEach((driver) => {
       options.push(
-        <div key={driver.name} className="item" data-value={driver.name} onClick={this.select.bind(this, driver)}>
+        <div key={driver.name} className="item" data-value={driver.name}>
           {driver.label}
         </div>
       );
     });
     return (
-      <Form>
-        <Field>
-          <label>Driver</label>
-          <Dropdown className="selection" init={true}>
-            <div className="default text">Driver</div>
-            <div className="menu">
-              {options}
-            </div>
-          </Dropdown>
-        </Field>
+      <Form onChange={this.select}>
+        <DropdownField name="driver" label="Driver" className="search selection">
+          <div className="default text">Driver</div>
+          <div className="menu">
+            {options}
+          </div>
+        </DropdownField>
       </Form>
     );
   }
