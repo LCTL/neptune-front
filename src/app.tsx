@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { RouteActions } from './actions/route-action';
+import { PathInfo } from './stores/route-store';
 import {
   AppContainer,
   MachineContainer,
@@ -12,9 +13,19 @@ const IndexRoute = require('react-router').IndexRoute;
 const Route = require('react-router').Route;
 const Redirect = require('react-router').Redirect;
 const content = document.createElement('div');
+const pathInfos: PathInfo[] = []
+
+pathInfos.push({
+  path: /^\/$/,
+  label: 'Home'
+});
+pathInfos.push({
+  path: /^\/create-machine$/,
+  label: 'Create Machine'
+});
+RouteActions.setPathInfos(pathInfos);
 
 document.body.appendChild(content);
-
 render((
   <Router>
     <Route path='/' component={AppContainer} onEnter={RouteActions.enter}>

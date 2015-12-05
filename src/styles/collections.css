@@ -5,3 +5,10 @@
     padding-top: var(--space);
   }
 }
+
+.breadcrumb {
+  &.top {
+    margin-bottom: var(--space);
+    margin-top: var(--space);
+  }
+}

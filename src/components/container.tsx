@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
 import { RouteStore } from '../stores/route-store';
+import { Breadcrumb } from './Breadcrumb'
 import { MachineTable } from '../components/machine-table';
 import { CreateMachineForm } from '../components/create-machine-form';
 
@@ -72,6 +73,7 @@ export const MachineContainer = React.createClass<any, any>({
             Machines
           </div>
         </div>
+        <Breadcrumb />
         <MachineTable />
       </OneColumn>
     )
@@ -88,6 +90,7 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
             Create Machine
           </div>
         </div>
+        <Breadcrumb />
         <CreateMachineForm />
       </OneColumn>
     )
