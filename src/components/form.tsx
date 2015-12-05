@@ -53,6 +53,19 @@ const InputMixin = {
   },
   changeValue: function(event) {
     this.setValue(event.currentTarget[this.props.type === 'checkbox' ? 'checked' : 'value']);
+  },
+  isError: function() {
+    return this.getErrorMessage() !== null
+          && typeof this.getErrorMessage() !== 'undefined';
+  },
+  getErrorClass: function() {
+    return this.isError() ? 'error' : '';
+  },
+  getErrorComponent: function() {
+    return this.isError() ? (<FieldError message={this.getErrorMessage()} />) : (<div/>);
+  },
+  getFieldClass: function() {
+    return _.isEmpty(this.props.fieldClassName) ? '' : this.props.fieldClassName;
   }
 }
 
@@ -103,23 +116,15 @@ export const Field = React.createClass<any, any>({
 export const InputField = React.createClass<FieldProps, any>({
   mixins: [Formsy.Mixin, InputMixin],
   render: function() {
-    const errorMessage = this.getErrorMessage();
-    const errorClass = errorMessage ? 'error' : '';
-    var errorComp = (<div></div>);
-    if (errorMessage) {
-      errorComp = (
-        <FieldError message={errorMessage} />
-      )
-    }
     return (
-      <Field className={`${errorClass} ${this.props.filedClassName}`}>
+      <Field className={`${this.getErrorClass()} ${this.getFieldClass()}`}>
         <label htmlFor={this.state.id}>{this.props.label}{this.props.required ? ' *': ''}</label>
         <Semantify.Input
           {...this.props}
           id={this.state.id}
           type={this.props.type || 'text'}
           onChange={this.changeValue} />
-        {errorComp}
+        {this.getErrorComponent()}
       </Field>
     );
   }
@@ -147,13 +152,33 @@ export const CheckboxField = React.createClass<FieldProps, any>({
   },
   render: function() {
     return (
-      <Field className={`inline ${this.props.filedClassName}`}>
+      <Field className={`inline ${this.getFieldClass()}`}>
         <Semantify.Checkbox
           {...this.props}
           init={{onChecked: this.onChecked, onUnchecked: this.onUnchecked}}>
           <input type="checkbox" name={this.props.name} id={this.state.id} />
           <label htmlFor={this.state.id}>{this.props.label}</label>
         </Semantify.Checkbox>
+      </Field>
+    );
+  }
+});
+
+export const DropdownField = React.createClass<FieldProps, any>({
+  mixins: [Formsy.Mixin, InputMixin],
+  onChange: function(value) {
+    this.setValue(value);
+  },
+  render: function() {
+    return (
+      <Field className={`${this.getErrorClass()} ${this.getFieldClass()}`}>
+        <label htmlFor={this.state.id}>{this.props.label}{this.props.required ? ' *': ''}</label>
+        <Semantify.Dropdown
+          {...this.props}
+          init={{onChange: this.onChange}}>
+          {this.props.children}
+        </Semantify.Dropdown>
+        {this.getErrorComponent()}
       </Field>
     );
   }
