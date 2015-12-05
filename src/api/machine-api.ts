@@ -9,11 +9,8 @@ class MachineApi extends Base {
     return this._exec(request.get(`${this.baseUrl}/machines`));
   }
 
-  create(name, driver, swarm): Promise<Response> {
-    return this._exec(request.post(`${this.baseUrl}/machines/${name}`).send({
-      driver: driver,
-      swarm: swarm
-    }));
+  create(name, options): Promise<Response> {
+    return this._exec(request.post(`${this.baseUrl}/machines/${name}`).send(options));
   }
 
   remove(name): Promise<Response> {
