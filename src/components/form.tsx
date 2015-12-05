@@ -113,7 +113,7 @@ export const InputField = React.createClass<FieldProps, any>({
     }
     return (
       <Field className={`${errorClass} ${this.props.filedClassName}`}>
-        <label htmlFor={this.state.id}>{this.props.label}</label>
+        <label htmlFor={this.state.id}>{this.props.label}{this.props.required ? ' *': ''}</label>
         <Semantify.Input
           {...this.props}
           id={this.state.id}
