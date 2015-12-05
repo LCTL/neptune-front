@@ -1,4 +1,5 @@
 import * as Reflux from 'reflux';
+import api from '../api/machine-api';
 import { apiChildrenActions, bindApi } from './api-action';
 
 export const MachineActions = Reflux.createActions({
@@ -9,8 +10,8 @@ export const MachineActions = Reflux.createActions({
   'stop': apiChildrenActions
 });
 
-bindApi(MachineActions.load, 'list');
-bindApi(MachineActions.create, 'create');
-bindApi(MachineActions.remove, 'remove');
-bindApi(MachineActions.start, 'start');
-bindApi(MachineActions.stop, 'stop');
+bindApi(MachineActions.load, api, 'list');
+bindApi(MachineActions.create, api, 'create');
+bindApi(MachineActions.remove, api, 'remove');
+bindApi(MachineActions.start, api, 'start');
+bindApi(MachineActions.stop, api, 'stop');
