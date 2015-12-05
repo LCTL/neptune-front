@@ -149,9 +149,8 @@ export const CheckboxField = React.createClass<FieldProps, any>({
     return (
       <Field className={`inline ${this.props.filedClassName}`}>
         <Semantify.Checkbox
-          init={{onChecked: this.onChecked, onUnchecked: this.onUnchecked}}
-          disabled={this.props.disabled}
-          readOnly={this.props.readOnly}>
+          {...this.props}
+          init={{onChecked: this.onChecked, onUnchecked: this.onUnchecked}}>
           <input type="checkbox" name={this.props.name} id={this.state.id} />
           <label htmlFor={this.state.id}>{this.props.label}</label>
         </Semantify.Checkbox>
