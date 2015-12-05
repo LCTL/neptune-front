@@ -32,7 +32,7 @@ const TopMenu = React.createClass<any, any>({
   render: function(){
     return (
       <Menu className="top secondary">
-        <div className="header item">DMM</div>
+        <div className="header item">Neptune</div>
         <ActiveLink route={this.state.route} to="/">Machine</ActiveLink>
       </Menu>
     );
