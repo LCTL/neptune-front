@@ -5,7 +5,8 @@ import { PathInfo } from './stores/route-store';
 import {
   AppContainer,
   MachineContainer,
-  CreateMachineFormContainer
+  CreateMachineFormContainer,
+  MachineDashboardContainer
 } from './components/container';
 
 const Router = require('react-router').Router;
@@ -23,6 +24,14 @@ pathInfos.push({
   path: /^\/create-machine$/,
   label: 'Create Machine'
 });
+pathInfos.push({
+  path: /^\/machines$/,
+  label: 'Machines'
+});
+pathInfos.push({
+  path: /^\/machines\/[a-zA-Z0-9]+$/,
+  label: 'Machine'
+});
 RouteActions.setPathInfos(pathInfos);
 
 document.body.appendChild(content);
@@ -30,7 +39,9 @@ render((
   <Router>
     <Route path='/' component={AppContainer} onEnter={RouteActions.enter}>
       <IndexRoute component={MachineContainer} onEnter={RouteActions.enter} />
-      <Route path='/create-machine' component={CreateMachineFormContainer} onEnter={RouteActions.enter} />
+      <Route path='create-machine' component={CreateMachineFormContainer} onEnter={RouteActions.enter} />
+      <Route path='machines' component={MachineContainer} onEnter={RouteActions.enter} />
+      <Route path='machines/:machineName' component={MachineDashboardContainer} onEnter={RouteActions.enter} />
     </Route>
   </Router>
 ), content);

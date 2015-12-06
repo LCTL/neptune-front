@@ -3,6 +3,7 @@ import * as Reflux from 'reflux';
 import api from '../api/machine-api';
 import { Request, Response } from 'superagent';
 import { MachineActions } from '../actions/machine-action';
+import { IndexedStoreMixin } from './store';
 
 export interface MachineModel {
   name: string,
@@ -94,4 +95,22 @@ export const MachineNameOperatingStore = Reflux.createStore({
     _.values(operating).forEach(names => this.names = this.names.concat(names));
     this.trigger(this.names);
   },
+});
+
+export const MachineStatusIndexedStore = Reflux.createStore({
+  mixins: [IndexedStoreMixin],
+  listenables: MachineActions,
+  onLoadStatusCompleted: function(res: Response, name: string) {
+    this.map[name] = res.body.value;
+    this.trigger(this.map);
+  }
+});
+
+export const MachineInspectObjectIndexedStore = Reflux.createStore({
+  mixins: [IndexedStoreMixin],
+  listenables: MachineActions,
+  onInspectCompleted: function(res: Response, name: string) {
+    this.map[name] = res.body;
+    this.trigger(this.map);
+  }
 });

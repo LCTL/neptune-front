@@ -2,8 +2,9 @@ import * as React from 'react';
 import * as Reflux from 'reflux';
 import { RouteStore } from '../stores/route-store';
 import { Breadcrumb } from './Breadcrumb'
-import { MachineTable } from '../components/machine-table';
-import { CreateMachineForm } from '../components/create-machine-form';
+import { MachineTable } from './machine-table';
+import { CreateMachineForm } from './create-machine-form';
+import { MachineDashboard } from './machine-dashboard';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
@@ -92,6 +93,23 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
         </div>
         <Breadcrumb />
         <CreateMachineForm />
+      </OneColumn>
+    )
+  }
+});
+
+export const MachineDashboardContainer = React.createClass<any, any>({
+  render: function() {
+    return (
+      <OneColumn>
+        <div className="ui huge header">
+          <i className="server icon"></i>
+          <div className="content">
+            Machine
+          </div>
+        </div>
+        <Breadcrumb />
+        <MachineDashboard />
       </OneColumn>
     )
   }

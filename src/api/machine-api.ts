@@ -10,19 +10,31 @@ class MachineApi extends Api {
   }
 
   create(name: string, options: Options): Promise<Response> {
-    return this._exec(request.post(`${this.baseUrl}/machines/${name}`).send(options));
+    return this._exec(request.post(`${this._buildPath(name)}`).send(options));
   }
 
   remove(name: string, options: Options): Promise<Response> {
-    return this._exec(request.del(`${this.baseUrl}/machines/${name}`).send(options));
+    return this._exec(request.del(`${this._buildPath(name)}`).send(options));
   }
 
   start(name: string, options: Options): Promise<Response> {
-    return this._exec(request.post(`${this.baseUrl}/machines/${name}/start`).send(options));
+    return this._exec(request.post(`${this._buildPath(name)}/start`).send(options));
   }
 
   stop(name: string, options: Options): Promise<Response> {
-    return this._exec(request.post(`${this.baseUrl}/machines/${name}/stop`).send(options));
+    return this._exec(request.post(`${this._buildPath(name)}/stop`).send(options));
+  }
+
+  status(name: string, options: Options): Promise<Response> {
+    return this._exec(request.get(`${this._buildPath(name)}/status`).send(options));
+  }
+
+  inspect(name: string, options: Options): Promise<Response> {
+    return this._exec(request.get(`${this._buildPath(name)}`).send(options));
+  }
+
+  protected _buildPath(name: string): string {
+    return `${this.baseUrl}/machines/${name}`;
   }
 
 }

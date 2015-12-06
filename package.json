@@ -23,6 +23,7 @@
     "http-proxy": "^1.12.0",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
+    "prettysize": "0.0.3",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-router": "^1.0.0",

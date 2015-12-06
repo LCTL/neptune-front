@@ -7,7 +7,9 @@ export const MachineActions = Reflux.createActions({
   'create': apiChildrenActions,
   'remove': apiChildrenActions,
   'start': apiChildrenActions,
-  'stop': apiChildrenActions
+  'stop': apiChildrenActions,
+  'loadStatus': apiChildrenActions,
+  'inspect': apiChildrenActions,
 });
 
 bindApi(MachineActions.load, api, 'list');
@@ -15,3 +17,5 @@ bindApi(MachineActions.create, api, 'create');
 bindApi(MachineActions.remove, api, 'remove');
 bindApi(MachineActions.start, api, 'start');
 bindApi(MachineActions.stop, api, 'stop');
+bindApi(MachineActions.loadStatus, api, 'status');
+bindApi(MachineActions.inspect, api, 'inspect');
