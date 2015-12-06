@@ -1,5 +1,7 @@
 export const IndexedStoreMixin = {
-  map: {},
+  init: function() {
+    this.map = {}
+  },
   getInitialState: function() {
     return this.map;
   }
