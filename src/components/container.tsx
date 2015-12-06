@@ -5,6 +5,7 @@ import { Breadcrumb } from './Breadcrumb'
 import { MachineTable } from './machine-table';
 import { CreateMachineForm } from './create-machine-form';
 import { MachineDashboard } from './machine-dashboard';
+import { MachineContainerTable } from './machine-container-table';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
@@ -170,6 +171,14 @@ export const MachineDashboardContainer = React.createClass<any, any>({
   render: function() {
     return (
       <MachineDashboard machineName={this.props.params.machineName} />
+    );
+  }
+});
+
+export const MachineContainerTableContainer = React.createClass<any, any>({
+  render: function() {
+    return (
+      <MachineContainerTable machineName={this.props.params.machineName} />
     );
   }
 });

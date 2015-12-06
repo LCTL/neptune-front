@@ -7,7 +7,8 @@ import {
   MachineContainer,
   CreateMachineFormContainer,
   MachineDetailContainer,
-  MachineDashboardContainer
+  MachineDashboardContainer,
+  MachineContainerTableContainer
 } from './components/container';
 
 const Router = require('react-router').Router;
@@ -33,6 +34,10 @@ pathInfos.push({
   path: /^\/machines\/[a-zA-Z0-9]+$/,
   dynamicLabel: (route) => route.params.machineName
 });
+pathInfos.push({
+  path: /^\/machines\/[a-zA-Z0-9]+\/containers$/,
+  label: 'Containers'
+});
 RouteActions.setPathInfos(pathInfos);
 
 document.body.appendChild(content);
@@ -44,6 +49,7 @@ render((
       <Route path='machines' component={MachineContainer} onEnter={RouteActions.enter} />
       <Route path='machines/:machineName' component={MachineDetailContainer} onEnter={RouteActions.enter}>
         <IndexRoute component={MachineDashboardContainer} onEnter={RouteActions.enter} />
+        <Route path='containers' component={MachineContainerTableContainer} onEnter={RouteActions.enter} />
       </Route>
     </Route>
   </Router>
