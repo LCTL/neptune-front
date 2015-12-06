@@ -71,7 +71,6 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
 
 const Body = React.createClass<MachineContainerTableBodyProps, any>({
   render: function() {
-    //console.log(this.props.containers);
     return (
       <tbody>
         {
@@ -89,7 +88,7 @@ const Body = React.createClass<MachineContainerTableBodyProps, any>({
 export const MachineContainerTable = React.createClass<MachineContainerTableProps, any>({
   mixins: [Reflux.connect(MachineContainerIndexedStore, 'machineContainer')],
   componentDidMount: function() {
-    MachineContainerActions.loadList(this.props.machineName);
+    MachineContainerActions.loadList(this.props.machineName, {all: true});
   },
   render: function() {
     var machineName = this.props.machineName;
