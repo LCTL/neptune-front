@@ -31,7 +31,7 @@ pathInfos.push({
 });
 pathInfos.push({
   path: /^\/machines\/[a-zA-Z0-9]+$/,
-  label: 'Machine'
+  dynamicLabel: (route) => route.params.machineName
 });
 RouteActions.setPathInfos(pathInfos);
 

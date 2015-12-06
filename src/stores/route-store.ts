@@ -4,7 +4,8 @@ import { RouteActions } from '../actions/route-action';
 
 export interface PathInfo {
   path: RegExp,
-  label: string
+  label?: string
+  dynamicLabel?: (params: any) => string
 }
 
 export const RouteStore = Reflux.createStore({

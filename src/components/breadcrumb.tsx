@@ -34,6 +34,7 @@ export const Breadcrumb = React.createClass<any, any>({
         currentPath = currentPath.replace(/\/\//, '/');
         pathInfos.forEach(info => {
           if (info.path.test(currentPath)){
+            var label = _.isFunction(info.dynamicLabel) ? info.dynamicLabel(route) : info.label;
             if (pindex > 0) {
               components.push((
                 <Divider />
@@ -41,11 +42,11 @@ export const Breadcrumb = React.createClass<any, any>({
             }
             if (pindex === paths.length - 1) {
               components.push((
-                <div className="active section">{info.label}</div>
+                <div className="active section">{label}</div>
               ));
             } else {
               components.push((
-                <ReactRouter.Link to={currentPath}>{info.label}</ReactRouter.Link>
+                <ReactRouter.Link to={currentPath}>{label}</ReactRouter.Link>
               ));
             }
           }
