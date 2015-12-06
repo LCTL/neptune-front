@@ -96,7 +96,6 @@ const Header = React.createClass<HeaderProps, any>({
 const HeaderButtonGroup = React.createClass<HeaderButtonGroupProps, any>({
   render: function() {
     const machineName = this.props.machineName;
-    console.log(machineName, this.props.state);
     return (
       <div className="ui grid">
         <div className="four column row">
