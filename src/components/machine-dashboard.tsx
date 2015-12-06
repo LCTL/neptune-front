@@ -42,21 +42,6 @@ const Statistic = React.createClass<StatisticProps, any>({
   }
 })
 
-const ContainersStatistic = React.createClass<DockerProps, any>({
-  render: function() {
-    return (
-      <Semantify.Statistic>
-        <div className="value">
-          {this.props.info.Containers}
-        </div>
-        <div className="label">
-          Containers
-        </div>
-      </Semantify.Statistic>
-    )
-  }
-});
-
 const Statistics = React.createClass<DockerProps, any>({
   render: function() {
     var { info } = this.props
