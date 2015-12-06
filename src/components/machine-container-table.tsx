@@ -38,6 +38,9 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
   render: function() {
     var container = this.props.container;
     var ports = [];
+    var names = [];
+    var port = '';
+    var name = container.Names.map(name => name.substring(1)).join(', ');
     if (container.Ports) {
       ports = container.Ports.map(port => {
         var result = "";
@@ -55,11 +58,11 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
         }
         return result;
       });
-      var port = ports.join(', ')
+      port = ports.join(', ')
     }
     return (
       <tr>
-        <td>{container.Names}</td>
+        <td>{name}</td>
         <td>{container.Image}</td>
         <td>{container.Command}</td>
         <td>{container.Status}</td>
