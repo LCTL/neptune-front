@@ -22,6 +22,10 @@ interface HeaderProps {
   name: string
 }
 
+interface MachineDashBoardProps {
+  machineName: string
+}
+
 const Statistic = React.createClass<StatisticProps, any>({
   render: function() {
     var value = this.props.value;
@@ -92,9 +96,8 @@ const Header = React.createClass<HeaderProps, any>({
   }
 });
 
-export const MachineDashboard = React.createClass<any, any>({
+export const MachineDashboard = React.createClass<MachineDashBoardProps, any>({
   mixins: [
-    Reflux.listenTo(RouteStore, 'onRouteUpdate'),
     Reflux.listenTo(MachineStatusIndexedStore, 'onMachineStateUpdate'),
     Reflux.connect(DockerInfoIndexedStore, 'dockerInfos')
   ],
@@ -107,8 +110,8 @@ export const MachineDashboard = React.createClass<any, any>({
       machineStatus: status
     });
   },
-  onRouteUpdate: function (route) {
-    var machineName = route.params.machineName;
+  componentDidMount: function() {
+    var machineName = this.props.machineName;
     if (machineName !== this.state.machineName) {
       MachineActions.loadStatus(machineName);
       MachineActions.inspect(machineName);

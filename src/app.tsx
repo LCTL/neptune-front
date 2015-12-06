@@ -6,6 +6,7 @@ import {
   AppContainer,
   MachineContainer,
   CreateMachineFormContainer,
+  MachineDetailContainer,
   MachineDashboardContainer
 } from './components/container';
 
@@ -41,7 +42,9 @@ render((
       <IndexRoute component={MachineContainer} onEnter={RouteActions.enter} />
       <Route path='create-machine' component={CreateMachineFormContainer} onEnter={RouteActions.enter} />
       <Route path='machines' component={MachineContainer} onEnter={RouteActions.enter} />
-      <Route path='machines/:machineName' component={MachineDashboardContainer} onEnter={RouteActions.enter} />
+      <Route path='machines/:machineName' component={MachineDetailContainer} onEnter={RouteActions.enter}>
+        <IndexRoute component={MachineDashboardContainer} onEnter={RouteActions.enter} />
+      </Route>
     </Route>
   </Router>
 ), content);

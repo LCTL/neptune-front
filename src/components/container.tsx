@@ -16,6 +16,20 @@ interface ActiveLinkProps {
   route: any
 }
 
+interface TwoColumnProps {
+  left: any,
+  right: any,
+  leftClassName?: string,
+  rightClassName?: string
+}
+
+interface MachineDetailProps {
+  machineName: string
+}
+
+interface MachineLeftMenu extends MachineDetailProps {
+}
+
 const ActiveLink = React.createClass<ActiveLinkProps, any>({
   render: function(){
     var path:string = _.get(this.props.route, 'location.pathname', '');
@@ -40,12 +54,48 @@ const TopMenu = React.createClass<any, any>({
   }
 });
 
+const MachineLeftMenu = React.createClass<MachineLeftMenu, any>({
+  mixins: [Reflux.connect(RouteStore, 'route')],
+  render: function(){
+    var name = this.props.machineName;
+    return (
+      <Menu className="secondary vertical pointing">
+        <ActiveLink route={this.state.route} to={`/machines/${name}`}>Dashboard</ActiveLink>
+        <ActiveLink route={this.state.route} to={`/machines/${name}/containers`}>Containers</ActiveLink>
+        <ActiveLink route={this.state.route} to={`/machines/${name}/images`}>Images</ActiveLink>
+      </Menu>
+    );
+  }
+});
+
 const OneColumn = React.createClass<any, any>({
   render: function(){
     return (
       <div className="ui grid">
         <div className="column">
           {this.props.children}
+        </div>
+      </div>
+    );
+  }
+});
+
+const TwoColumn = React.createClass<any, any>({
+  render: function(){
+    var { left, right, leftClassName, rightClassName } = this.props
+    if (!leftClassName) {
+      leftClassName = 'four';
+    }
+    if (!rightClassName) {
+      rightClassName = 'twelve'
+    }
+    return (
+      <div className="ui grid">
+        <div className={`${leftClassName} wide column`}>
+          {left}
+        </div>
+        <div className={`${rightClassName} wide column`}>
+          {right}
         </div>
       </div>
     );
@@ -98,8 +148,9 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
   }
 });
 
-export const MachineDashboardContainer = React.createClass<any, any>({
+export const MachineDetailContainer = React.createClass<MachineDetailProps, any>({
   render: function() {
+    var menu = (<MachineLeftMenu machineName={this.props.params.machineName} />);
     return (
       <OneColumn>
         <div className="ui huge header">
@@ -109,8 +160,16 @@ export const MachineDashboardContainer = React.createClass<any, any>({
           </div>
         </div>
         <Breadcrumb />
-        <MachineDashboard />
+        <TwoColumn left={menu} right={this.props.children} />
       </OneColumn>
-    )
+    );
+  }
+});
+
+export const MachineDashboardContainer = React.createClass<any, any>({
+  render: function() {
+    return (
+      <MachineDashboard machineName={this.props.params.machineName} />
+    );
   }
 });
