@@ -4,8 +4,8 @@ import { Api, Options} from './api'
 
 class MachineContainerApi extends Api {
 
-  list(machineName: string): Promise<Response> {
-    return this._exec(request.get(`${this._buildPath(machineName)}`));
+  list(machineName: string, options: Options): Promise<Response> {
+    return this._exec(request.get(`${this._buildPath(machineName)}`).query(options));
   }
 
   protected _buildPath(machineName: string): string {
