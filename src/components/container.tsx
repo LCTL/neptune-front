@@ -24,6 +24,10 @@ interface TwoColumnProps {
   rightClassName?: string
 }
 
+interface HeaderProps {
+  icon?: string
+}
+
 interface MachineDetailProps {
   machineName: string
 }
@@ -103,6 +107,20 @@ const TwoColumn = React.createClass<any, any>({
   }
 });
 
+const HugeHeader = React.createClass<HeaderProps, any>({
+  render: function() {
+    var icon = this.props.icon ? this.props.icon : '';
+    return (
+      <div className="ui huge header">
+        <i className={`${icon} icon`}></i>
+        <div className="content">
+          {this.props.children}
+        </div>
+      </div>
+    )
+  }
+})
+
 export const AppContainer = React.createClass<any, any>({
   render: function() {
     return (
@@ -119,12 +137,9 @@ export const MachineContainer = React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
-        <div className="ui huge header">
-          <i className="server icon"></i>
-          <div className="content">
-            Machines
-          </div>
-        </div>
+        <HugeHeader icon="server">
+          Machines
+        </HugeHeader>
         <Breadcrumb />
         <MachineTable />
       </OneColumn>
@@ -136,12 +151,9 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
-        <div className="ui huge header">
-          <i className="server icon"></i>
-          <div className="content">
-            Create Machine
-          </div>
-        </div>
+        <HugeHeader icon="server">
+          Create Machine
+        </HugeHeader>
         <Breadcrumb />
         <CreateMachineForm />
       </OneColumn>
@@ -151,16 +163,14 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
 
 export const MachineDetailContainer = React.createClass<MachineDetailProps, any>({
   render: function() {
+    var machineName = this.props.params.machineName;
     return (
       <OneColumn>
-        <div className="ui huge header">
-          <i className="server icon"></i>
-          <div className="content">
-            Machine
-          </div>
-        </div>
+        <HugeHeader icon="server">
+          Machine: {machineName}
+        </HugeHeader>
         <Breadcrumb />
-        <MachineDetailMenu machineName={this.props.params.machineName} />
+        <MachineDetailMenu machineName={machineName} />
         {this.props.children}
       </OneColumn>
     );
