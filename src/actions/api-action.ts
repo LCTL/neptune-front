@@ -5,11 +5,11 @@ export const apiChildrenActions = {
 
 export function bindApi(action, api, apiMethodName) {
   action.listen(function() {
-    const args = arguments
+    const args = Array.prototype.slice.call(arguments);
     this.start.apply(this, args);
     api[apiMethodName].apply(api, args)
-      .then(this.completed)
-      .catch(this.failed)
+      .then(_.partialRight(this.completed, ...args))
+      .catch(_.partialRight(this.failed, ...args))
       .finally(() => this.end.apply(this, args));
   })
 }

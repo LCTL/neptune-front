@@ -1,9 +1,9 @@
 import * as request from 'superagent';
 import * as Promise from 'bluebird';
 import { Response } from 'superagent';
-import Base from './base'
+import { Api, Options} from './api'
 
-class DockerApi extends Base {
+class DockerApi extends Api {
 
   info(machineName: string): Promise<Response> {
     return this._exec(request.get(`${this._buildPath(machineName)}`));
