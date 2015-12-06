@@ -62,7 +62,7 @@ export const MachineOperationMixin = {
 export const MachinePropsMixin = {
   getInitialState: function() {
     return {
-      machineName: this.props.machine.name
+      machineName: this.props.machineName
     };
   },
 }

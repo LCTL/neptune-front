@@ -28,12 +28,16 @@ export const MachineIndexedStore = Reflux.createStore({
     this.trigger(this.machines);
   },
   onStartCompleted: function (res: Response, name: string) {
-    this.machines[name].state = 'Running';
-    this.trigger(this.machines);
+    if (this.machines[name]){
+      this.machines[name].state = 'Running';
+      this.trigger(this.machines);
+    }
   },
   onStopCompleted: function (res: Response, name: string) {
-    this.machines[name].state = 'Stopped';
-    this.trigger(this.machines);
+    if (this.machines[name]){
+      this.machines[name].state = 'Stopped';
+      this.trigger(this.machines);
+    }
   },
   onRemoveCompleted: function (res: Response, name: string) {
     delete this.machines[name];

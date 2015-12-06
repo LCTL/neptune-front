@@ -12,6 +12,10 @@ import {
   MachineOperationMixin,
   MachinePropsMixin
 } from './mixin/machine-mixin';
+import {
+  AutoSwitchStartStopMachineButton,
+  RemoveMachineButton
+} from './machine-control-button'
 import { Button } from './button';
 
 const reactSemantify = require('react-semantify');
@@ -50,55 +54,6 @@ const MachinesHeader = React.createClass<any, any>({
   }
 });
 
-const StopMachineButton = React.createClass<MachineProps, any>({
-  mixins: [MachineActionLoadingMixin('stop'), MachineOperationMixin, MachinePropsMixin],
-  stop: function() {
-    MachineActions.stop(this.props.machine.name);
-  },
-  render: function(){
-    return (
-      <Button className="tiny icon yellow" loading={this.state.loading} disabled={this.state.operating} onClick={this.stop}>
-        <i className='stop icon'></i>
-      </Button>
-    )
-  }
-});
-
-const StartMachineButton = React.createClass<MachineProps, any>({
-  mixins: [MachineActionLoadingMixin('start'), MachineOperationMixin, MachinePropsMixin],
-  start: function() {
-    MachineActions.start(this.props.machine.name);
-  },
-  render: function(){
-    return (
-      <Button className="tiny icon green" loading={this.state.loading} disabled={this.state.operating} onClick={this.start}>
-        <i className='play icon'></i>
-      </Button>
-    )
-  }
-});
-
-const MachineControlButton = React.createClass<MachineProps, any>({
-  render: function() {
-    const machine = this.props.machine;
-    let button;
-    if (/running/i.test(machine.state)) {
-      button = (
-        <StopMachineButton key={machine.name} machine={machine} />
-      );
-    } else if (/stopped/i.test(machine.state)) {
-      button =  (
-        <StartMachineButton key={machine.name} machine={machine} />
-      );
-    } else {
-      button = (
-        <span />
-      )
-    }
-    return button;
-  }
-});
-
 const MachineNameLink = React.createClass<MachineProps, MachineState>({
   render: function() {
     const machine = this.props.machine;
@@ -110,27 +65,16 @@ const MachineNameLink = React.createClass<MachineProps, MachineState>({
   }
 });
 
-const RemoveMachineButton = React.createClass<MachineProps, any>({
-  mixins: [MachineActionLoadingMixin('remove'), MachineOperationMixin, MachinePropsMixin],
-  remove: function(){
-    MachineActions.remove(this.props.machine.name);
-  },
-  render: function() {
-    return (
-      <Button className="tiny icon red" loading={this.state.loading} disabled={this.state.operating} onClick={this.remove}>
-        <i className='trash icon'></i>
-      </Button>
-    );
-  }
-});
-
 const MachineRow = React.createClass<MachineProps, MachineState>({
   render: function() {
     const machine = this.props.machine;
     return (
       <tr>
         <td className="collapsing">
-          <MachineControlButton key={machine.name} machine={machine} />
+          <AutoSwitchStartStopMachineButton
+            className="tiny compact"
+            state={machine.state}
+            machineName={machine.name} />
         </td>
         <td>
           <MachineNameLink key={machine.name} machine={machine} />
@@ -140,7 +84,7 @@ const MachineRow = React.createClass<MachineProps, MachineState>({
         <td>{machine.url}</td>
         <td>{machine.swarm}</td>
         <td className="collapsing">
-          <RemoveMachineButton key={machine.name} machine={machine} />
+          <RemoveMachineButton className="tiny compact" machineName={machine.name} />
         </td>
       </tr>
     );

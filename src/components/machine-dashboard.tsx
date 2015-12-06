@@ -3,9 +3,17 @@ import * as Reflux from 'reflux';
 import { MachineActions } from '../actions/machine-action';
 import { DockerActions } from '../actions/docker-action';
 import { DockerInfoIndexedStore } from '../stores/docker-store';
-import { MachineStatusIndexedStore } from '../stores/machine-store';
-import { RouteStore } from '../stores/route-store';
+import {
+  MachineStatusIndexedStore,
+  MachineNameOperatingStore,
+  MachineNameOperatingDetailStore
+} from '../stores/machine-store';
+import {
+  AutoSwitchStartStopMachineButton,
+  RemoveMachineButton
+} from './machine-control-button'
 
+const History = require('react-router').History;
 const Semantify = require('react-semantify');
 const prettysize = require('prettysize');
 
@@ -19,7 +27,11 @@ interface StatisticProps {
 }
 
 interface HeaderProps {
-  name: string
+  machineName: string
+}
+
+interface HeaderButtonGroupProps extends HeaderProps {
+  state: string
 }
 
 interface MachineDashBoardProps {
@@ -75,45 +87,79 @@ const Header = React.createClass<HeaderProps, any>({
     return (
       <h2 className="ui center aligned icon header">
         <i className="circular server icon"></i>
-        {this.props.name}
+        {this.props.machineName}
       </h2>
+    )
+  }
+});
+
+const HeaderButtonGroup = React.createClass<HeaderButtonGroupProps, any>({
+  render: function() {
+    const machineName = this.props.machineName;
+    console.log(machineName, this.props.state);
+    return (
+      <div className="ui grid">
+        <div className="four column row">
+          <div className="right floated column">
+            <AutoSwitchStartStopMachineButton
+              className="right labeled"
+              state={this.props.state}
+              machineName={machineName}
+              stopChildren="Stop"
+              startChildren="Start" />
+            <RemoveMachineButton className="right labeled" machineName={machineName}>
+              Remove
+            </RemoveMachineButton>
+          </div>
+        </div>
+      </div>
     )
   }
 });
 
 export const MachineDashboard = React.createClass<MachineDashBoardProps, any>({
   mixins: [
+    History,
+    Reflux.connect(DockerInfoIndexedStore, 'dockerInfos'),
     Reflux.listenTo(MachineStatusIndexedStore, 'onMachineStateUpdate'),
-    Reflux.connect(DockerInfoIndexedStore, 'dockerInfos')
+    Reflux.listenTo(MachineNameOperatingStore, 'reload'),
+    Reflux.listenTo(MachineNameOperatingDetailStore, 'onRemove')
   ],
   onMachineStateUpdate: function(map) {
-    var status = map[this.state.machineName];
+    const machineName = this.props.machineName;
+    var status = map[machineName];
     if (status === 'Running') {
-      DockerActions.loadInfo(this.state.machineName);
+      DockerActions.loadInfo(machineName);
     }
     this.setState({
-      machineStatus: status
+      machineStatus: status,
+      dockerInfos: {}
     });
+  },
+  onRemove: function(operating) {
+    if (_.includes(operating.remove, this.props.machineName)){
+      this.history.pushState(null, '/machines');
+    }
+  },
+  reload: function() {
+    var machineName = this.props.machineName;
+    MachineActions.loadStatus(machineName);
+    MachineActions.inspect(machineName);
   },
   componentDidMount: function() {
-    var machineName = this.props.machineName;
-    if (machineName !== this.state.machineName) {
-      MachineActions.loadStatus(machineName);
-      MachineActions.inspect(machineName);
-    }
-    this.setState({
-      machineName: machineName
-    });
+    this.reload();
   },
   render: function() {
+    const { dockerInfos } = this.state;
+    const { machineName } = this.props
     var dockerInfo;
-    var { machineName, dockerInfos } = this.state;
     if (dockerInfos[machineName]) {
       dockerInfo = dockerInfos[machineName];
     }
     return (
       <div>
-        <Header name={machineName} />
+        <HeaderButtonGroup machineName={machineName} state={this.state.machineStatus} />
+        <Header machineName={machineName} />
         <Statistics info={dockerInfo} />
       </div>
     );
