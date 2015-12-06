@@ -55,12 +55,12 @@ const TopMenu = React.createClass<any, any>({
   }
 });
 
-const MachineLeftMenu = React.createClass<MachineLeftMenu, any>({
+const MachineDetailMenu = React.createClass<MachineLeftMenu, any>({
   mixins: [Reflux.connect(RouteStore, 'route')],
   render: function(){
     var name = this.props.machineName;
     return (
-      <Menu className="secondary vertical pointing">
+      <Menu className="secondary pointing">
         <ActiveLink route={this.state.route} to={`/machines/${name}`}>Dashboard</ActiveLink>
         <ActiveLink route={this.state.route} to={`/machines/${name}/containers`}>Containers</ActiveLink>
         <ActiveLink route={this.state.route} to={`/machines/${name}/images`}>Images</ActiveLink>
@@ -151,7 +151,6 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
 
 export const MachineDetailContainer = React.createClass<MachineDetailProps, any>({
   render: function() {
-    var menu = (<MachineLeftMenu machineName={this.props.params.machineName} />);
     return (
       <OneColumn>
         <div className="ui huge header">
@@ -161,7 +160,8 @@ export const MachineDetailContainer = React.createClass<MachineDetailProps, any>
           </div>
         </div>
         <Breadcrumb />
-        <TwoColumn left={menu} right={this.props.children} />
+        <MachineDetailMenu machineName={this.props.params.machineName} />
+        {this.props.children}
       </OneColumn>
     );
   }
