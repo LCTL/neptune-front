@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { RouteActions } from './actions/route-action';
+import { RouteActions, HistoryActions } from './actions/route-action';
 import { PathInfo } from './stores/route-store';
 import {
   AppContainer,
@@ -16,6 +16,8 @@ const Router = require('react-router').Router;
 const IndexRoute = require('react-router').IndexRoute;
 const Route = require('react-router').Route;
 const Redirect = require('react-router').Redirect;
+const createHashHistory = require('history/lib/createHashHistory');
+const history = createHashHistory();
 const content = document.createElement('div');
 const pathInfos: PathInfo[] = []
 
@@ -43,11 +45,13 @@ pathInfos.push({
   path: /^\/machines\/[a-zA-Z0-9]+\/create-container$/,
   label: 'Create Container'
 });
+
 RouteActions.setPathInfos(pathInfos);
+HistoryActions.setHistory(history);
 
 document.body.appendChild(content);
 render((
-  <Router>
+  <Router history={history}>
     <Route path='/' component={AppContainer} onEnter={RouteActions.enter}>
       <IndexRoute component={MachineContainer} onEnter={RouteActions.enter} />
       <Route path='create-machine' component={CreateMachineFormContainer} onEnter={RouteActions.enter} />
