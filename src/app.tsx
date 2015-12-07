@@ -4,14 +4,14 @@ import { RouteActions } from './actions/route-action';
 import { HistoryActions } from './actions/history-action';
 import { PathInfo } from './stores/route-store';
 import {
-  AppContainer,
-  MachineContainer,
-  CreateMachineFormContainer,
-  MachineDetailContainer,
-  MachineDashboardContainer,
-  MachineContainerTableContainer,
-  MachineContainerCreationFormContraine
-} from './components/container';
+  App,
+  Machines,
+  MachineCreation,
+  MachineDetail,
+  MachineDashboard,
+  Containers,
+  ContainerCreation
+} from './components/view';
 
 const Router = require('react-router').Router;
 const IndexRoute = require('react-router').IndexRoute;
@@ -53,14 +53,14 @@ HistoryActions.setHistory(history);
 document.body.appendChild(content);
 render((
   <Router history={history}>
-    <Route path='/' component={AppContainer} onEnter={RouteActions.enter}>
-      <IndexRoute component={MachineContainer} onEnter={RouteActions.enter} />
-      <Route path='create-machine' component={CreateMachineFormContainer} onEnter={RouteActions.enter} />
-      <Route path='machines' component={MachineContainer} onEnter={RouteActions.enter} />
-      <Route path='machines/:machineName' component={MachineDetailContainer} onEnter={RouteActions.enter}>
-        <IndexRoute component={MachineDashboardContainer} onEnter={RouteActions.enter} />
-        <Route path='containers' component={MachineContainerTableContainer} onEnter={RouteActions.enter} />
-        <Route path='create-container' component={MachineContainerCreationFormContraine} onEnter={RouteActions.enter} />
+    <Route path='/' component={App} onEnter={RouteActions.enter}>
+      <IndexRoute component={Machines} onEnter={RouteActions.enter} />
+      <Route path='create-machine' component={MachineCreation} onEnter={RouteActions.enter} />
+      <Route path='machines' component={Machines} onEnter={RouteActions.enter} />
+      <Route path='machines/:machineName' component={MachineDetail} onEnter={RouteActions.enter}>
+        <IndexRoute component={MachineDashboard} onEnter={RouteActions.enter} />
+        <Route path='containers' component={Containers} onEnter={RouteActions.enter} />
+        <Route path='create-container' component={ContainerCreation} onEnter={RouteActions.enter} />
       </Route>
     </Route>
   </Router>

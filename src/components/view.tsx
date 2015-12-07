@@ -4,7 +4,7 @@ import { RouteStore } from '../stores/route-store';
 import { Breadcrumb } from './Breadcrumb'
 import { MachineTable } from './machine/table';
 import { MachineCreationForm } from './machine/creation-form';
-import { MachineDashboard } from './machine/dashboard';
+import { MachineDashboard as MachineDashboardComponent } from './machine/dashboard';
 import { MachineContainerTable } from './container/table';
 import { MachineContainerCreationForm } from './container/creation-form';
 
@@ -140,7 +140,7 @@ const CenterCircularHeader = React.createClass<HeaderProps, any>({
   }
 })
 
-export const AppContainer = React.createClass<any, any>({
+export const App = React.createClass<any, any>({
   render: function() {
     return (
       <div className="ui container">
@@ -152,7 +152,7 @@ export const AppContainer = React.createClass<any, any>({
   }
 });
 
-export const MachineContainer = React.createClass<any, any>({
+export const Machines = React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
@@ -166,7 +166,7 @@ export const MachineContainer = React.createClass<any, any>({
   }
 });
 
-export const CreateMachineFormContainer = React.createClass<any, any>({
+export const MachineCreation = React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
@@ -180,7 +180,7 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
   }
 });
 
-export const MachineDetailContainer = React.createClass<MachineDetailProps, any>({
+export const MachineDetail = React.createClass<MachineDetailProps, any>({
   render: function() {
     var machineName = this.props.params.machineName;
     return (
@@ -196,7 +196,7 @@ export const MachineDetailContainer = React.createClass<MachineDetailProps, any>
   }
 });
 
-export const MachineDashboardContainer = React.createClass<any, any>({
+export const MachineDashboard = React.createClass<any, any>({
   render: function() {
     const machineName = this.props.params.machineName;
     return (
@@ -214,13 +214,13 @@ export const MachineDashboardContainer = React.createClass<any, any>({
         <CenterCircularHeader icon="server">
           {machineName}
         </CenterCircularHeader>
-        <MachineDashboard machineName={this.props.params.machineName} />
+        <MachineDashboardComponent machineName={this.props.params.machineName} />
       </OneColumn>
     );
   }
 });
 
-export const MachineContainerTableContainer = React.createClass<any, any>({
+export const Containers = React.createClass<any, any>({
   render: function() {
     const machineName = this.props.params.machineName;
     return (
@@ -238,7 +238,7 @@ export const MachineContainerTableContainer = React.createClass<any, any>({
   }
 });
 
-export const MachineContainerCreationFormContraine = React.createClass<any, any>({
+export const ContainerCreation = React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
