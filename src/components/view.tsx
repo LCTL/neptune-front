@@ -12,7 +12,7 @@ import { ToCreateContainerButton } from './container/button';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from './machine/control-button'
+} from './machine/button'
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;

@@ -15,7 +15,7 @@ import {
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from './control-button'
+} from './button'
 import { CommonProps } from '../shared/common-props'
 import { Button } from '../shared/button';
 
