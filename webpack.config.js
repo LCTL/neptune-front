@@ -7,17 +7,20 @@ module.exports = {
       './src/styles/app.css'
     ],
     vendor: [
-      'jquery',
-      'lodash',
       'bluebird',
-      'react',
-      'react-dom',
-      'reflux',
-      'react-router',
       'formsy-react',
       'history',
-      'superagent',
+      'http-proxy',
+      'jquery',
+      'lodash',
+      'notie',
+      'prettysize',
+      'react',
+      'react-dom',
+      'react-router',
       'react-semantify',
+      'reflux',
+      'superagent',
       './node_modules/semantic-ui/dist/semantic.js',
       '!style!css!./node_modules/semantic-ui/dist/semantic.css'
     ]
