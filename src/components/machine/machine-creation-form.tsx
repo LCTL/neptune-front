@@ -18,7 +18,7 @@ import {
 import {
   MachineActionLoadingMixin,
   MachineOperationMixin
-} from './machine-mixin';
+} from './mixin';
 
 const History = require('react-router').History;
 const reactSemantify = require('react-semantify');

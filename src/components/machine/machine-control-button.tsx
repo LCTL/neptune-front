@@ -6,7 +6,7 @@ import {
   MachineActionLoadingMixin,
   MachineOperationMixin,
   MachinePropsMixin
-} from './machine-mixin';
+} from './mixin';
 import { MachineStyleableProps } from '../shared/common-props'
 import { Button } from '../shared/button';
 
