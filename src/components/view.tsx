@@ -13,6 +13,7 @@ import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
 } from './machine/button'
+import { MachineProps } from './shared/props';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
@@ -33,13 +34,6 @@ interface TwoColumnProps {
 
 interface HeaderProps {
   icon?: string
-}
-
-interface MachineDetailProps {
-  machineName: string
-}
-
-interface MachineLeftMenu extends MachineDetailProps {
 }
 
 const ActiveLink = React.createClass<ActiveLinkProps, any>({
@@ -66,7 +60,7 @@ const TopMenu = React.createClass<any, any>({
   }
 });
 
-const MachineDetailMenu = React.createClass<MachineLeftMenu, any>({
+const MachineDetailMenu = React.createClass<MachineProps, any>({
   mixins: [Reflux.connect(RouteStore, 'route')],
   render: function(){
     var name = this.props.machineName;
@@ -180,7 +174,7 @@ export const MachineCreation = React.createClass<any, any>({
   }
 });
 
-export const MachineDetail = React.createClass<MachineDetailProps, any>({
+export const MachineDetail = React.createClass<MachineProps, any>({
   render: function() {
     var machineName = this.props.params.machineName;
     return (
