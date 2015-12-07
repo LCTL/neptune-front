@@ -6,6 +6,9 @@ import { MachineTable } from './machine-table';
 import { CreateMachineForm } from './create-machine-form';
 import { MachineDashboard } from './machine-dashboard';
 import { MachineContainerTable } from './machine-container-table';
+import { MachineContainerCreationForm } from './machine-container-creation-form';
+
+import { LinkToCreateContainerButton } from './link-button';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
@@ -119,6 +122,18 @@ const HugeHeader = React.createClass<HeaderProps, any>({
       </div>
     )
   }
+});
+
+const CenterCircularHeader = React.createClass<HeaderProps, any>({
+  render: function() {
+    var icon = this.props.icon ? this.props.icon : '';
+    return (
+      <h2 className="ui center aligned icon header">
+        <i className={`${icon} circular layout icon`}></i>
+        {this.props.children}
+      </h2>
+    )
+  }
 })
 
 export const AppContainer = React.createClass<any, any>({
@@ -187,8 +202,31 @@ export const MachineDashboardContainer = React.createClass<any, any>({
 
 export const MachineContainerTableContainer = React.createClass<any, any>({
   render: function() {
+    const machineName = this.props.params.machineName;
     return (
-      <MachineContainerTable machineName={this.props.params.machineName} />
+      <OneColumn>
+        <OneColumn>
+          <LinkToCreateContainerButton machineName={machineName} className="right floated" />
+        </OneColumn>
+        <CenterCircularHeader icon="grid">
+          Containers
+        </CenterCircularHeader>
+        <br />
+        <MachineContainerTable machineName={machineName} />
+      </OneColumn>
     );
+  }
+});
+
+export const MachineContainerCreationFormContraine = React.createClass<any, any>({
+  render: function() {
+    return (
+      <OneColumn>
+        <CenterCircularHeader icon="grid layout">
+          Create Container
+        </CenterCircularHeader>
+        <MachineContainerCreationForm machineName={this.props.params.machineName} />
+      </OneColumn>
+    )
   }
 });

@@ -8,7 +8,8 @@ import {
   CreateMachineFormContainer,
   MachineDetailContainer,
   MachineDashboardContainer,
-  MachineContainerTableContainer
+  MachineContainerTableContainer,
+  MachineContainerCreationFormContraine
 } from './components/container';
 
 const Router = require('react-router').Router;
@@ -38,6 +39,10 @@ pathInfos.push({
   path: /^\/machines\/[a-zA-Z0-9]+\/containers$/,
   label: 'Containers'
 });
+pathInfos.push({
+  path: /^\/machines\/[a-zA-Z0-9]+\/create-container$/,
+  label: 'Create Container'
+});
 RouteActions.setPathInfos(pathInfos);
 
 document.body.appendChild(content);
@@ -50,6 +55,7 @@ render((
       <Route path='machines/:machineName' component={MachineDetailContainer} onEnter={RouteActions.enter}>
         <IndexRoute component={MachineDashboardContainer} onEnter={RouteActions.enter} />
         <Route path='containers' component={MachineContainerTableContainer} onEnter={RouteActions.enter} />
+        <Route path='create-container' component={MachineContainerCreationFormContraine} onEnter={RouteActions.enter} />
       </Route>
     </Route>
   </Router>

@@ -8,6 +8,10 @@ class MachineContainerApi extends Api {
     return this._exec(request.get(`${this._buildPath(machineName)}`).query(options));
   }
 
+  create(machineName: string, options: Options): Promise<Response> {
+    return this._exec(request.post(`${this._buildPath(machineName)}`).send(options));
+  }
+
   protected _buildPath(machineName: string): string {
     return `${this.baseUrl}/machines/${machineName}/containers`;
   }
