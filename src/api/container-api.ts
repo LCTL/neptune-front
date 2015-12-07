@@ -2,7 +2,7 @@ import * as request from 'superagent';
 import { Response } from 'superagent';
 import { Api, Options} from './api'
 
-class MachineContainerApi extends Api {
+class ContainerApi extends Api {
 
   list(machineName: string, options: Options): Promise<Response> {
     return this._exec(request.get(`${this._buildPath(machineName)}`).query(options));
@@ -18,4 +18,4 @@ class MachineContainerApi extends Api {
 
 }
 
-export default new MachineContainerApi();
+export default new ContainerApi();
