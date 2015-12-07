@@ -1,9 +1,9 @@
 import * as Reflux from 'reflux';
 import api from '../api/docker-api';
-import { apiChildrenActions, bindApi } from './api-action';
+import { asyncAction, bindPromiseApi } from './action';
 
 export const DockerActions = Reflux.createActions({
-  'loadInfo': apiChildrenActions
+  'loadInfo': asyncAction
 });
 
-bindApi(DockerActions.loadInfo, api, 'info');
+bindPromiseApi(DockerActions.loadInfo, api, 'info');

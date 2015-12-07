@@ -1,4 +1,5 @@
 import * as Reflux from 'reflux';
+import { bindObjectMethod } from './action'
 const notie = require('notie');
 
 const methods = [
@@ -9,8 +10,6 @@ const methods = [
 
 export const NoticeActions = Reflux.createActions(methods);
 
-methods.forEach(method => {
-  NoticeActions[method].listen(function(){
-    notie[method].apply(notie, arguments);
-  });
-});
+methods.forEach(method =>
+  bindObjectMethod(NoticeActions[method], notie, method)
+);

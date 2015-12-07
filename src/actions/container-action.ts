@@ -1,11 +1,11 @@
 import * as Reflux from 'reflux';
 import api from '../api/container-api';
-import { apiChildrenActions, bindApi } from './api-action';
+import { asyncAction, bindPromiseApi } from './action';
 
 export const ContainerActions = Reflux.createActions({
-  'loadList': apiChildrenActions,
-  'create': apiChildrenActions
+  'loadList': asyncAction,
+  'create': asyncAction
 });
 
-bindApi(ContainerActions.loadList, api, 'list');
-bindApi(ContainerActions.create, api, 'create');
+bindPromiseApi(ContainerActions.loadList, api, 'list');
+bindPromiseApi(ContainerActions.create, api, 'create');

@@ -1,4 +1,5 @@
 import * as Reflux from 'reflux';
+import { bindObjectMethod } from './action'
 
 const historySupportedMethods = [
   'push',
@@ -12,10 +13,9 @@ export const HistoryActions = Reflux.createActions([
   'setHistory'
 ].concat(historySupportedMethods));
 
-HistoryActions.setHistory.listen((history) => {
-  historySupportedMethods.forEach(method => {
-    HistoryActions[method].listen(function() {
-      history[method].apply(history, arguments);
-    });
-  });
-});
+
+HistoryActions.setHistory.listen(history =>
+  historySupportedMethods.forEach(method =>
+    bindObjectMethod(HistoryActions[method], history, method)
+  )
+);
