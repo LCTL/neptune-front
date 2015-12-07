@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render } from 'react-dom';
+import { PATH_INFOS } from './constants/path';
 import { RouteActions } from './actions/route-action';
 import { HistoryActions } from './actions/history-action';
-import { PathInfo } from './stores/route-store';
 import {
   App,
   Machines,
@@ -20,34 +20,8 @@ const Redirect = require('react-router').Redirect;
 const createHashHistory = require('history/lib/createHashHistory');
 const history = createHashHistory();
 const content = document.createElement('div');
-const pathInfos: PathInfo[] = []
 
-pathInfos.push({
-  path: /^\/$/,
-  label: 'Home'
-});
-pathInfos.push({
-  path: /^\/create-machine$/,
-  label: 'Create Machine'
-});
-pathInfos.push({
-  path: /^\/machines$/,
-  label: 'Machines'
-});
-pathInfos.push({
-  path: /^\/machines\/[a-zA-Z0-9]+$/,
-  dynamicLabel: (route) => route.params.machineName
-});
-pathInfos.push({
-  path: /^\/machines\/[a-zA-Z0-9]+\/containers$/,
-  label: 'Containers'
-});
-pathInfos.push({
-  path: /^\/machines\/[a-zA-Z0-9]+\/create-container$/,
-  label: 'Create Container'
-});
-
-RouteActions.setPathInfos(pathInfos);
+RouteActions.setPathInfos(PATH_INFOS);
 HistoryActions.setHistory(history);
 
 document.body.appendChild(content);

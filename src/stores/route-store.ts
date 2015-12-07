@@ -1,12 +1,6 @@
 import * as Reflux from 'reflux';
-import api from '../api/machine-api';
+import { PathInfo } from '../constants/path';
 import { RouteActions } from '../actions/route-action';
-
-export interface PathInfo {
-  path: RegExp,
-  label?: string
-  dynamicLabel?: (params: any) => string
-}
 
 export const RouteStore = Reflux.createStore({
   listenables: RouteActions,
