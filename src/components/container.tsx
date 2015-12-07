@@ -2,17 +2,17 @@ import * as React from 'react';
 import * as Reflux from 'reflux';
 import { RouteStore } from '../stores/route-store';
 import { Breadcrumb } from './Breadcrumb'
-import { MachineTable } from './machine/machine-table';
-import { MachineCreationForm } from './machine/machine-creation-form';
-import { MachineDashboard } from './machine/machine-dashboard';
-import { MachineContainerTable } from './container/machine-container-table';
-import { MachineContainerCreationForm } from './container/machine-container-creation-form';
+import { MachineTable } from './machine/table';
+import { MachineCreationForm } from './machine/creation-form';
+import { MachineDashboard } from './machine/dashboard';
+import { MachineContainerTable } from './container/table';
+import { MachineContainerCreationForm } from './container/creation-form';
 
 import { LinkToCreateContainerButton } from './link-button';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from './machine/machine-control-button'
+} from './machine/control-button'
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;

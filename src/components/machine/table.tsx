@@ -11,11 +11,11 @@ import {
   MachineActionLoadingMixin,
   MachineOperationMixin,
   MachinePropsMixin
-} from './machine-mixin';
+} from './mixin';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from './machine-control-button'
+} from './control-button'
 import { CommonProps } from '../shared/common-props'
 import { Button } from '../shared/button';
 

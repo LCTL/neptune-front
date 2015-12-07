@@ -11,7 +11,7 @@ import {
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from './machine-control-button'
+} from './control-button'
 import { MachineProps } from '../shared/common-props'
 
 const History = require('react-router').History;
