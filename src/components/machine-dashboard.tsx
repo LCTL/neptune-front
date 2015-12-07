@@ -93,29 +93,6 @@ const Header = React.createClass<HeaderProps, any>({
   }
 });
 
-const HeaderButtonGroup = React.createClass<HeaderButtonGroupProps, any>({
-  render: function() {
-    const machineName = this.props.machineName;
-    return (
-      <div className="ui grid">
-        <div className="four column row">
-          <div className="right floated column">
-            <AutoSwitchStartStopMachineButton
-              className="right labeled"
-              state={this.props.state}
-              machineName={machineName}
-              stopChildren="Stop"
-              startChildren="Start" />
-            <RemoveMachineButton className="right labeled" machineName={machineName}>
-              Remove
-            </RemoveMachineButton>
-          </div>
-        </div>
-      </div>
-    )
-  }
-});
-
 export const MachineDashboard = React.createClass<MachineDashBoardProps, any>({
   mixins: [
     History,
@@ -156,11 +133,7 @@ export const MachineDashboard = React.createClass<MachineDashBoardProps, any>({
       dockerInfo = dockerInfos[machineName];
     }
     return (
-      <div>
-        <HeaderButtonGroup machineName={machineName} state={this.state.machineStatus} />
-        <Header machineName={machineName} />
-        <Statistics info={dockerInfo} />
-      </div>
+      <Statistics info={dockerInfo} />
     );
   }
 });

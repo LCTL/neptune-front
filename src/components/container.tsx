@@ -9,6 +9,10 @@ import { MachineContainerTable } from './machine-container-table';
 import { MachineContainerCreationForm } from './machine-container-creation-form';
 
 import { LinkToCreateContainerButton } from './link-button';
+import {
+  AutoSwitchStartStopMachineButton,
+  RemoveMachineButton
+} from './machine-control-button'
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
@@ -194,8 +198,24 @@ export const MachineDetailContainer = React.createClass<MachineDetailProps, any>
 
 export const MachineDashboardContainer = React.createClass<any, any>({
   render: function() {
+    const machineName = this.props.params.machineName;
     return (
-      <MachineDashboard machineName={this.props.params.machineName} />
+      <OneColumn>
+        <OneColumn>
+          <RemoveMachineButton className="labeled right floated" machineName={machineName}>
+            Remove
+          </RemoveMachineButton>
+          <AutoSwitchStartStopMachineButton
+            className="labeled right floated"
+            machineName={machineName}
+            stopChildren="Stop"
+            startChildren="Start" />
+        </OneColumn>
+        <CenterCircularHeader icon="grid">
+          {machineName}
+        </CenterCircularHeader>
+        <MachineDashboard machineName={this.props.params.machineName} />
+      </OneColumn>
     );
   }
 });

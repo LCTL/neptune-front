@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
 import { MachineActions } from '../actions/machine-action';
+import { MachineStatusIndexedStore } from '../stores/machine-store';
 import {
   MachineActionLoadingMixin,
   MachineOperationMixin,
@@ -14,7 +15,7 @@ interface MachineControlButtonProps {
 }
 
 interface AutoSwitchStartStopMachinButtonProps extends MachineControlButtonProps {
-  state: string,
+  state?: string,
   stopChildren?: any,
   startChildren?: any
 }
@@ -74,10 +75,18 @@ export const RemoveMachineButton = React.createClass<MachineControlButtonProps, 
 });
 
 export const AutoSwitchStartStopMachineButton = React.createClass<AutoSwitchStartStopMachinButtonProps, any>({
+  mixins: [
+    Reflux.connect(MachineStatusIndexedStore, 'statusMap'),
+  ],
   render: function() {
-    const state = this.props.state;
     const machineName = this.props.machineName;
-    let button;
+    var state = this.state.statusMap[machineName] || this.props.state;
+    var button;
+
+    if (!state) {
+      MachineActions.loadStatus(machineName);
+    }
+
     if (machineName && /running/i.test(state)) {
       button = (
         <StopMachineButton {...this.props}>
