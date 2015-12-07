@@ -19,3 +19,7 @@ export interface ActiveLinkProps {
   to: string,
   route: any
 }
+
+export interface IconProps extends CommonProps {
+  icon?: string
+}

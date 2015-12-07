@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Reflux from 'reflux';
 import { RouteStore } from '../stores/route-store';
 import { ActiveLink } from './shared/link';
+import { HugeHeader, CenterCircularHeader } from './shared/header';
 import { Breadcrumb } from './Breadcrumb'
 import { MachineTable } from './machine/table';
 import { MachineCreationForm } from './machine/creation-form';
@@ -25,10 +26,6 @@ interface TwoColumnProps {
   right: any,
   leftClassName?: string,
   rightClassName?: string
-}
-
-interface HeaderProps {
-  icon?: string
 }
 
 const TopMenu = React.createClass<any, any>({
@@ -90,32 +87,6 @@ const TwoColumn = React.createClass<any, any>({
     );
   }
 });
-
-const HugeHeader = React.createClass<HeaderProps, any>({
-  render: function() {
-    var icon = this.props.icon ? this.props.icon : '';
-    return (
-      <div className="ui huge header">
-        <i className={`${icon} icon`}></i>
-        <div className="content">
-          {this.props.children}
-        </div>
-      </div>
-    )
-  }
-});
-
-const CenterCircularHeader = React.createClass<HeaderProps, any>({
-  render: function() {
-    var icon = this.props.icon ? this.props.icon : '';
-    return (
-      <h2 className="ui center aligned icon header">
-        <i className={`${icon} circular layout icon`}></i>
-        {this.props.children}
-      </h2>
-    )
-  }
-})
 
 export const App = React.createClass<any, any>({
   render: function() {
