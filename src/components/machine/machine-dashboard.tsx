@@ -1,18 +1,18 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { MachineActions } from '../actions/machine-action';
-import { DockerActions } from '../actions/docker-action';
-import { DockerInfoIndexedStore } from '../stores/docker-store';
+import { MachineActions } from '../../actions/machine-action';
+import { DockerActions } from '../../actions/docker-action';
+import { DockerInfoIndexedStore } from '../../stores/docker-store';
 import {
   MachineStatusIndexedStore,
   MachineNameOperatingStore,
   MachineNameOperatingDetailStore
-} from '../stores/machine-store';
+} from '../../stores/machine-store';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
 } from './machine-control-button'
-import { MachineProps } from './shared/common-props'
+import { MachineProps } from '../shared/common-props'
 
 const History = require('react-router').History;
 const Semantify = require('react-semantify');

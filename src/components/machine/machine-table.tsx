@@ -1,23 +1,23 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { MachineActions } from '../actions/machine-action';
+import { MachineActions } from '../../actions/machine-action';
 import {
   MachineIndexedStore,
   MachineNameOperatingStore,
   MachineModel
-} from '../stores/machine-store';
+} from '../../stores/machine-store';
 import {
   MachineActionLoadingMixin,
   MachineOperationMixin,
   MachinePropsMixin
-} from './shared/machine-mixin';
+} from './machine-mixin';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
 } from './machine-control-button'
-import { CommonProps } from './shared/common-props'
-import { Button } from './shared/button';
+import { CommonProps } from '../shared/common-props'
+import { Button } from '../shared/button';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link

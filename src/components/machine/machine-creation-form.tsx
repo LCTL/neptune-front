@@ -1,10 +1,10 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { DriverActions } from '../actions/driver-action'
-import { MachineActions } from '../actions/machine-action'
-import { MachineNameOperatingStore } from '../stores/machine-store';
-import { DriversStore, SelectedDriverStore } from '../stores/driver-store'
+import { DriverActions } from '../../actions/driver-action'
+import { MachineActions } from '../../actions/machine-action'
+import { MachineNameOperatingStore } from '../../stores/machine-store';
+import { DriversStore, SelectedDriverStore } from '../../stores/driver-store'
 import {
   Form,
   Field,
@@ -14,11 +14,11 @@ import {
   DropdownField,
   SubmitButton,
   SubmitButtonControlMixin
-} from './shared/form';
+} from '../shared/form';
 import {
   MachineActionLoadingMixin,
   MachineOperationMixin
-} from './shared/machine-mixin';
+} from './machine-mixin';
 
 const History = require('react-router').History;
 const reactSemantify = require('react-semantify');

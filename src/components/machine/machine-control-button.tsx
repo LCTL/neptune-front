@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { MachineActions } from '../actions/machine-action';
-import { MachineStatusIndexedStore } from '../stores/machine-store';
+import { MachineActions } from '../../actions/machine-action';
+import { MachineStatusIndexedStore } from '../../stores/machine-store';
 import {
   MachineActionLoadingMixin,
   MachineOperationMixin,
   MachinePropsMixin
-} from './shared/machine-mixin';
-import { MachineStyleableProps } from './shared/common-props'
-import { Button } from './shared/button';
+} from './machine-mixin';
+import { MachineStyleableProps } from '../shared/common-props'
+import { Button } from '../shared/button';
 
 interface AutoSwitchStartStopMachinButtonProps extends MachineStyleableProps {
   state?: string,
