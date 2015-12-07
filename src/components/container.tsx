@@ -211,7 +211,7 @@ export const MachineDashboardContainer = React.createClass<any, any>({
             stopChildren="Stop"
             startChildren="Start" />
         </OneColumn>
-        <CenterCircularHeader icon="grid">
+        <CenterCircularHeader icon="server">
           {machineName}
         </CenterCircularHeader>
         <MachineDashboard machineName={this.props.params.machineName} />
