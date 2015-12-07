@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
 import { RouteStore } from '../stores/route-store';
+import { ActiveLink } from './shared/link';
 import { Breadcrumb } from './Breadcrumb'
 import { MachineTable } from './machine/table';
 import { MachineCreationForm } from './machine/creation-form';
 import { MachineDashboard as MachineDashboardComponent } from './machine/dashboard';
 import { MachineContainerTable } from './container/table';
 import { MachineContainerCreationForm } from './container/creation-form';
-
 import { ToCreateContainerButton } from './container/button';
 import {
   AutoSwitchStartStopMachineButton,
@@ -20,11 +20,6 @@ const Link = require('react-router').Link;
 const Divider = reactSemantify.Divider;
 const Menu = reactSemantify.Menu;
 
-interface ActiveLinkProps {
-  to: string,
-  route: any
-}
-
 interface TwoColumnProps {
   left: any,
   right: any,
@@ -35,18 +30,6 @@ interface TwoColumnProps {
 interface HeaderProps {
   icon?: string
 }
-
-const ActiveLink = React.createClass<ActiveLinkProps, any>({
-  render: function(){
-    var path:string = _.get(this.props.route, 'location.pathname', '');
-    var active:string = path === this.props.to ? 'active' : '';
-    return (
-      <Link className={`item ${active}`} to={this.props.to}>
-        {this.props.children}
-      </Link>
-    );
-  }
-});
 
 const TopMenu = React.createClass<any, any>({
   mixins: [Reflux.connect(RouteStore, 'route')],

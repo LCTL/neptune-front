@@ -14,3 +14,8 @@ export interface MachineProps extends CommonProps {
 export interface MachineStyleableProps extends StyleableProps, MachineProps {
 
 }
+
+export interface ActiveLinkProps {
+  to: string,
+  route: any
+}
