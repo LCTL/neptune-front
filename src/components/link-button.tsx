@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
 import { HistoryActions } from '../actions/history-action';
-import { Button } from './button';
+import { Button } from './shared/button';
 import { MachineStyleableProps } from './shared/common-props'
 
 const Link = require('react-router').Link

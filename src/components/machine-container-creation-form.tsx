@@ -6,7 +6,7 @@ import {
   InputField,
   SubmitButton,
   SubmitButtonControlMixin
-} from './form';
+} from './shared/form';
 import { MachineProps } from './shared/common-props'
 
 export const MachineContainerCreationForm = React.createClass<MachineProps, any>({

@@ -17,7 +17,7 @@ import {
   RemoveMachineButton
 } from './machine-control-button'
 import { CommonProps } from './shared/common-props'
-import { Button } from './button';
+import { Button } from './shared/button';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link

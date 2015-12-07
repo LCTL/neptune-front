@@ -3,7 +3,7 @@ import * as Reflux from 'reflux';
 import { MachineContainerActions } from '../actions/machine-container-action';
 import { MachineContainerIndexedStore } from '../stores/machine-container-store';
 import { CommonProps, MachineProps } from './shared/common-props'
-import { Button } from './button';
+import { Button } from './shared/button';
 
 const Semantify = require('react-semantify');
 const Link = require('react-router').Link

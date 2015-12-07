@@ -14,7 +14,7 @@ import {
   DropdownField,
   SubmitButton,
   SubmitButtonControlMixin
-} from './form';
+} from './shared/form';
 import {
   MachineActionLoadingMixin,
   MachineOperationMixin
