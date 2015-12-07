@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { MachineContainerActions } from '../../actions/machine-container-action';
-import { MachineContainerIndexedStore } from '../../stores/machine-container-store';
+import { ContainerActions } from '../../actions/container-action';
+import { ContainerIndexedStore } from '../../stores/container-store';
 import { CommonProps, MachineProps } from '../shared/props'
 import { Button } from '../shared/button';
 
@@ -87,9 +87,9 @@ const Body = React.createClass<MachineContainerTableBodyProps, any>({
 });
 
 export const MachineContainerTable = React.createClass<MachineProps, any>({
-  mixins: [Reflux.connect(MachineContainerIndexedStore, 'machineContainer')],
+  mixins: [Reflux.connect(ContainerIndexedStore, 'machineContainer')],
   componentDidMount: function() {
-    MachineContainerActions.loadList(this.props.machineName, {all: true});
+    ContainerActions.loadList(this.props.machineName, {all: true});
   },
   render: function() {
     var machineName = this.props.machineName;

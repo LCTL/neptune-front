@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { MachineContainerActions } from '../../actions/machine-container-action';
+import { ContainerActions } from '../../actions/container-action';
 import {
   Form,
   InputField,
@@ -14,7 +14,7 @@ export const MachineContainerCreationForm = React.createClass<MachineProps, any>
     SubmitButtonControlMixin,
   ],
   create: function(data) {
-    MachineContainerActions.create(this.props.machineName, data);
+    ContainerActions.create(this.props.machineName, data);
   },
   render: function() {
     return (

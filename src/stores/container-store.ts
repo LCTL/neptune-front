@@ -1,11 +1,11 @@
 import * as Reflux from 'reflux';
 import { Response } from 'superagent';
-import { MachineContainerActions } from '../actions/machine-container-action';
+import { ContainerActions } from '../actions/container-action';
 import { IndexedStoreMixin } from './store';
 
-export const MachineContainerIndexedStore = Reflux.createStore({
+export const ContainerIndexedStore = Reflux.createStore({
   mixins: [IndexedStoreMixin],
-  listenables: MachineContainerActions,
+  listenables: ContainerActions,
   onLoadListCompleted: function(res: Response, machineName: string) {
     this.map[machineName] = {};
     res.body.forEach(item => {this.map[machineName][item.Id] = item});
