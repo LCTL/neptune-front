@@ -3,7 +3,7 @@ import * as Reflux from 'reflux';
 import { RouteStore } from '../stores/route-store';
 import { Breadcrumb } from './Breadcrumb'
 import { MachineTable } from './machine-table';
-import { CreateMachineForm } from './create-machine-form';
+import { MachineCreationForm } from './machine-creation-form';
 import { MachineDashboard } from './machine-dashboard';
 import { MachineContainerTable } from './machine-container-table';
 import { MachineContainerCreationForm } from './machine-container-creation-form';
@@ -174,7 +174,7 @@ export const CreateMachineFormContainer = React.createClass<any, any>({
           Create Machine
         </HugeHeader>
         <Breadcrumb />
-        <CreateMachineForm />
+        <MachineCreationForm />
       </OneColumn>
     )
   }

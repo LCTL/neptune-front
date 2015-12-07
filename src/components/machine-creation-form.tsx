@@ -148,7 +148,7 @@ export const DriverSelection = React.createClass<any, any>({
   }
 });
 
-export const CreateMachineForm = React.createClass<any, any>({
+export const MachineCreationForm = React.createClass<any, any>({
   mixins: [Reflux.connect(SelectedDriverStore, 'driver')],
   render: function(){
     var formComponent = null;
