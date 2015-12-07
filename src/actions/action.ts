@@ -1,6 +1,8 @@
-export const asyncAction = {
-  asyncResult: true,
-  children: ['start', 'end']
+export const asyncAction = function() {
+  return {
+    asyncResult: true,
+    children: ['start', 'end']
+  }
 };
 
 export function bindPromiseApi(action, api, apiMethodName) {

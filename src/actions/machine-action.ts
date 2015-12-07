@@ -3,13 +3,13 @@ import api from '../api/machine-api';
 import { asyncAction, bindPromiseApi } from './action';
 
 export const MachineActions = Reflux.createActions({
-  'load': asyncAction,
-  'create': asyncAction,
-  'remove': asyncAction,
-  'start': asyncAction,
-  'stop': asyncAction,
-  'loadStatus': asyncAction,
-  'inspect': asyncAction,
+  'load': asyncAction(),
+  'create': asyncAction(),
+  'remove': asyncAction(),
+  'start': asyncAction(),
+  'stop': asyncAction(),
+  'loadStatus': asyncAction(),
+  'inspect': asyncAction(),
 });
 
 bindPromiseApi(MachineActions.load, api, 'list');
