@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { MachineContainerActions } from '../actions/machine-container-action';
+import { MachineContainerActions } from '../../actions/machine-container-action';
 import {
   Form,
   InputField,
   SubmitButton,
   SubmitButtonControlMixin
-} from './shared/form';
-import { MachineProps } from './shared/common-props'
+} from '../shared/form';
+import { MachineProps } from '../shared/common-props'
 
 export const MachineContainerCreationForm = React.createClass<MachineProps, any>({
   mixins: [

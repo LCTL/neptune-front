@@ -5,8 +5,8 @@ import { Breadcrumb } from './Breadcrumb'
 import { MachineTable } from './machine/machine-table';
 import { MachineCreationForm } from './machine/machine-creation-form';
 import { MachineDashboard } from './machine/machine-dashboard';
-import { MachineContainerTable } from './machine-container-table';
-import { MachineContainerCreationForm } from './machine-container-creation-form';
+import { MachineContainerTable } from './container/machine-container-table';
+import { MachineContainerCreationForm } from './container/machine-container-creation-form';
 
 import { LinkToCreateContainerButton } from './link-button';
 import {
