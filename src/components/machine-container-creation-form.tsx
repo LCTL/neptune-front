@@ -7,12 +7,9 @@ import {
   SubmitButton,
   SubmitButtonControlMixin
 } from './form';
+import { MachineProps } from './shared/common-props'
 
-interface MachineContainerCreationFormProps {
-  machineName: string
-}
-
-export const MachineContainerCreationForm = React.createClass<MachineContainerCreationFormProps, any>({
+export const MachineContainerCreationForm = React.createClass<MachineProps, any>({
   mixins: [
     SubmitButtonControlMixin,
   ],

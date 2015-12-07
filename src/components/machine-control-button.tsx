@@ -7,20 +7,16 @@ import {
   MachineOperationMixin,
   MachinePropsMixin
 } from './shared/machine-mixin';
+import { MachineStyleableProps } from './shared/common-props'
 import { Button } from './button';
 
-interface MachineControlButtonProps {
-  className?: string,
-  machineName: string
-}
-
-interface AutoSwitchStartStopMachinButtonProps extends MachineControlButtonProps {
+interface AutoSwitchStartStopMachinButtonProps extends MachineStyleableProps {
   state?: string,
   stopChildren?: any,
   startChildren?: any
 }
 
-export const StopMachineButton = React.createClass<MachineControlButtonProps, any>({
+export const StopMachineButton = React.createClass<MachineStyleableProps, any>({
   mixins: [MachineActionLoadingMixin('stop'), MachineOperationMixin, MachinePropsMixin],
   stop: function() {
     MachineActions.stop(this.props.machineName);
@@ -38,7 +34,7 @@ export const StopMachineButton = React.createClass<MachineControlButtonProps, an
   }
 });
 
-export const StartMachineButton = React.createClass<MachineControlButtonProps, any>({
+export const StartMachineButton = React.createClass<MachineStyleableProps, any>({
   mixins: [MachineActionLoadingMixin('start'), MachineOperationMixin, MachinePropsMixin],
   start: function() {
     MachineActions.start(this.props.machineName);
@@ -56,7 +52,7 @@ export const StartMachineButton = React.createClass<MachineControlButtonProps, a
   }
 });
 
-export const RemoveMachineButton = React.createClass<MachineControlButtonProps, any>({
+export const RemoveMachineButton = React.createClass<MachineStyleableProps, any>({
   mixins: [MachineActionLoadingMixin('remove'), MachineOperationMixin, MachinePropsMixin],
   remove: function(){
     MachineActions.remove(this.props.machineName);

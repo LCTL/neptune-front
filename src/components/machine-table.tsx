@@ -16,6 +16,7 @@ import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
 } from './machine-control-button'
+import { CommonProps } from './shared/common-props'
 import { Button } from './button';
 
 const reactSemantify = require('react-semantify');
@@ -32,9 +33,7 @@ interface MachineState {
 }
 
 interface MachinesProps extends MachinesState {}
-interface MachineProps extends MachineState {
-  key: string
-}
+interface MachineProps extends MachineState, CommonProps {}
 
 const MachinesHeader = React.createClass<any, any>({
   render: function() {

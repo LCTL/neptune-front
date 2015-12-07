@@ -12,6 +12,7 @@ import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
 } from './machine-control-button'
+import { MachineProps } from './shared/common-props'
 
 const History = require('react-router').History;
 const Semantify = require('react-semantify');
@@ -26,16 +27,8 @@ interface StatisticProps {
   value: string
 }
 
-interface HeaderProps {
-  machineName: string
-}
-
-interface HeaderButtonGroupProps extends HeaderProps {
+interface HeaderButtonGroupProps extends MachineProps {
   state: string
-}
-
-interface MachineDashBoardProps {
-  machineName: string
 }
 
 const Statistic = React.createClass<StatisticProps, any>({
@@ -82,7 +75,7 @@ const Statistics = React.createClass<DockerProps, any>({
   }
 });
 
-const Header = React.createClass<HeaderProps, any>({
+const Header = React.createClass<MachineProps, any>({
   render: function() {
     return (
       <h2 className="ui center aligned icon header">
@@ -93,7 +86,7 @@ const Header = React.createClass<HeaderProps, any>({
   }
 });
 
-export const MachineDashboard = React.createClass<MachineDashBoardProps, any>({
+export const MachineDashboard = React.createClass<MachineProps, any>({
   mixins: [
     History,
     Reflux.connect(DockerInfoIndexedStore, 'dockerInfos'),

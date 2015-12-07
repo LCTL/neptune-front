@@ -2,21 +2,17 @@ import * as React from 'react';
 import * as Reflux from 'reflux';
 import { MachineContainerActions } from '../actions/machine-container-action';
 import { MachineContainerIndexedStore } from '../stores/machine-container-store';
+import { CommonProps, MachineProps } from './shared/common-props'
 import { Button } from './button';
 
 const Semantify = require('react-semantify');
 const Link = require('react-router').Link
 
-interface MachineContainerTableProps {
-  machineName: string
-}
-
 interface MachineContainerTableBodyProps {
   containers: any[]
 }
 
-interface MachineContainerTableRowProps {
-  key: string,
+interface MachineContainerTableRowProps extends CommonProps {
   container: any
 }
 
@@ -90,7 +86,7 @@ const Body = React.createClass<MachineContainerTableBodyProps, any>({
   }
 });
 
-export const MachineContainerTable = React.createClass<MachineContainerTableProps, any>({
+export const MachineContainerTable = React.createClass<MachineProps, any>({
   mixins: [Reflux.connect(MachineContainerIndexedStore, 'machineContainer')],
   componentDidMount: function() {
     MachineContainerActions.loadList(this.props.machineName, {all: true});
