@@ -1,12 +1,10 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { HistoryActions } from '../actions/history-action';
-import { Button } from './shared/button';
-import { MachineStyleableProps } from './shared/common-props'
+import { HistoryActions } from '../../actions/history-action';
+import { Button } from '../shared/button';
+import { MachineStyleableProps } from '../shared/common-props'
 
-const Link = require('react-router').Link
-
-export const LinkToCreateContainerButton = React.createClass<MachineStyleableProps, any>({
+export const ToCreateContainerButton = React.createClass<MachineStyleableProps, any>({
   go: function() {
     HistoryActions.push(`/machines/${this.props.machineName}/create-container`);
   },

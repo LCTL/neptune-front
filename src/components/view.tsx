@@ -8,7 +8,7 @@ import { MachineDashboard as MachineDashboardComponent } from './machine/dashboa
 import { MachineContainerTable } from './container/table';
 import { MachineContainerCreationForm } from './container/creation-form';
 
-import { LinkToCreateContainerButton } from './link-button';
+import { ToCreateContainerButton } from './container/button';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
@@ -226,7 +226,7 @@ export const Containers = React.createClass<any, any>({
     return (
       <OneColumn>
         <OneColumn>
-          <LinkToCreateContainerButton machineName={machineName} className="right floated" />
+          <ToCreateContainerButton machineName={machineName} className="right floated" />
         </OneColumn>
         <CenterCircularHeader icon="grid">
           Containers
