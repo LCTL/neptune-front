@@ -11,8 +11,8 @@ import {
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from './control-button'
-import { MachineProps } from '../shared/common-props'
+} from './button'
+import { MachineProps } from '../shared/props'
 
 const History = require('react-router').History;
 const Semantify = require('react-semantify');

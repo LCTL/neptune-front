@@ -7,7 +7,7 @@ import {
   MachineOperationMixin,
   MachinePropsMixin
 } from './mixin';
-import { MachineStyleableProps } from '../shared/common-props'
+import { MachineStyleableProps } from '../shared/props'
 import { Button } from '../shared/button';
 
 interface AutoSwitchStartStopMachinButtonProps extends MachineStyleableProps {

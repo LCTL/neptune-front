@@ -16,7 +16,7 @@ import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
 } from './button'
-import { CommonProps } from '../shared/common-props'
+import { CommonProps } from '../shared/props'
 import { Button } from '../shared/button';
 
 const reactSemantify = require('react-semantify');

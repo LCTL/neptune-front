@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Reflux from 'reflux';
 import { HistoryActions } from '../../actions/history-action';
 import { Button } from '../shared/button';
-import { MachineStyleableProps } from '../shared/common-props'
+import { MachineStyleableProps } from '../shared/props'
 
 export const ToCreateContainerButton = React.createClass<MachineStyleableProps, any>({
   go: function() {
