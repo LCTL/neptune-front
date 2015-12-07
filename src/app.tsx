@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { RouteActions, HistoryActions } from './actions/route-action';
+import { RouteActions } from './actions/route-action';
+import { HistoryActions } from './actions/history-action';
 import { PathInfo } from './stores/route-store';
 import {
   AppContainer,

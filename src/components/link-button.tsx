@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { HistoryActions } from '../actions/route-action';
+import { HistoryActions } from '../actions/history-action';
 import { Button } from './button';
 
 const Link = require('react-router').Link
