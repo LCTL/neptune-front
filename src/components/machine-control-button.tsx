@@ -6,7 +6,7 @@ import {
   MachineActionLoadingMixin,
   MachineOperationMixin,
   MachinePropsMixin
-} from './mixin/machine-mixin';
+} from './shared/machine-mixin';
 import { Button } from './button';
 
 interface MachineControlButtonProps {

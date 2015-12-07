@@ -11,7 +11,7 @@ import {
   MachineActionLoadingMixin,
   MachineOperationMixin,
   MachinePropsMixin
-} from './mixin/machine-mixin';
+} from './shared/machine-mixin';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
