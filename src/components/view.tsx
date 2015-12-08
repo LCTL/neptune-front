@@ -3,6 +3,7 @@ import * as Reflux from 'reflux';
 import { RouteStore } from '../stores/route-store';
 import { ActiveLink } from './shared/link';
 import { HugeHeader, CenterCircularHeader } from './shared/header';
+import { OneColumn } from './shared/grid';
 import { Breadcrumb } from './Breadcrumb'
 import { MachineTable } from './machine/table';
 import { MachineCreationForm } from './machine/creation-form';
@@ -20,13 +21,6 @@ const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
 const Divider = reactSemantify.Divider;
 const Menu = reactSemantify.Menu;
-
-interface TwoColumnProps {
-  left: any,
-  right: any,
-  leftClassName?: string,
-  rightClassName?: string
-}
 
 const TopMenu = React.createClass<any, any>({
   mixins: [Reflux.connect(RouteStore, 'route')],
@@ -50,40 +44,6 @@ const MachineDetailMenu = React.createClass<MachineProps, any>({
         <ActiveLink route={this.state.route} to={`/machines/${name}/containers`}>Containers</ActiveLink>
         <ActiveLink route={this.state.route} to={`/machines/${name}/images`}>Images</ActiveLink>
       </Menu>
-    );
-  }
-});
-
-const OneColumn = React.createClass<any, any>({
-  render: function(){
-    return (
-      <div className="ui grid">
-        <div className="column">
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
-});
-
-const TwoColumn = React.createClass<any, any>({
-  render: function(){
-    var { left, right, leftClassName, rightClassName } = this.props
-    if (!leftClassName) {
-      leftClassName = 'four';
-    }
-    if (!rightClassName) {
-      rightClassName = 'twelve'
-    }
-    return (
-      <div className="ui grid">
-        <div className={`${leftClassName} wide column`}>
-          {left}
-        </div>
-        <div className={`${rightClassName} wide column`}>
-          {right}
-        </div>
-      </div>
     );
   }
 });
