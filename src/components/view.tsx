@@ -5,6 +5,7 @@ import { ActiveLink } from './shared/link';
 import { HugeHeader, CenterCircularHeader } from './shared/header';
 import { OneColumn } from './shared/grid';
 import { Breadcrumb } from './shared/breadcrumb'
+import { TopMenu, MachineDetailMenu } from './shared/menu'
 import { MachineTable } from './machine/table';
 import { MachineCreationForm } from './machine/creation-form';
 import { MachineDashboard as MachineDashboardComponent } from './machine/dashboard';
@@ -21,32 +22,6 @@ const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
 const Divider = reactSemantify.Divider;
 const Menu = reactSemantify.Menu;
-
-const TopMenu = React.createClass<any, any>({
-  mixins: [Reflux.connect(RouteStore, 'route')],
-  render: function(){
-    return (
-      <Menu className="top secondary">
-        <div className="header item">Neptune</div>
-        <ActiveLink route={this.state.route} to="/">Machine</ActiveLink>
-      </Menu>
-    );
-  }
-});
-
-const MachineDetailMenu = React.createClass<MachineProps, any>({
-  mixins: [Reflux.connect(RouteStore, 'route')],
-  render: function(){
-    var name = this.props.machineName;
-    return (
-      <Menu className="secondary pointing">
-        <ActiveLink route={this.state.route} to={`/machines/${name}`}>Dashboard</ActiveLink>
-        <ActiveLink route={this.state.route} to={`/machines/${name}/containers`}>Containers</ActiveLink>
-        <ActiveLink route={this.state.route} to={`/machines/${name}/images`}>Images</ActiveLink>
-      </Menu>
-    );
-  }
-});
 
 export const App = React.createClass<any, any>({
   render: function() {
