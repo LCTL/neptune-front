@@ -4,7 +4,7 @@ import { RouteStore } from '../stores/route-store';
 import { ActiveLink } from './shared/link';
 import { HugeHeader, CenterCircularHeader } from './shared/header';
 import { OneColumn } from './shared/grid';
-import { Breadcrumb } from './Breadcrumb'
+import { Breadcrumb } from './shared/breadcrumb'
 import { MachineTable } from './machine/table';
 import { MachineCreationForm } from './machine/creation-form';
 import { MachineDashboard as MachineDashboardComponent } from './machine/dashboard';

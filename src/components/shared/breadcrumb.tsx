@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { RouteStore, PathInfoStore } from '../stores/route-store';
+import { RouteStore, PathInfoStore } from '../../stores/route-store';
 
 const ReactRouter = require('react-router')
 const Semantify = require('react-semantify');
