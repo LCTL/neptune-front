@@ -19,6 +19,8 @@ module.exports = {
       'react-dom',
       'react-router',
       'react-semantify',
+      'redux',
+      'redux-router',
       'reflux',
       'superagent',
       './node_modules/semantic-ui/dist/semantic.js',
