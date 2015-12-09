@@ -1,0 +1,1 @@
+export const FETCH_MACHINE_LIST = 'FETCH_MACHINE_LIST';

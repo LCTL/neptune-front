@@ -17,6 +17,8 @@ import {
   RemoveMachineButton
 } from './machine/button'
 import { MachineProps } from './shared/props';
+import { connect } from 'react-redux';
+import { fetchList } from '../actions/machine-action';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
@@ -35,7 +37,10 @@ export const App = React.createClass<any, any>({
   }
 });
 
-export const Machines = React.createClass<any, any>({
+export const Machines = connect((state => ({'machines': state.machines})))(React.createClass<any, any>({
+  componentWillMount: function() {
+    this.props.dispatch(fetchList());
+  },
   render: function() {
     return (
       <OneColumn>
@@ -43,11 +48,11 @@ export const Machines = React.createClass<any, any>({
           Machines
         </HugeHeader>
         <Breadcrumb />
-        <MachineTable />
+        <MachineTable machines={this.props.machines} />
       </OneColumn>
     )
   }
-});
+}));
 
 export const MachineCreation = React.createClass<any, any>({
   render: function() {

@@ -14,6 +14,7 @@ import {
   Containers,
   ContainerCreation
 } from './components/view';
+import { machines } from './reducers/machine-reducer';
 
 const thunkMiddleware = require('redux-thunk');
 const {
@@ -32,7 +33,8 @@ const {
 
 const createHistory = require('history/lib/createHashHistory');
 const reducer = combineReducers({
-  router: routerStateReducer
+  router: routerStateReducer,
+  machines: machines
 });
 const store = compose(
   applyMiddleware(thunkMiddleware),

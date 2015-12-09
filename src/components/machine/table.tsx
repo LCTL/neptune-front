@@ -147,7 +147,7 @@ const NoMachineBody = React.createClass<any, MachinesState>({
 })
 
 export const MachineTable = React.createClass<any, MachinesState>({
-  mixins: [
+  /*mixins: [
     Reflux.connect(MachineIndexedStore, 'machines'),
     Reflux.listenTo(MachineNameOperatingStore, 'reload')
   ],
@@ -158,13 +158,14 @@ export const MachineTable = React.createClass<any, MachinesState>({
     if (_.isEmpty(names)){
       MachineActions.load();
     }
-  },
+  },*/
   render: function() {
     var body;
-    if (_.isEmpty(this.state.machines)){
+    const { machines } = this.props
+    if (_.isEmpty(machines)){
       body = (<NoMachineBody />);
     } else {
-      body = (<MachinesBody machines={this.state.machines} />);
+      body = (<MachinesBody machines={machines} />);
     }
     return (
       <Table className="machines-table">
