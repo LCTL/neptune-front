@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { createStore, compose, combineReducers } from 'redux';
+import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import { PATH_INFOS } from './constants/path';
 import { RouteActions } from './actions/route-action';
@@ -15,6 +15,7 @@ import {
   ContainerCreation
 } from './components/view';
 
+const thunkMiddleware = require('redux-thunk');
 const {
   ReduxRouter,
   routerStateReducer,
@@ -34,6 +35,7 @@ const reducer = combineReducers({
   router: routerStateReducer
 });
 const store = compose(
+  applyMiddleware(thunkMiddleware),
   reduxReactRouter({ createHistory })
 )(createStore)(reducer);
 
