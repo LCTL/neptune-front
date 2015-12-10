@@ -22,8 +22,7 @@ bindPromiseApi(MachineActions.inspect, api, 'inspect');
 
 //----
 
-import ASYNC_STATUS from '../constants/async-status';
 import { FETCH_MACHINE_LIST } from '../constants/action-type';
-import { async } from './action';
+import { apiActionCreator } from './action';
 
-export const fetchList = async(FETCH_MACHINE_LIST, api, 'list');
+export const fetchList = apiActionCreator(FETCH_MACHINE_LIST, api, 'list');

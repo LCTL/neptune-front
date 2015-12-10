@@ -1,4 +1,4 @@
-const request = require('superagent-bluebird-promise');
+const request = require('superagent');
 import { Response } from 'superagent';
 import { Api, Options} from './api'
 
