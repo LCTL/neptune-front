@@ -18,12 +18,18 @@ import {
 } from './machine/button'
 import { MachineProps } from './shared/props';
 import { connect } from 'react-redux';
-import { fetchList } from '../actions/machine-action';
+import { fetchList, fetchStatus } from '../actions/machine-action';
+import { fetchDockerInfo } from '../actions/docker-action';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
 const Divider = reactSemantify.Divider;
 const Menu = reactSemantify.Menu;
+
+const DashboardProps = (state) => ({
+  statuses: state.machineStatusesByName,
+  dockerInfos: state.docker.infosByName
+})
 
 export const App = React.createClass<any, any>({
   render: function() {
@@ -91,11 +97,27 @@ export const MachineDetail = React.createClass<MachineProps, any>({
   }
 });
 
-export const MachineDashboard = React.createClass<any, any>({
+const MachineReloader = connect((state => ({operating: state.machineOperating})))(React.createClass<any, any>({
+  render: function() {
+    this.props.dispatch(fetchStatus(this.props.machineName));
+    this.props.dispatch(fetchDockerInfo(this.props.machineName));
+    return (
+      <span />
+    )
+  }
+}));
+
+export const MachineDashboard = connect(DashboardProps)(React.createClass<any, any>({
   render: function() {
     const machineName = this.props.params.machineName;
+    const status = this.props.statuses[machineName];
+    var dockerInfo;
+    if (status === 'Running'){
+       dockerInfo = this.props.dockerInfos[machineName];
+    }
     return (
       <OneColumn>
+        <MachineReloader machineName={machineName} />
         <OneColumn>
           <RemoveMachineButton className="labeled right floated" machineName={machineName}>
             Remove
@@ -109,11 +131,11 @@ export const MachineDashboard = React.createClass<any, any>({
         <CenterCircularHeader icon="server">
           {machineName}
         </CenterCircularHeader>
-        <MachineDashboardComponent machineName={this.props.params.machineName} />
+        <MachineDashboardComponent machineName={this.props.params.machineName} status={status} dockerInfo={dockerInfo} />
       </OneColumn>
     );
   }
-});
+}));
 
 export const Containers = React.createClass<any, any>({
   render: function() {

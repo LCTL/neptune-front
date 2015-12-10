@@ -1,13 +1,6 @@
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { MachineActions } from '../../actions/machine-action';
-import { DockerActions } from '../../actions/docker-action';
-import { DockerInfoIndexedStore } from '../../stores/docker-store';
-import {
-  MachineStatusIndexedStore,
-  MachineNameOperatingStore,
-  MachineNameOperatingDetailStore
-} from '../../stores/machine-store';
+import { connect } from 'react-redux';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
@@ -17,6 +10,11 @@ import { MachineProps } from '../shared/props'
 const History = require('react-router').History;
 const Semantify = require('react-semantify');
 const prettysize = require('prettysize');
+
+const DashboardProps = (state) => ({
+  statuses: state.machineStatusesByName,
+  operating: state.machineOperating
+});
 
 interface DockerProps {
   info: any
@@ -86,47 +84,11 @@ const Header = React.createClass<MachineProps, any>({
   }
 });
 
-export const MachineDashboard = React.createClass<MachineProps, any>({
-  mixins: [
-    History,
-    Reflux.connect(DockerInfoIndexedStore, 'dockerInfos'),
-    Reflux.listenTo(MachineStatusIndexedStore, 'onMachineStateUpdate'),
-    Reflux.listenTo(MachineNameOperatingStore, 'reload'),
-    Reflux.listenTo(MachineNameOperatingDetailStore, 'onRemove')
-  ],
-  onMachineStateUpdate: function(map) {
-    const machineName = this.props.machineName;
-    var status = map[machineName];
-    if (status === 'Running') {
-      DockerActions.loadInfo(machineName);
-    }
-    this.setState({
-      machineStatus: status,
-      dockerInfos: {}
-    });
-  },
-  onRemove: function(operating) {
-    if (_.includes(operating.remove, this.props.machineName)){
-      this.history.pushState(null, '/machines');
-    }
-  },
-  reload: function() {
-    var machineName = this.props.machineName;
-    MachineActions.loadStatus(machineName);
-    MachineActions.inspect(machineName);
-  },
-  componentDidMount: function() {
-    this.reload();
-  },
+export const MachineDashboard = connect(DashboardProps)(React.createClass<any, any>({
   render: function() {
-    const { dockerInfos } = this.state;
-    const { machineName } = this.props
-    var dockerInfo;
-    if (dockerInfos[machineName]) {
-      dockerInfo = dockerInfos[machineName];
-    }
+    const { machineName, dockerInfo } = this.props
     return (
       <Statistics info={dockerInfo} />
     );
   }
-});
+}));

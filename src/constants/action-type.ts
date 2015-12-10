@@ -6,3 +6,5 @@ export const START_MACHINE = 'START_MACHINE';
 export const STOP_MACHINE = 'STOP_MACHINE';
 
 export const SELECT_DRIVER = 'SELECT_DRIVER';
+
+export const FETCH_DOCKER_INFO = 'FETCH_DOCKER_INFO';
