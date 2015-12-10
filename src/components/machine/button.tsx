@@ -1,14 +1,9 @@
+import * as _ from 'lodash';
 import * as React from 'react';
-import * as Reflux from 'reflux';
-import { MachineActions } from '../../actions/machine-action';
-import { MachineStatusIndexedStore } from '../../stores/machine-store';
-import {
-  MachineActionLoadingMixin,
-  MachineOperationMixin,
-  MachinePropsMixin
-} from './mixin';
+import { fetchStatus, start, stop, remove } from '../../actions/machine-action';
 import { MachineStyleableProps } from '../shared/props'
 import { Button } from '../shared/button';
+import { connect } from 'react-redux';
 
 interface AutoSwitchStartStopMachinButtonProps extends MachineStyleableProps {
   state?: string,
@@ -16,71 +11,101 @@ interface AutoSwitchStartStopMachinButtonProps extends MachineStyleableProps {
   startChildren?: any
 }
 
-export const StopMachineButton = React.createClass<MachineStyleableProps, any>({
-  mixins: [MachineActionLoadingMixin('stop'), MachineOperationMixin, MachinePropsMixin],
+function isOperating(name: string, operating) {
+  return _.values(operating)
+    .filter((arr: any[]) => _.include(arr, name))
+    .length > 0;
+}
+
+function isActionOperating(name: string, action: string, operating) {
+  return operating[action]
+    .filter(n => n === name)
+    .length > 0;
+}
+
+function operatingProps(state) {
+  return {
+    operating: state.machineOperating
+  }
+}
+
+function statusesProps(state) {
+  return {
+    statusesByName: state.machineStatusesByName
+  }
+}
+
+export const StopMachineButton = connect(operatingProps)(React.createClass<MachineStyleableProps, any>({
   stop: function() {
-    MachineActions.stop(this.props.machineName);
+    const { dispatch, machineName } = this.props;
+    dispatch(stop(machineName));
   },
   render: function(){
+    const { machineName, operating } = this.props;
+    const loading = isActionOperating(machineName, 'stop', operating)
+    const disabled = isOperating(machineName, operating);
     return (
       <Button className={`icon yellow ${this.props.className}`}
-        loading={this.state.loading}
-        disabled={this.state.operating}
+        loading={loading}
+        disabled={disabled}
         onClick={this.stop}>
         <i className='stop icon'></i>
         {this.props.children}
       </Button>
     )
   }
-});
+}));
 
-export const StartMachineButton = React.createClass<MachineStyleableProps, any>({
-  mixins: [MachineActionLoadingMixin('start'), MachineOperationMixin, MachinePropsMixin],
+export const StartMachineButton = connect(operatingProps)(React.createClass<MachineStyleableProps, any>({
   start: function() {
-    MachineActions.start(this.props.machineName);
+    const { dispatch, machineName } = this.props;
+    dispatch(start(machineName));
   },
   render: function(){
+    const { machineName, operating } = this.props;
+    const loading = isActionOperating(machineName, 'start', operating)
+    const disabled = isOperating(machineName, operating);
     return (
       <Button className={`icon green ${this.props.className}`}
-        loading={this.state.loading}
-        disabled={this.state.operating}
+        loading={loading}
+        disabled={disabled}
         onClick={this.start}>
         <i className='play icon'></i>
         {this.props.children}
       </Button>
     )
   }
-});
+}));
 
-export const RemoveMachineButton = React.createClass<MachineStyleableProps, any>({
-  mixins: [MachineActionLoadingMixin('remove'), MachineOperationMixin, MachinePropsMixin],
+export const RemoveMachineButton = connect(operatingProps)(React.createClass<MachineStyleableProps, any>({
   remove: function(){
-    MachineActions.remove(this.props.machineName);
+    const { dispatch, machineName } = this.props;
+    dispatch(remove(machineName));
   },
   render: function() {
+    const { machineName, operating } = this.props;
+    const loading = isActionOperating(machineName, 'remove', operating)
+    const disabled = isOperating(machineName, operating);
     return (
       <Button className={`icon red ${this.props.className}`}
-        loading={this.state.loading}
-        disabled={this.state.operating}
+        loading={loading}
+        disabled={disabled}
         onClick={this.remove}>
         <i className='trash icon'></i>
         {this.props.children}
       </Button>
     );
   }
-});
+}));
 
-export const AutoSwitchStartStopMachineButton = React.createClass<AutoSwitchStartStopMachinButtonProps, any>({
-  mixins: [
-    Reflux.connect(MachineStatusIndexedStore, 'statusMap'),
-  ],
+export const AutoSwitchStartStopMachineButton = connect(statusesProps)(React.createClass<AutoSwitchStartStopMachinButtonProps, any>({
   render: function() {
-    const machineName = this.props.machineName;
-    var state = this.state.statusMap[machineName] || this.props.state;
+    const { dispatch, machineName, statusesByName } = this.props;
+    var state = statusesByName[machineName] || this.props.state;
     var button;
 
     if (!state) {
-      MachineActions.loadStatus(machineName);
+      dispatch(fetchStatus(machineName));
     }
 
     if (machineName && /running/i.test(state)) {
@@ -102,4 +127,4 @@ export const AutoSwitchStartStopMachineButton = React.createClass<AutoSwitchStar
     }
     return button;
   }
-});
+}));

@@ -37,13 +37,20 @@ export const App = React.createClass<any, any>({
   }
 });
 
-export const Machines = connect((state => ({'machines': state.machines})))(React.createClass<any, any>({
-  componentWillMount: function() {
+const MachinesReloader = connect((state => ({operating: state.machineOperating})))(React.createClass<any, any>({
+  render: function() {
     this.props.dispatch(fetchList());
-  },
+    return (
+      <span />
+    )
+  }
+}));
+
+export const Machines = connect((state => ({'machines': state.machines})))(React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
+        <MachinesReloader />
         <HugeHeader icon="server">
           Machines
         </HugeHeader>

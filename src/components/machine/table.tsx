@@ -1,17 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import * as Reflux from 'reflux';
-import { MachineActions } from '../../actions/machine-action';
-import {
-  MachineIndexedStore,
-  MachineNameOperatingStore,
-  MachineModel
-} from '../../stores/machine-store';
-import {
-  MachineActionLoadingMixin,
-  MachineOperationMixin,
-  MachinePropsMixin
-} from './mixin';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
@@ -25,11 +15,11 @@ const Link = require('react-router').Link
 const Table = reactSemantify.Table;
 
 interface MachinesState {
-  machines: MachineModel[]
+  machines: any[]
 }
 
 interface MachineState {
-  machine: MachineModel
+  machine: any
 }
 
 interface MachinesProps extends MachinesState {}
@@ -95,7 +85,7 @@ const MachinesBody = React.createClass<MachinesProps, any>({
     return (
       <tbody>
         {
-          _.values(this.props.machines).map((machine:MachineModel) => {
+          _.values(this.props.machines).map((machine:any) => {
             return (
               <MachineRow key={machine.name} machine={machine}/>
             )
@@ -147,21 +137,10 @@ const NoMachineBody = React.createClass<any, MachinesState>({
 })
 
 export const MachineTable = React.createClass<any, MachinesState>({
-  /*mixins: [
-    Reflux.connect(MachineIndexedStore, 'machines'),
-    Reflux.listenTo(MachineNameOperatingStore, 'reload')
-  ],
-  componentDidMount: function () {
-    MachineActions.load();
-  },
-  reload: function(names: string[]) {
-    if (_.isEmpty(names)){
-      MachineActions.load();
-    }
-  },*/
   render: function() {
     var body;
-    const { machines } = this.props
+    const { machines } = this.props;
+
     if (_.isEmpty(machines)){
       body = (<NoMachineBody />);
     } else {

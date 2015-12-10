@@ -26,10 +26,18 @@ export function bindObjectMethod(action, obj, methodName) {
 import ASYNC_STATUS from '../constants/async-status';
 import { Api } from '../api/Api';
 
+export interface AsyncAction {
+  type: string,
+  asyncStatus: string,
+  id: string,
+  args: any[],
+  result?: any,
+  err?: any
+}
+
 export function apiActionCreator(action:string, api:Api, apiMethodName: string) {
-  return function() {
-    const args = Array.prototype.slice.call(arguments);
-    const id = Date.now();
+  return function(...args: any[]) {
+    const id = Date.now().toString();
     return function(dispatch) {
       dispatch({
         type: action,
