@@ -19,6 +19,9 @@ import {
   machineOperating,
   machineStatusesByName
 } from './reducers/machine-reducer';
+import {
+  driver
+} from './reducers/driver-reducer'
 
 const thunkMiddleware = require('redux-thunk');
 const {
@@ -40,7 +43,8 @@ const reducer = combineReducers({
   router: routerStateReducer,
   machines: machines,
   machineOperating,
-  machineStatusesByName
+  machineStatusesByName,
+  driver
 });
 const store = compose(
   applyMiddleware(thunkMiddleware),

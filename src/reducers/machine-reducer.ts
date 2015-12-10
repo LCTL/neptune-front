@@ -21,11 +21,28 @@ function createOperatingReducer(actionType: string) {
   }
 }
 
-export function machines(state = [], action) {
+export function machines(state = [], action: AsyncAction) {
   if (action.type === ACTION_TYPE.FETCH_MACHINE_LIST) {
     switch (action.asyncStatus) {
       case ASYNC_STATUS.COMPLETED:
         return action.result;
+      default:
+        return state;
+    }
+  } else if (action.type === ACTION_TYPE.CREATE_MACHINE) {
+    const args = action.args;
+    const name = args[0];
+    const options = args[1];
+    switch (action.asyncStatus) {
+      case ASYNC_STATUS.START:
+        return state.concat([{
+          name: name,
+          active: false,
+          state: 'Creating',
+          driver: options.driver,
+          swarm: '',
+          url: ''
+        }])
       default:
         return state;
     }

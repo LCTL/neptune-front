@@ -4,3 +4,5 @@ export const CREATE_MACHINE = 'CREATE_MACHINE';
 export const REMOVE_MACHINE = 'REMOVE_MACHINE';
 export const START_MACHINE = 'START_MACHINE';
 export const STOP_MACHINE = 'STOP_MACHINE';
+
+export const SELECT_DRIVER = 'SELECT_DRIVER';

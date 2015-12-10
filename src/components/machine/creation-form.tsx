@@ -1,10 +1,10 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import * as Reflux from 'reflux';
-import { DriverActions } from '../../actions/driver-action'
-import { MachineActions } from '../../actions/machine-action'
-import { MachineNameOperatingStore } from '../../stores/machine-store';
-import { DriversStore, SelectedDriverStore } from '../../stores/driver-store'
+import { connect } from 'react-redux';
+import * as drivers from '../../constants/drivers';
+import { select } from '../../actions/driver-action'
+import { create } from '../../actions/machine-action'
 import {
   Form,
   Field,
@@ -15,51 +15,37 @@ import {
   SubmitButton,
   SubmitButtonControlMixin
 } from '../shared/form';
-import {
-  MachineActionLoadingMixin,
-  MachineOperationMixin
-} from './mixin';
 
 const History = require('react-router').History;
 const reactSemantify = require('react-semantify');
 const Dropdown = reactSemantify.Dropdown;
 const Divider = reactSemantify.Divider;
 
+const selectedDriverProps = state => ({
+  selectedDriver: state.driver.selected
+});
+
 const MachineFormMixin = {
-  getInitialState: function() {
-    return {
-      submitLoading: false
-    };
-  },
   create: function(data) {
     var machineName = data.name
-    this.setState({
-      machineName: machineName
-    });
     if (data['virtualbox-no-share'] === true) {
       data['virtualbox-no-share'] = '';
     }
     delete data.name;
-    MachineActions.create(machineName, data);
-  },
-  componentWillUpdate: function(nextProps, nextState) {
-    if (this.state.operating === true && nextState.operating === false) {
-      this.history.pushState(null, '/');
-    }
+    this.props.dispatch(create(machineName, data));
+    this.history.pushState(null, '/');
   }
 }
 
-export const VirtualBoxForm = React.createClass<any, any>({
+export const VirtualBoxForm = connect()(React.createClass<any, any>({
   mixins: [
     History,
     SubmitButtonControlMixin,
-    MachineFormMixin,
-    MachineActionLoadingMixin('create'),
-    MachineOperationMixin
+    MachineFormMixin
   ],
   render: function() {
     return (
-      <Form className={this.state.loading ? 'loading' : ''} onValidSubmit={this.create} onValid={this.enableButton} onInvalid={this.disableButton}>
+      <Form onValidSubmit={this.create} onValid={this.enableButton} onInvalid={this.disableButton}>
         <HiddenField name="driver" value="virtualbox" />
         <div className="four fields">
           <InputField
@@ -111,24 +97,22 @@ export const VirtualBoxForm = React.createClass<any, any>({
       </Form>
     );
   }
-});
+}));
 
 const DriverFormMap = {
-  'virtualbox': VirtualBoxForm
+  [drivers.VIRTUAL_BOX.name]: VirtualBoxForm
 }
 
-export const DriverSelection = React.createClass<any, any>({
-  mixins: [Reflux.connect(DriversStore, 'drivers')],
-  componentDidMount: function () {
-    DriverActions.load();
-  },
+export const DriverSelection = connect(selectedDriverProps)(React.createClass<any, any>({
   select: function(data) {
-    var driver = this.state.drivers.filter(driver => driver.name === data.driver)[0];
-    DriverActions.select(driver);
+    var driver = Object.keys(drivers).map(key => drivers[key])
+      .filter((driver) => driver.name === data.driver)[0];
+    this.props.dispatch(select(driver));
   },
   render: function() {
-    var options = [];
-    this.state.drivers.forEach((driver) => {
+    const options = [];
+    const text = this.props.selectedDriver.label || 'Driver'
+    Object.keys(drivers).map(key => drivers[key]).forEach((driver) => {
       options.push(
         <div key={driver.name} className="item" data-value={driver.name}>
           {driver.label}
@@ -138,7 +122,7 @@ export const DriverSelection = React.createClass<any, any>({
     return (
       <Form onChange={this.select}>
         <DropdownField name="driver" label="Driver" className="search selection">
-          <div className="default text">Driver</div>
+          <div className="default text">{text}</div>
           <div className="menu">
             {options}
           </div>
@@ -146,13 +130,12 @@ export const DriverSelection = React.createClass<any, any>({
       </Form>
     );
   }
-});
+}));
 
-export const MachineCreationForm = React.createClass<any, any>({
-  mixins: [Reflux.connect(SelectedDriverStore, 'driver')],
+export const MachineCreationForm = connect(selectedDriverProps)(React.createClass<any, any>({
   render: function(){
     var formComponent = null;
-    var driver = this.state.driver
+    var driver = this.props.selectedDriver
     if (driver && DriverFormMap[driver.name]){
       let Comp = DriverFormMap[driver.name]
       formComponent = (
@@ -167,4 +150,4 @@ export const MachineCreationForm = React.createClass<any, any>({
       </div>
     );
   }
-});
+}));
