@@ -1,21 +1,16 @@
 const request = require('superagent');
 import { Response } from 'superagent';
-import { Api, Options} from './api'
+import { apiBaseUrl, end, Options} from './shared'
 
-class ContainerApi extends Api {
-
-  list(machineName: string, options: Options): Promise<Response> {
-    return this._exec(request.get(`${this._buildPath(machineName)}`).query(options));
-  }
-
-  create(machineName: string, options: Options): Promise<Response> {
-    return this._exec(request.post(`${this._buildPath(machineName)}`).send(options));
-  }
-
-  protected _buildPath(machineName: string): string {
-    return `${this.baseUrl}/machines/${machineName}/containers`;
-  }
-
+function buildPath(machineName: string): string {
+  return `${apiBaseUrl}/machines/${machineName}/containers`;
 }
 
-export default new ContainerApi();
+export default {
+  list: function (machineName: string, options?: Options): Promise<Response> {
+    return end(request.get(`${buildPath(machineName)}`).query(options));
+  },
+  create: function (machineName: string, options: Options): Promise<Response> {
+    return end(request.post(`${buildPath(machineName)}`).send(options));
+  }
+}

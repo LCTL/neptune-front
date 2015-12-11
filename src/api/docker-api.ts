@@ -1,18 +1,14 @@
 import * as request from 'superagent';
 import * as Promise from 'bluebird';
 import { Response } from 'superagent';
-import { Api, Options} from './api'
+import { apiBaseUrl, end, Options} from './shared'
 
-class DockerApi extends Api {
-
-  info(machineName: string): Promise<Response> {
-    return this._exec(request.get(`${this._buildPath(machineName)}`));
-  }
-
-  protected _buildPath(machineName: string): string {
-    return `${this.baseUrl}/machines/${machineName}/docker`;
-  }
-
+function buildPath(machineName: string): string {
+  return `${apiBaseUrl}/machines/${machineName}/docker`;
 }
 
-export default new DockerApi();
+export default {
+  info: function(machineName: string): Promise<Response> {
+    return end(request.get(`${buildPath(machineName)}`));
+  }
+}
