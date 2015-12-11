@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { PATH_INFOS } from '../../constants/path';
+import PATH_INFOS from '../../constants/path-info';
 
 const ReactRouter = require('react-router')
 const Semantify = require('react-semantify');

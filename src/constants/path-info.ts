@@ -1,10 +1,6 @@
-export interface PathInfo {
-  path: RegExp,
-  label?: string
-  dynamicLabel?: (params: any) => string
-}
+import { PathInfo } from './interfaces';
 
-export const PATH_INFOS: PathInfo[] = [
+const PATH_INFOS: PathInfo[] = [
   {
     path: /^\/$/,
     label: 'Home'
@@ -30,3 +26,5 @@ export const PATH_INFOS: PathInfo[] = [
     label: 'Create Container'
   }
 ];
+
+export default PATH_INFOS;

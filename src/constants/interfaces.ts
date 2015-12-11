@@ -12,3 +12,9 @@ export interface AsyncAction {
   result?: any,
   err?: any
 }
+
+export interface PathInfo {
+  path: RegExp,
+  label?: string
+  dynamicLabel?: (params: any) => string
+}

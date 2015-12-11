@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import ASYNC_STATUS from '../constants/async-status';
-import { FETCH_MACHINE_CONTAINER_LIST } from '../constants/action-type';
+import { FETCH_MACHINE_CONTAINER_LIST } from '../constants/action-types';
 
 function containersByMachineName(state = {}, action) {
   if (action.type === FETCH_MACHINE_CONTAINER_LIST) {

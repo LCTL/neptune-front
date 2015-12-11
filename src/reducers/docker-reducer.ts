@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import ASYNC_STATUS from '../constants/async-status';
-import { FETCH_DOCKER_INFO } from '../constants/action-type';
+import { FETCH_DOCKER_INFO } from '../constants/action-types';
 
 function infosByName(state = {}, action) {
   if (action.type === FETCH_DOCKER_INFO) {

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import ASYNC_STATUS from '../constants/async-status';
-import * as ACTION_TYPE from '../constants/action-type';
+import * as ACTION_TYPE from '../constants/action-types';
 import { AsyncAction } from '../constants/interfaces';
 
 function createOperatingReducer(actionType: string) {

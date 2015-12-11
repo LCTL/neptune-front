@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { PATH_INFOS } from './constants/path';
 import store from './stores/store';
 import {
   App,

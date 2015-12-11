@@ -2,7 +2,7 @@ import api from '../api/container-api';
 import {
   FETCH_MACHINE_CONTAINER_LIST,
   CREATE_MACHINE_CONTAINER
-} from '../constants/action-type';
+} from '../constants/action-types';
 import { apiActionCreator } from '../utils/action-utils';
 
 export const fetchMachineContainerList

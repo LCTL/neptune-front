@@ -6,7 +6,7 @@ import {
   REMOVE_MACHINE,
   START_MACHINE,
   STOP_MACHINE
-} from '../constants/action-type';
+} from '../constants/action-types';
 import { apiActionCreator } from '../utils/action-utils';
 
 export const fetchList = apiActionCreator(FETCH_MACHINE_LIST, api.list);
