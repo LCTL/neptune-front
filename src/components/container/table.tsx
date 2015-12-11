@@ -1,14 +1,11 @@
 import * as React from 'react';
-import * as Reflux from 'reflux';
-import { ContainerActions } from '../../actions/container-action';
-import { ContainerIndexedStore } from '../../stores/container-store';
 import { CommonProps, MachineProps } from '../shared/props'
 import { Button } from '../shared/button';
 
 const Semantify = require('react-semantify');
 const Link = require('react-router').Link
 
-interface MachineContainerTableBodyProps {
+interface MachineContainerTable extends MachineProps {
   containers: any[]
 }
 
@@ -70,7 +67,7 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
   }
 });
 
-const Body = React.createClass<MachineContainerTableBodyProps, any>({
+const Body = React.createClass<MachineContainerTable, any>({
   render: function() {
     return (
       <tbody>
@@ -86,22 +83,13 @@ const Body = React.createClass<MachineContainerTableBodyProps, any>({
   }
 });
 
-export const MachineContainerTable = React.createClass<MachineProps, any>({
-  mixins: [Reflux.connect(ContainerIndexedStore, 'machineContainer')],
-  componentDidMount: function() {
-    ContainerActions.loadList(this.props.machineName, {all: true});
-  },
+export const MachineContainerTable = React.createClass<MachineContainerTable, any>({
   render: function() {
-    var machineName = this.props.machineName;
-    var machineContainerMap = this.state.machineContainer;
-    var containers = [];
-    if (machineContainerMap[machineName]) {
-      containers = machineContainerMap[machineName];
-    }
+    var { machineName, containers } = this.props;
     return (
       <Semantify.Table>
         <Header />
-        <Body containers={containers} />
+        <Body machineName={machineName} containers={containers} />
       </Semantify.Table>
     );
   }

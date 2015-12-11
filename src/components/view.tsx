@@ -20,6 +20,7 @@ import { MachineProps } from './shared/props';
 import { connect } from 'react-redux';
 import { fetchList, fetchStatus } from '../actions/machine-action';
 import { fetchDockerInfo } from '../actions/docker-action';
+import { fetchMachineContainerList } from '../actions/container-action';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;
@@ -137,9 +138,14 @@ export const MachineDashboard = connect(DashboardProps)(React.createClass<any, a
   }
 }));
 
-export const Containers = React.createClass<any, any>({
+export const Containers = connect(state => ({containersByName: state.container.containersByMachineName}))(React.createClass<any, any>({
+  componentWillMount: function() {
+    const machineName = this.props.params.machineName;
+    this.props.dispatch(fetchMachineContainerList(machineName, {all: true}));
+  },
   render: function() {
     const machineName = this.props.params.machineName;
+    const { containersByName } = this.props;
     return (
       <OneColumn>
         <OneColumn>
@@ -149,21 +155,21 @@ export const Containers = React.createClass<any, any>({
           Containers
         </CenterCircularHeader>
         <br />
-        <MachineContainerTable machineName={machineName} />
+        <MachineContainerTable machineName={machineName} containers={containersByName[machineName]} />
       </OneColumn>
     );
   }
-});
+}));
 
-export const ContainerCreation = React.createClass<any, any>({
+export const ContainerCreation = connect()(React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
         <CenterCircularHeader icon="grid layout">
           Create Container
         </CenterCircularHeader>
-        <MachineContainerCreationForm machineName={this.props.params.machineName} />
+        <MachineContainerCreationForm machineName={this.props.params.machineName} dispatch={this.props.dispatch} />
       </OneColumn>
     )
   }
-});
+}));

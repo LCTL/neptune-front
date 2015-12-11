@@ -1,12 +1,12 @@
 import * as React from 'react';
-import * as Reflux from 'reflux';
-import { HistoryActions } from '../../actions/history-action';
 import { Button } from '../shared/button';
 import { MachineStyleableProps } from '../shared/props'
+const { History } = require('react-router');
 
 export const ToCreateContainerButton = React.createClass<MachineStyleableProps, any>({
+  mixins: [History],
   go: function() {
-    HistoryActions.push(`/machines/${this.props.machineName}/create-container`);
+    this.history.push(`/machines/${this.props.machineName}/create-container`);
   },
   render: function() {
     return (

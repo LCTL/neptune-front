@@ -1,6 +1,5 @@
 import * as React from 'react';
-import * as Reflux from 'reflux';
-import { ContainerActions } from '../../actions/container-action';
+import { createMachineContainer } from '../../actions/container-action';
 import {
   Form,
   InputField,
@@ -9,12 +8,12 @@ import {
 } from '../shared/form';
 import { MachineProps } from '../shared/props'
 
-export const MachineContainerCreationForm = React.createClass<MachineProps, any>({
+export const MachineContainerCreationForm = React.createClass<any, any>({
   mixins: [
     SubmitButtonControlMixin,
   ],
   create: function(data) {
-    ContainerActions.create(this.props.machineName, data);
+    this.props.dispatch(createMachineContainer(this.props.machineName, data));
   },
   render: function() {
     return (
@@ -25,7 +24,7 @@ export const MachineContainerCreationForm = React.createClass<MachineProps, any>
             label="Image"
             required />
           <InputField
-            name="Name"
+            name="name"
             label="Name" />
         </div>
         <SubmitButton className="green" disabled={this.state.disableSubmit} text="Create" />

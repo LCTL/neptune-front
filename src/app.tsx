@@ -22,6 +22,7 @@ import {
 import {
   driver
 } from './reducers/driver-reducer'
+import { container } from './reducers/container-reducer'
 import { docker } from './reducers/docker-reducer';
 
 const thunkMiddleware = require('redux-thunk');
@@ -46,7 +47,8 @@ const reducer = combineReducers({
   machineOperating,
   machineStatusesByName,
   driver,
-  docker
+  docker,
+  container
 });
 const store = compose(
   applyMiddleware(thunkMiddleware),
