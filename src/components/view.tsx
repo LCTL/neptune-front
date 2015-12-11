@@ -1,6 +1,4 @@
 import * as React from 'react';
-import * as Reflux from 'reflux';
-import { RouteStore } from '../stores/route-store';
 import { ActiveLink } from './shared/link';
 import { HugeHeader, CenterCircularHeader } from './shared/header';
 import { OneColumn } from './shared/grid';

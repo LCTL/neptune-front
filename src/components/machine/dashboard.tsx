@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as Reflux from 'reflux';
 import { connect } from 'react-redux';
 import {
   AutoSwitchStartStopMachineButton,

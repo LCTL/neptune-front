@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import * as Reflux from 'reflux';
 import { connect } from 'react-redux';
 import * as drivers from '../../constants/drivers';
 import { select } from '../../actions/driver-action'
