@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from './button'
+} from './buttons'
 import { MachineProps } from '../shared/props'
 
 const History = require('react-router').History;

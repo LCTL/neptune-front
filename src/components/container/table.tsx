@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CommonProps, MachineProps } from '../shared/props'
-import { Button } from '../shared/button';
+import { Button } from '../shared/buttons';
 
 const Semantify = require('react-semantify');
 const Link = require('react-router').Link
