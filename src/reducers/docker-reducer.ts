@@ -18,6 +18,6 @@ function infosByName(state = {}, action) {
   }
 }
 
-export const docker = combineReducers({
+export default combineReducers({
   infosByName
 })

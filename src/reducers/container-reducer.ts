@@ -18,6 +18,6 @@ function containersByMachineName(state = {}, action) {
   }
 }
 
-export const container = combineReducers({
+export default combineReducers({
   containersByMachineName
 })

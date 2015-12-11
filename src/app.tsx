@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import { PATH_INFOS } from './constants/path';
+import store from './stores/store';
 import {
   App,
   Machines,
@@ -12,43 +12,13 @@ import {
   Containers,
   ContainerCreation
 } from './components/view';
-import machine from './reducers/machine-reducer';
-import {
-  driver
-} from './reducers/driver-reducer'
-import { container } from './reducers/container-reducer'
-import { docker } from './reducers/docker-reducer';
 
-const thunkMiddleware = require('redux-thunk');
-const {
-  ReduxRouter,
-  routerStateReducer,
-  reduxReactRouter,
-  pushState
-} = require('redux-router');
-
-const {
-  Router,
-  IndexRoute,
-  Route,
-  Redirect
-} = require('react-router')
-
-const createHistory = require('history/lib/createHashHistory');
-const reducer = combineReducers({
-  router: routerStateReducer,
-  machine,
-  driver,
-  docker,
-  container
-});
-const store = compose(
-  applyMiddleware(thunkMiddleware),
-  reduxReactRouter({ createHistory })
-)(createStore)(reducer);
-
+const { ReduxRouter } = require('redux-router');
+const { IndexRoute, Route } = require('react-router');
 const content = document.createElement('div');
+
 document.body.appendChild(content);
+
 render((
   <Provider store={store}>
     <ReduxRouter>

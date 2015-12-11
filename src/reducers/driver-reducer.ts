@@ -10,6 +10,6 @@ function selected(state = {}, action) {
   }
 }
 
-export const driver = combineReducers({
+export default combineReducers({
   selected
 })
