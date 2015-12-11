@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { fetchStatus, start, stop, remove } from '../../actions/machine-action';
+import { fetchStatus, start, stop, remove } from '../../actions/machine-actions';
 import { MachineStyleableProps } from '../shared/props'
 import { Button } from '../shared/button';
 import { connect } from 'react-redux';

@@ -16,9 +16,9 @@ import {
 } from './machine/button'
 import { MachineProps } from './shared/props';
 import { connect } from 'react-redux';
-import { fetchList, fetchStatus } from '../actions/machine-action';
-import { fetchDockerInfo } from '../actions/docker-action';
-import { fetchMachineContainerList } from '../actions/container-action';
+import { fetchList, fetchStatus } from '../actions/machine-actions';
+import { fetchDockerInfo } from '../actions/docker-actions';
+import { fetchMachineContainerList } from '../actions/container-actions';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link;

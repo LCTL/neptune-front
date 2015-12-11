@@ -2,8 +2,8 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as drivers from '../../constants/drivers';
-import { select } from '../../actions/driver-action'
-import { create } from '../../actions/machine-action'
+import { select } from '../../actions/driver-actions'
+import { create } from '../../actions/machine-actions'
 import {
   Form,
   Field,
