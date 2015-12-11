@@ -21,11 +21,11 @@ function createOperatingReducer(actionType: string) {
   }
 }
 
-export function machines(state = [], action: AsyncAction) {
+function machinesByName(state = {}, action: AsyncAction) {
   if (action.type === ACTION_TYPE.FETCH_MACHINE_LIST) {
     switch (action.asyncStatus) {
       case ASYNC_STATUS.COMPLETED:
-        return action.result;
+        return _.indexBy(action.result, 'name');
       default:
         return state;
     }
@@ -35,14 +35,16 @@ export function machines(state = [], action: AsyncAction) {
     const options = args[1];
     switch (action.asyncStatus) {
       case ASYNC_STATUS.START:
-        return state.concat([{
-          name: name,
-          active: false,
-          state: 'Creating',
-          driver: options.driver,
-          swarm: '',
-          url: ''
-        }])
+        return _.assign({}, state, {
+          [name]: {
+            name: name,
+            active: false,
+            state: 'Creating',
+            driver: options.driver,
+            swarm: '',
+            url: ''
+          }
+        });
       default:
         return state;
     }
@@ -51,7 +53,7 @@ export function machines(state = [], action: AsyncAction) {
   }
 };
 
-export function machineStatusesByName(state = {}, action: AsyncAction) {
+function statusesByName(state = {}, action: AsyncAction) {
   if (action.type === ACTION_TYPE.FETCH_MACHINE_STATUS) {
     const name = action.args[0];
     switch (action.asyncStatus) {
@@ -67,9 +69,13 @@ export function machineStatusesByName(state = {}, action: AsyncAction) {
   }
 }
 
-export const machineOperating = combineReducers({
-  create: createOperatingReducer(ACTION_TYPE.CREATE_MACHINE),
-  remove: createOperatingReducer(ACTION_TYPE.REMOVE_MACHINE),
-  start: createOperatingReducer(ACTION_TYPE.START_MACHINE),
-  stop: createOperatingReducer(ACTION_TYPE.STOP_MACHINE)
-});
+export default combineReducers({
+  machinesByName,
+  statusesByName,
+  operating: combineReducers({
+    create: createOperatingReducer(ACTION_TYPE.CREATE_MACHINE),
+    remove: createOperatingReducer(ACTION_TYPE.REMOVE_MACHINE),
+    start: createOperatingReducer(ACTION_TYPE.START_MACHINE),
+    stop: createOperatingReducer(ACTION_TYPE.STOP_MACHINE)
+  })
+})

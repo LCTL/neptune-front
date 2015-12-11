@@ -14,7 +14,7 @@ const Link = require('react-router').Link
 const Table = reactSemantify.Table;
 
 interface MachinesState {
-  machines: any[]
+  machines: any
 }
 
 interface MachineState {
@@ -81,15 +81,14 @@ const MachineRow = React.createClass<MachineProps, MachineState>({
 
 const MachinesBody = React.createClass<MachinesProps, any>({
   render: function () {
+    const rows = _.values(this.props.machines).map((machine:any) => {
+      return (
+        <MachineRow key={machine.name} machine={machine}/>
+      )
+    });
     return (
       <tbody>
-        {
-          _.values(this.props.machines).map((machine:any) => {
-            return (
-              <MachineRow key={machine.name} machine={machine}/>
-            )
-          })
-        }
+        { rows }
       </tbody>
     );
   }

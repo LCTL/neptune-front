@@ -25,13 +25,13 @@ function isActionOperating(name: string, action: string, operating) {
 
 function operatingProps(state) {
   return {
-    operating: state.machineOperating
+    operating: state.machine.operating
   }
 }
 
 function statusesProps(state) {
   return {
-    statusesByName: state.machineStatusesByName
+    statusesByName: state.machine.statusesByName
   }
 }
 

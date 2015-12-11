@@ -12,11 +12,7 @@ import {
   Containers,
   ContainerCreation
 } from './components/view';
-import {
-  machines,
-  machineOperating,
-  machineStatusesByName
-} from './reducers/machine-reducer';
+import machine from './reducers/machine-reducer';
 import {
   driver
 } from './reducers/driver-reducer'
@@ -41,9 +37,7 @@ const {
 const createHistory = require('history/lib/createHashHistory');
 const reducer = combineReducers({
   router: routerStateReducer,
-  machines: machines,
-  machineOperating,
-  machineStatusesByName,
+  machine,
   driver,
   docker,
   container

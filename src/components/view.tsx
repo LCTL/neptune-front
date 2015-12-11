@@ -26,7 +26,7 @@ const Divider = reactSemantify.Divider;
 const Menu = reactSemantify.Menu;
 
 const DashboardProps = (state) => ({
-  statuses: state.machineStatusesByName,
+  statuses: state.machine.statusesByName,
   dockerInfos: state.docker.infosByName
 })
 
@@ -42,7 +42,7 @@ export const App = React.createClass<any, any>({
   }
 });
 
-const MachinesReloader = connect((state => ({operating: state.machineOperating})))(React.createClass<any, any>({
+const MachinesReloader = connect((state => ({operating: state.machine.operating})))(React.createClass<any, any>({
   render: function() {
     this.props.dispatch(fetchList());
     return (
@@ -51,7 +51,7 @@ const MachinesReloader = connect((state => ({operating: state.machineOperating})
   }
 }));
 
-export const Machines = connect((state => ({'machines': state.machines})))(React.createClass<any, any>({
+export const Machines = connect((state => ({machines: state.machine.machinesByName})))(React.createClass<any, any>({
   render: function() {
     return (
       <OneColumn>
@@ -96,7 +96,7 @@ export const MachineDetail = React.createClass<MachineProps, any>({
   }
 });
 
-const MachineReloader = connect((state => ({operating: state.machineOperating})))(React.createClass<any, any>({
+const MachineReloader = connect((state => ({operating: state.machine.operating})))(React.createClass<any, any>({
   render: function() {
     this.props.dispatch(fetchStatus(this.props.machineName));
     this.props.dispatch(fetchDockerInfo(this.props.machineName));
