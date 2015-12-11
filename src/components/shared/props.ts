@@ -1,6 +1,6 @@
 export interface CommonProps {
-  key?: any,
-  children? :any
+  //key?: any,
+  children?: any
 }
 
 export interface StyleableProps extends CommonProps {

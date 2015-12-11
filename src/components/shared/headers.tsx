@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IconProps } from './props';
 
-export const HugeHeader = React.createClass<IconProps, any>({
+export const HugeHeader = React.createClass<any, any>({
   render: function() {
     var icon = this.props.icon ? this.props.icon : '';
     return (
