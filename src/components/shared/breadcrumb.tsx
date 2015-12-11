@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import * as Reflux from 'reflux';
-import { RouteStore, PathInfoStore } from '../../stores/route-store';
+import { connect } from 'react-redux';
+import { PATH_INFOS } from '../../constants/path';
 
 const ReactRouter = require('react-router')
 const Semantify = require('react-semantify');
@@ -14,17 +14,13 @@ const Divider = React.createClass<any, any>({
   }
 })
 
-export const Breadcrumb = React.createClass<any, any>({
-  mixins: [
-    Reflux.connect(RouteStore, 'route'),
-    Reflux.connect(PathInfoStore, 'pathInfos'),
-  ],
+export const Breadcrumb = connect(state => ({router: state.router}))(React.createClass<any, any>({
   _dynamicComponents: function () {
-    var route = this.state.route;
-    var pathInfos = this.state.pathInfos;
+    var router = this.props.router;
+    var pathInfos = PATH_INFOS;
     var components = []
-    if (!(_.isEmpty(route) || _.isEmpty(pathInfos))) {
-      let pathname = route.location.pathname;
+    if (!(_.isEmpty(router) || _.isEmpty(pathInfos))) {
+      let pathname = router.location.pathname;
       let currentPath = '';
       let paths = pathname.split('/').filter(path => path !== '').map(path => '/' + path);
 
@@ -34,7 +30,7 @@ export const Breadcrumb = React.createClass<any, any>({
         currentPath = currentPath.replace(/\/\//, '/');
         pathInfos.forEach(info => {
           if (info.path.test(currentPath)){
-            var label = _.isFunction(info.dynamicLabel) ? info.dynamicLabel(route) : info.label;
+            var label = _.isFunction(info.dynamicLabel) ? info.dynamicLabel(router) : info.label;
             if (pindex > 0) {
               components.push((
                 <Divider />
@@ -62,4 +58,4 @@ export const Breadcrumb = React.createClass<any, any>({
       </Semantify.Breadcrumb>
     )
   }
-});
+}));
