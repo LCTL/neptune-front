@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TopMenu } from '../shared/menu'
+import { TopMenu } from '../shared/menus'
 const { Divider } = require('react-semantify');
 
 export default React.createClass<any, any>({

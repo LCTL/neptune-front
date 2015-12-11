@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from './button'
+} from './buttons'
 import { CommonProps } from '../shared/props'
-import { Button } from '../shared/button';
+import { Button } from '../shared/buttons';
 
 const reactSemantify = require('react-semantify');
 const Link = require('react-router').Link
@@ -134,7 +134,7 @@ const NoMachineBody = React.createClass<any, MachinesState>({
   }
 })
 
-export const MachineTable = React.createClass<any, MachinesState>({
+export default React.createClass<any, MachinesState>({
   render: function() {
     var body;
     const { machines } = this.props;

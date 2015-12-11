@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { fetchList } from '../../actions/machine-actions';
-import { OneColumn } from '../shared/grid';
-import { HugeHeader } from '../shared/header';
-import { Breadcrumb } from '../shared/breadcrumb'
-import { MachineTable } from '../machine/table';
+import { OneColumn } from '../shared/grids';
+import { HugeHeader } from '../shared/headers';
+import Breadcrumb from '../shared/breadcrumb'
+import MachineTable from '../machine/table';
 
 const MachinesReloader = connect((state => ({operating: state.machine.operating})))(React.createClass<any, any>({
   render: function() {

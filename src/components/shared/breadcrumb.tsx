@@ -14,7 +14,7 @@ const Divider = React.createClass<any, any>({
   }
 })
 
-export const Breadcrumb = connect(state => ({router: state.router}))(React.createClass<any, any>({
+export default connect(state => ({router: state.router}))(React.createClass<any, any>({
   _dynamicComponents: function () {
     var router = this.props.router;
     var pathInfos = PATH_INFOS;

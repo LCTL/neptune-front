@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { OneColumn } from '../shared/grid';
-import { CenterCircularHeader } from '../shared/header';
-import { MachineContainerCreationForm } from '../container/creation-form';
+import { OneColumn } from '../shared/grids';
+import { CenterCircularHeader } from '../shared/headers';
+import MachineContainerCreationForm from '../container/creation-form';
 
 export default connect()(React.createClass<any, any>({
   render: function() {

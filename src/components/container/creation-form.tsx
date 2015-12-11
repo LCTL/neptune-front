@@ -5,10 +5,10 @@ import {
   InputField,
   SubmitButton,
   SubmitButtonControlMixin
-} from '../shared/form';
+} from '../shared/forms';
 import { MachineProps } from '../shared/props'
 
-export const MachineContainerCreationForm = React.createClass<any, any>({
+export default React.createClass<any, any>({
   mixins: [
     SubmitButtonControlMixin,
   ],

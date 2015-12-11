@@ -83,7 +83,7 @@ const Header = React.createClass<MachineProps, any>({
   }
 });
 
-export const MachineDashboard = connect(DashboardProps)(React.createClass<any, any>({
+export default connect(DashboardProps)(React.createClass<any, any>({
   render: function() {
     const { machineName, dockerInfo } = this.props
     return (

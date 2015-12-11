@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { fetchMachineContainerList } from '../../actions/container-actions';
-import { OneColumn } from '../shared/grid';
-import { CenterCircularHeader } from '../shared/header';
-import { ToCreateContainerButton } from '../container/button';
-import { MachineContainerTable } from '../container/table';
+import { OneColumn } from '../shared/grids';
+import { CenterCircularHeader } from '../shared/headers';
+import { ToCreateContainerButton } from '../container/buttons';
+import MachineContainerTable from '../container/table';
 
 export default connect(state => ({containersByName: state.container.containersByMachineName}))(React.createClass<any, any>({
   componentWillMount: function() {

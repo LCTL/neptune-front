@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActiveLink } from './link';
+import { ActiveLink } from './links';
 import { MachineProps } from './props';
 
 const Semantify = require('react-semantify');

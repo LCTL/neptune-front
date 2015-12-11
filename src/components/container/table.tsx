@@ -83,7 +83,7 @@ const Body = React.createClass<MachineContainerTable, any>({
   }
 });
 
-export const MachineContainerTable = React.createClass<MachineContainerTable, any>({
+export default React.createClass<MachineContainerTable, any>({
   render: function() {
     var { machineName, containers } = this.props;
     return (

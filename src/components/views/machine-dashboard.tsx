@@ -2,13 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { fetchStatus } from '../../actions/machine-actions';
 import { fetchDockerInfo } from '../../actions/docker-actions';
-import { OneColumn } from '../shared/grid';
-import { CenterCircularHeader } from '../shared/header';
-import { MachineDashboard } from '../machine/dashboard';
+import { OneColumn } from '../shared/grids';
+import { CenterCircularHeader } from '../shared/headers';
+import MachineDashboard from '../machine/dashboard';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
-} from '../machine/button';
+} from '../machine/buttons';
 
 const DashboardProps = (state) => ({
   statuses: state.machine.statusesByName,

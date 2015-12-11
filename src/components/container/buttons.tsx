@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from '../shared/button';
+import { Button } from '../shared/buttons';
 import { MachineStyleableProps } from '../shared/props'
 const { History } = require('react-router');
 

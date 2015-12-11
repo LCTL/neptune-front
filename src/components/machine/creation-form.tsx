@@ -13,7 +13,7 @@ import {
   DropdownField,
   SubmitButton,
   SubmitButtonControlMixin
-} from '../shared/form';
+} from '../shared/forms';
 
 const History = require('react-router').History;
 const reactSemantify = require('react-semantify');
@@ -131,7 +131,7 @@ export const DriverSelection = connect(selectedDriverProps)(React.createClass<an
   }
 }));
 
-export const MachineCreationForm = connect(selectedDriverProps)(React.createClass<any, any>({
+export default connect(selectedDriverProps)(React.createClass<any, any>({
   render: function(){
     var formComponent = null;
     var driver = this.props.selectedDriver

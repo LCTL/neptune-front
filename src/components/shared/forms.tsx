@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from './button';
+import { Button } from './buttons';
 
 const Semantify = require('react-semantify');
 const Formsy = require('formsy-react');

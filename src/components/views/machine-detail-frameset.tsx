@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { MachineProps } from '../shared/props';
-import { OneColumn } from '../shared/grid';
-import { HugeHeader } from '../shared/header'
-import { Breadcrumb } from '../shared/breadcrumb'
-import { MachineDetailMenu } from '../shared/menu'
+import { OneColumn } from '../shared/grids';
+import { HugeHeader } from '../shared/headers'
+import Breadcrumb from '../shared/breadcrumb'
+import { MachineDetailMenu } from '../shared/menus'
 
 const { Divider } = require('react-semantify');
 
