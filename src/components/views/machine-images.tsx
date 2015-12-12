@@ -6,6 +6,7 @@ import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
 import { ToCreateContainerButton } from '../container/buttons';
 import MachineImageTable from '../image/table';
+import { PullMachineImageLink } from '../shared/links';
 
 @connect(
   state => ({
@@ -26,6 +27,14 @@ class MachineImagesView extends React.Component<any, any>{
     const { machineName, imagesByName } = this.props;
     return (
       <OneColumn>
+        <OneColumn>
+          <PullMachineImageLink
+            machineName={machineName}
+            className="ui button basic blue right floated">
+            <i className='arrow down icon'></i>
+            Pull Image
+          </PullMachineImageLink>
+        </OneColumn>
         <CenterCircularHeader icon="file image outline">
           Images
         </CenterCircularHeader>
