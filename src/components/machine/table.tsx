@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
@@ -55,14 +54,18 @@ const MachineNameLink = React.createClass<MachineProps, MachineState>({
 
 const MachineRow = React.createClass<MachineProps, MachineState>({
   render: function() {
-    const machine = this.props.machine;
+    const { machine, operating } = this.props;
+    const { start, stop, remove } = this.props.machineActions;
     return (
       <tr>
         <td className="collapsing">
           <AutoSwitchStartStopMachineButton
             className="tiny compact"
-            state={machine.state}
-            machineName={machine.name} />
+            status={machine.state}
+            machineName={machine.name}
+            operating={operating}
+            start={start}
+            stop={stop} />
         </td>
         <td>
           <MachineNameLink key={machine.name} machine={machine} />
@@ -72,7 +75,11 @@ const MachineRow = React.createClass<MachineProps, MachineState>({
         <td>{machine.url}</td>
         <td>{machine.swarm}</td>
         <td className="collapsing">
-          <RemoveMachineButton className="tiny compact" machineName={machine.name} />
+          <RemoveMachineButton
+            className="tiny compact"
+            machineName={machine.name}
+            operating={operating}
+            remove={remove} />
         </td>
       </tr>
     );
@@ -83,7 +90,7 @@ const MachinesBody = React.createClass<MachinesProps, any>({
   render: function () {
     const rows = _.values(this.props.machines).map((machine:any) => {
       return (
-        <MachineRow key={machine.name} machine={machine}/>
+        <MachineRow key={machine.name} machine={machine} {...this.props} />
       )
     });
     return (
@@ -142,7 +149,7 @@ export default React.createClass<any, MachinesState>({
     if (_.isEmpty(machines)){
       body = (<NoMachineBody />);
     } else {
-      body = (<MachinesBody machines={machines} />);
+      body = (<MachinesBody {...this.props} />);
     }
     return (
       <Table className="machines-table">

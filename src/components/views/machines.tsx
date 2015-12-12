@@ -8,26 +8,26 @@ import { HugeHeader } from '../shared/headers';
 import Breadcrumb from '../shared/breadcrumb'
 import MachineTable from '../machine/table';
 
-const MachinesStateProps = (state) => ({
-  machines: state.machine.machinesByName,
-  operating: state.machine.operating
-});
-
-const MachinesActionProps = (dispatch) => ({
-  action: bindActionCreators(action, dispatch)
-})
-
-@connect(MachinesStateProps, MachinesActionProps)
+@connect(
+  (state) => ({
+    machines: state.machine.machinesByName,
+    operating: state.machine.operating
+  }),
+  (dispatch) => ({
+    machineActions: bindActionCreators(action, dispatch)
+  }))
 class Machines extends React.Component<any, any>{
   componentWillMount() {
-    this.props.action.fetchList();
+    this.props.machineActions.fetchList();
   }
+
   componentWillReceiveProps(nextProps) {
-    const { action, machines, operating } = this.props;
-    if (_.isEmpty(machines) || operating !== nextProps.operating){
-      action.fetchList();
+    const { machineActions, operating } = this.props;
+    if (operating !== nextProps.operating){
+      machineActions.fetchList();
     }
   }
+
   render() {
     return (
       <OneColumn>

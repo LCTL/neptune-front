@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import {
   AutoSwitchStartStopMachineButton,
   RemoveMachineButton
@@ -9,11 +8,6 @@ import { MachineProps } from '../shared/props'
 const History = require('react-router').History;
 const Semantify = require('react-semantify');
 const prettysize = require('prettysize');
-
-const DashboardProps = (state) => ({
-  statuses: state.machineStatusesByName,
-  operating: state.machineOperating
-});
 
 interface DockerProps {
   info: any
@@ -83,11 +77,11 @@ const Header = React.createClass<MachineProps, any>({
   }
 });
 
-export default connect(DashboardProps)(React.createClass<any, any>({
-  render: function() {
+export default React.createClass<any, any> ({
+  render() {
     const { machineName, dockerInfo } = this.props
     return (
       <Statistics info={dockerInfo} />
     );
   }
-}));
+});

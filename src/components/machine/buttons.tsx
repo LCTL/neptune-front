@@ -1,12 +1,27 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { fetchStatus, start, stop, remove } from '../../actions/machine-actions';
 import { MachineStyleableProps } from '../shared/props'
 import { Button } from '../shared/buttons';
-import { connect } from 'react-redux';
 
-interface AutoSwitchStartStopMachinButtonProps extends MachineStyleableProps {
-  state?: string,
+interface Operating {
+  operating: any
+}
+
+interface StartAction extends Operating, MachineStyleableProps {
+  start: (machineName: string) => void
+}
+
+interface StopAction extends Operating, MachineStyleableProps {
+  stop: (machineName: string) => void
+}
+
+interface RemoveButtonProps extends Operating, MachineStyleableProps {
+  remove: (machineName: string) => void
+}
+
+interface AutoSwitchStartStopMachinButtonProps extends
+  MachineStyleableProps, StartAction, StopAction {
+  status?: string,
   stopChildren?: any,
   startChildren?: any
 }
@@ -35,10 +50,10 @@ function statusesProps(state) {
   }
 }
 
-export const StopMachineButton = connect(operatingProps)(React.createClass<MachineStyleableProps, any>({
+export const StopMachineButton = React.createClass<MachineStyleableProps, any>({
   stop: function() {
-    const { dispatch, machineName } = this.props;
-    dispatch(stop(machineName));
+    const { stop, machineName } = this.props;
+    stop(machineName);
   },
   render: function(){
     const { machineName, operating } = this.props;
@@ -54,12 +69,12 @@ export const StopMachineButton = connect(operatingProps)(React.createClass<Machi
       </Button>
     )
   }
-}));
+});
 
-export const StartMachineButton = connect(operatingProps)(React.createClass<MachineStyleableProps, any>({
+export const StartMachineButton = React.createClass<MachineStyleableProps, any>({
   start: function() {
-    const { dispatch, machineName } = this.props;
-    dispatch(start(machineName));
+    const { start, machineName } = this.props;
+    start(machineName);
   },
   render: function(){
     const { machineName, operating } = this.props;
@@ -75,12 +90,12 @@ export const StartMachineButton = connect(operatingProps)(React.createClass<Mach
       </Button>
     )
   }
-}));
+});
 
-export const RemoveMachineButton = connect(operatingProps)(React.createClass<MachineStyleableProps, any>({
+export const RemoveMachineButton = React.createClass<RemoveButtonProps, any>({
   remove: function(){
-    const { dispatch, machineName } = this.props;
-    dispatch(remove(machineName));
+    const { remove, machineName } = this.props;
+    remove(machineName);
   },
   render: function() {
     const { machineName, operating } = this.props;
@@ -96,25 +111,20 @@ export const RemoveMachineButton = connect(operatingProps)(React.createClass<Mac
       </Button>
     );
   }
-}));
+});
 
-export const AutoSwitchStartStopMachineButton = connect(statusesProps)(React.createClass<AutoSwitchStartStopMachinButtonProps, any>({
+export const AutoSwitchStartStopMachineButton = React.createClass<AutoSwitchStartStopMachinButtonProps, any>({
   render: function() {
-    const { dispatch, machineName, statusesByName } = this.props;
-    var state = statusesByName[machineName] || this.props.state;
+    const { machineName, status } = this.props;
     var button;
 
-    if (!state) {
-      dispatch(fetchStatus(machineName));
-    }
-
-    if (machineName && /running/i.test(state)) {
+    if (machineName && /running/i.test(status)) {
       button = (
         <StopMachineButton {...this.props}>
           {this.props.stopChildren}
         </StopMachineButton>
       );
-    } else if (machineName && /stopped/i.test(state)) {
+    } else if (machineName && /stopped/i.test(status)) {
       button =  (
         <StartMachineButton {...this.props}>
           {this.props.startChildren}
@@ -122,9 +132,9 @@ export const AutoSwitchStartStopMachineButton = connect(statusesProps)(React.cre
       );
     } else {
       button = (
-        <span />
+        <noscript />
       )
     }
     return button;
   }
-}));
+});
