@@ -10,6 +10,7 @@ import MachineTable from '../machine/table';
 
 @connect(
   (state) => ({
+    router: state.router,
     machines: state.machine.machinesByName,
     operating: state.machine.operating
   }),
@@ -34,7 +35,7 @@ class Machines extends React.Component<any, any>{
         <HugeHeader icon="server">
           Machines
         </HugeHeader>
-        <Breadcrumb />
+        <Breadcrumb router={this.props.router} />
         <MachineTable {...this.props} />
       </OneColumn>
     );

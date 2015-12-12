@@ -10,6 +10,7 @@ import MachineCreationForm from '../machine/creation-form';
 
 @connect(
   (state) => ({
+    router: state.router,
     selectedDriver: state.driver.selected
   }),
   (dispatch) => ({
@@ -24,7 +25,7 @@ class MachineCreationView extends React.Component<any, any> {
         <HugeHeader icon="server">
           Create Machine
         </HugeHeader>
-        <Breadcrumb />
+        <Breadcrumb router={this.props.router} />
         <MachineCreationForm {...this.props} />
       </OneColumn>
     )

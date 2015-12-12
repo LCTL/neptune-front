@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import PATH_INFOS from '../../constants/path-info';
 
 const ReactRouter = require('react-router')
@@ -14,7 +13,7 @@ const Divider = React.createClass<any, any>({
   }
 })
 
-export default connect(state => ({router: state.router}))(React.createClass<any, any>({
+export default React.createClass<any, any>({
   _dynamicComponents: function () {
     var router = this.props.router;
     var pathInfos = PATH_INFOS;
@@ -58,4 +57,4 @@ export default connect(state => ({router: state.router}))(React.createClass<any,
       </Semantify.Breadcrumb>
     )
   }
-}));
+});
