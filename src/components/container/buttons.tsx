@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Button } from '../shared/buttons';
 import { MachineStyleableProps } from '../shared/props'
-const { History } = require('react-router');
 
 interface ToCreateContainerButtonProps extends MachineStyleableProps {
   history: any
