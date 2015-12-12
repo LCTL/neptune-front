@@ -3,6 +3,7 @@ import machine from '../reducers/machine-reducer';
 import driver from '../reducers/driver-reducer'
 import container from '../reducers/container-reducer'
 import docker from '../reducers/docker-reducer';
+import image from '../reducers/image-reducer';
 
 const createHistory = require('history/lib/createHashHistory');
 const thunkMiddleware = require('redux-thunk');
@@ -18,7 +19,8 @@ const reducer = combineReducers({
   machine,
   driver,
   docker,
-  container
+  container,
+  image
 });
 
 export default compose(

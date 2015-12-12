@@ -9,6 +9,7 @@ import MachineDetail from './components/views/machine-detail-frameset';
 import MachineDashboard from './components/views/machine-dashboard'
 import MachineContainers from './components/views/machine-containers'
 import MachineContainerCreation from './components/views/machine-container-creation';
+import MachineImages from './components/views/machine-images';
 
 const { ReduxRouter } = require('redux-router');
 const { IndexRoute, Route } = require('react-router');
@@ -27,6 +28,7 @@ render((
           <IndexRoute component={MachineDashboard} />
           <Route path='containers' component={MachineContainers} />
           <Route path='create-container' component={MachineContainerCreation} />
+          <Route path='images' component={MachineImages} />
         </Route>
       </Route>
     </ReduxRouter>
