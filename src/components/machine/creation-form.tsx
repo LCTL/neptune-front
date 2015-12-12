@@ -1,9 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import * as drivers from '../../constants/drivers';
-import { select } from '../../actions/driver-actions'
-import { create } from '../../actions/machine-actions'
 import {
   Form,
   Field,
@@ -26,19 +23,19 @@ const selectedDriverProps = state => ({
 
 const MachineFormMixin = {
   create: function(data) {
-    var machineName = data.name
+    const { create, history } = this.props;
+    const machineName = data.name
     if (data['virtualbox-no-share'] === true) {
       data['virtualbox-no-share'] = '';
     }
     delete data.name;
-    this.props.dispatch(create(machineName, data));
-    this.history.pushState(null, '/');
+    create(machineName, data);
+    history.pushState(null, '/');
   }
 }
 
-export const VirtualBoxForm = connect()(React.createClass<any, any>({
+export const VirtualBoxForm = (React.createClass<any, any>({
   mixins: [
-    History,
     SubmitButtonControlMixin,
     MachineFormMixin
   ],
@@ -102,11 +99,11 @@ const DriverFormMap = {
   [drivers.VIRTUAL_BOX.name]: VirtualBoxForm
 }
 
-export const DriverSelection = connect(selectedDriverProps)(React.createClass<any, any>({
+export const DriverSelection = React.createClass<any, any>({
   select: function(data) {
     var driver = Object.keys(drivers).map(key => drivers[key])
       .filter((driver) => driver.name === data.driver)[0];
-    this.props.dispatch(select(driver));
+    this.props.select(driver);
   },
   render: function() {
     const options = [];
@@ -129,24 +126,25 @@ export const DriverSelection = connect(selectedDriverProps)(React.createClass<an
       </Form>
     );
   }
-}));
+});
 
-export default connect(selectedDriverProps)(React.createClass<any, any>({
+export default React.createClass<any, any>({
   render: function(){
+    console.log(this.props);
     var formComponent = null;
     var driver = this.props.selectedDriver
     if (driver && DriverFormMap[driver.name]){
       let Comp = DriverFormMap[driver.name]
       formComponent = (
-          <Comp />
+          <Comp history={this.props.history} create={this.props.machineActions.create} />
       );
     }
     return (
       <div>
-        <DriverSelection />
+        <DriverSelection select={this.props.driverActions.select} selectedDriver={driver}  />
         <Divider className="bottom-space" />
         {formComponent}
       </div>
     );
   }
-}));
+});
