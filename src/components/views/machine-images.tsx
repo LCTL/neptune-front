@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import * as imageActions from '../../actions/image-actions';
 import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
-import { ToCreateContainerButton } from '../container/buttons';
-import MachineImageTable from '../image/table';
 import { PullMachineImageLink } from '../shared/links';
+import MachineImageTable from '../image/table';
 
 @connect(
   state => ({
