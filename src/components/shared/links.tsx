@@ -37,3 +37,15 @@ export class PullMachineImageLink extends React.Component<MachineStyleableProps,
     );
   }
 }
+
+export class CreateMachineContainerLink extends React.Component<MachineStyleableProps, any>{
+  render() {
+    return (
+      <Link
+        to={`/machines/${this.props.machineName}/create-container`}
+        className={this.props.className}>
+        {this.props.children}
+      </Link>
+    );
+  }
+}

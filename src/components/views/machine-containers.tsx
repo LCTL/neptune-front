@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as containerActions from '../../actions/container-actions';
 import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
-import { ToCreateContainerButton } from '../container/buttons';
+import { CreateMachineContainerLink } from '../shared/links';
 import MachineContainerTable from '../container/table';
 
 @connect(
@@ -27,10 +27,12 @@ class MachineContainersView extends React.Component<any, any>{
     return (
       <OneColumn>
         <OneColumn>
-          <ToCreateContainerButton
+          <CreateMachineContainerLink
             machineName={machineName}
-            history={this.props.history}
-            className="right floated" />
+            className="ui button basic blue right floated">
+            <i className='plus icon'></i>
+            Create Container
+          </CreateMachineContainerLink>
         </OneColumn>
         <CenterCircularHeader icon="grid">
           Containers
