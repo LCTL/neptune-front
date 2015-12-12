@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { createMachineContainer } from '../../actions/container-actions';
 import {
   Form,
   InputField,
@@ -8,12 +7,17 @@ import {
 } from '../shared/forms';
 import { MachineProps } from '../shared/props'
 
-export default React.createClass<any, any>({
+interface CreationFormProps extends MachineProps {
+  createMachineContainer: (machineName: string) => void
+}
+
+export default React.createClass<CreationFormProps, any>({
   mixins: [
     SubmitButtonControlMixin,
   ],
   create: function(data) {
-    this.props.dispatch(createMachineContainer(this.props.machineName, data));
+    const { machineName, createMachineContainer } = this.props;
+    createMachineContainer(machineName, data);
   },
   render: function() {
     return (
