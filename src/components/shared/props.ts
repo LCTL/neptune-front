@@ -16,6 +16,7 @@ export interface MachineStyleableProps extends StyleableProps, MachineProps {
 }
 
 export interface ActiveLinkProps extends CommonProps {
+  router: any,
   to: string
 }
 

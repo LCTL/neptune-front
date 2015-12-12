@@ -18,7 +18,7 @@ class MachineDetailFrameset extends React.Component<any, any>{
           Machine: {machineName}
         </HugeHeader>
         <Breadcrumb router={this.props.router} />
-        <MachineDetailMenu machineName={machineName} />
+        <MachineDetailMenu machineName={machineName} router={this.props.router} />
         {this.props.children}
       </OneColumn>
     );
