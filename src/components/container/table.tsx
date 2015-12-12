@@ -5,7 +5,7 @@ import { Button } from '../shared/buttons';
 const Semantify = require('react-semantify');
 const Link = require('react-router').Link
 
-interface MachineContainerTable extends MachineProps {
+interface MachineContainerTable {
   containers: any[]
 }
 
@@ -89,7 +89,7 @@ export default React.createClass<MachineContainerTable, any>({
     return (
       <Semantify.Table>
         <Header />
-        <Body machineName={machineName} containers={containers} />
+        <Body containers={containers} />
       </Semantify.Table>
     );
   }

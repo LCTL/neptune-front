@@ -3,10 +3,14 @@ import { Button } from '../shared/buttons';
 import { MachineStyleableProps } from '../shared/props'
 const { History } = require('react-router');
 
-export const ToCreateContainerButton = React.createClass<MachineStyleableProps, any>({
-  mixins: [History],
+interface ToCreateContainerButtonProps extends MachineStyleableProps {
+  history: any
+}
+
+export const ToCreateContainerButton = React.createClass<ToCreateContainerButtonProps, any>({
   go: function() {
-    this.history.push(`/machines/${this.props.machineName}/create-container`);
+    const { machineName, history } = this.props;
+    history.push(`/machines/${machineName}/create-container`);
   },
   render: function() {
     return (
