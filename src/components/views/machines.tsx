@@ -18,13 +18,23 @@ import MachineTable from '../machine/table';
     machineActions: bindActionCreators(action, dispatch)
   }))
 class Machines extends React.Component<any, any>{
+  _concatOperating (props) {
+    let result: string[] = [];
+    _.values(props.operating).forEach((arr: string[]) => result = result.concat(arr));
+    return result;
+  }
+
   componentWillMount() {
-    this.props.machineActions.fetchList();
+    if (_.isEmpty(this.props.machines)) {
+      this.props.machineActions.fetchList();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const { machineActions, operating } = this.props;
-    if (operating !== nextProps.operating){
+    const currentOperating = this._concatOperating(this.props);
+    const nextOperating = this._concatOperating(nextProps);
+    if (currentOperating.length > nextOperating.length){
       machineActions.fetchList();
     }
   }
