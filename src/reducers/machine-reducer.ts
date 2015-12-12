@@ -26,8 +26,6 @@ function machinesByName(state = {}, action: AsyncAction) {
     switch (action.asyncStatus) {
       case ASYNC_STATUS.COMPLETED:
         return _.indexBy(action.result, 'name');
-      default:
-        return state;
     }
   } else if (action.type === ACTION_TYPE.CREATE_MACHINE) {
     const args = action.args;
@@ -45,12 +43,19 @@ function machinesByName(state = {}, action: AsyncAction) {
             url: ''
           }
         });
-      default:
-        return state;
     }
-  } else {
-    return state;
+  } else if (action.type === ACTION_TYPE.REMOVE_MACHINE) {
+    const args = action.args;
+    const name = args[0];
+    switch (action.asyncStatus) {
+      case ASYNC_STATUS.COMPLETED:
+        const newState = _.assign({}, state);
+        delete newState[name];
+        return newState;
+    }
   }
+
+  return state;
 };
 
 function statusesByName(state = {}, action: AsyncAction) {
