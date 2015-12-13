@@ -7,3 +7,8 @@ export const fetchMachineImageList
 
 export const createMachineImage
   = apiActionCreator(ACTION_TYPE.CREATE_MACHINE_IMAGE, api.createMachineImage);
+
+export const setShowAll = (showAll: boolean) => ({
+  type: ACTION_TYPE.SET_SHOW_ALL_IMAGE,
+  value: showAll
+})

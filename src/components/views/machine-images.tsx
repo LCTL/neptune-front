@@ -6,11 +6,13 @@ import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
 import { PullMachineImageLink } from '../shared/links';
 import MachineImageTable from '../image/table';
+import { ToggleShowAllImageButton } from '../image/buttons';
 
 @connect(
   state => ({
     machineName: state.router.params.machineName,
-    imagesByName: state.image.imagesByMachineName
+    imagesByName: state.image.imagesByMachineName,
+    showAll: state.image.showAll
   }),
   dispatch => ({
     imageActions: bindActionCreators(imageActions, dispatch)
@@ -18,12 +20,12 @@ import MachineImageTable from '../image/table';
 )
 class MachineImagesView extends React.Component<any, any>{
   componentWillMount() {
-    const { machineName, imageActions } = this.props;
-    imageActions.fetchMachineImageList(machineName, {all: true});
+    const { machineName, showAll, imageActions } = this.props;
+    imageActions.fetchMachineImageList(machineName, {all: showAll});
   }
 
   render() {
-    const { machineName, imagesByName } = this.props;
+    const { machineName, imagesByName, showAll, imageActions } = this.props;
     return (
       <OneColumn>
         <OneColumn>
@@ -33,6 +35,14 @@ class MachineImagesView extends React.Component<any, any>{
             <i className='arrow down icon'></i>
             Pull Image
           </PullMachineImageLink>
+          <ToggleShowAllImageButton
+            className={`basic right floated ${showAll ? 'purple' : 'violet'}`}
+            machineName={machineName}
+            showAll={showAll}
+            setShowAll={imageActions.setShowAll}
+            fetchMachineImageList={imageActions.fetchMachineImageList}>
+            {showAll ? 'Show Taged' : 'Show All'}
+          </ToggleShowAllImageButton>
         </OneColumn>
         <CenterCircularHeader icon="file image outline">
           Images

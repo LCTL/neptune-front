@@ -13,6 +13,12 @@ interface PullMachineImageButtonProps extends MachineStyleableProps {
   createMachineImage: (machineName: string, options: any) => void
 }
 
+interface ToggleShowAllImageButtonProps extends MachineStyleableProps {
+  showAll: boolean,
+  setShowAll: (showAll: boolean) => void,
+  fetchMachineImageList: (machineName: string, options: any) => void
+}
+
 export class LoadMoreRegistryImageButton extends React.Component<LoadMoreRegistryImageButtonProps, any> {
   loadMore() {
     const { query, page, searchImages } = this.props;
@@ -40,6 +46,22 @@ export class PullMachineImageButton extends React.Component<PullMachineImageButt
     const { className } = this.props;
     return (
       <Button className={`${className}`} onClick={this.pullMachineImage.bind(this)}>
+        {this.props.children}
+      </Button>
+    )
+  }
+}
+
+export class ToggleShowAllImageButton extends React.Component<ToggleShowAllImageButtonProps, any>{
+  fetchMachineImageList() {
+    const { machineName, showAll, setShowAll, fetchMachineImageList } = this.props;
+    setShowAll(!showAll);
+    fetchMachineImageList(machineName, {all: !showAll});
+  }
+  render() {
+    const { className } = this.props;
+    return (
+      <Button className={`${className}`} onClick={this.fetchMachineImageList.bind(this)}>
         {this.props.children}
       </Button>
     )
