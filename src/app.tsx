@@ -10,6 +10,7 @@ import MachineDashboard from './components/views/machine-dashboard'
 import MachineContainers from './components/views/machine-containers'
 import MachineContainerCreation from './components/views/machine-container-creation';
 import MachineImages from './components/views/machine-images';
+import MachinePullImage from './components/views/machine-pull-image';
 
 const { ReduxRouter } = require('redux-router');
 const { IndexRoute, Route } = require('react-router');
@@ -29,6 +30,7 @@ render((
           <Route path='containers' component={MachineContainers} />
           <Route path='create-container' component={MachineContainerCreation} />
           <Route path='images' component={MachineImages} />
+          <Route path='pull-image' component={MachinePullImage} />
         </Route>
       </Route>
     </ReduxRouter>

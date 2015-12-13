@@ -4,6 +4,7 @@ import driver from '../reducers/driver-reducer'
 import container from '../reducers/container-reducer'
 import docker from '../reducers/docker-reducer';
 import image from '../reducers/image-reducer';
+import registry from '../reducers/registry-reducer';
 
 const createHistory = require('history/lib/createHashHistory');
 const thunkMiddleware = require('redux-thunk');
@@ -20,7 +21,8 @@ const reducer = combineReducers({
   driver,
   docker,
   container,
-  image
+  image,
+  registry
 });
 
 export default compose(

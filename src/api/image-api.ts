@@ -10,5 +10,8 @@ function buildPath(machineName: string): string {
 export default {
   fetchMachineImageList: function (machineName: string, options?: Options): Promise<Response> {
     return end(request.get(`${buildPath(machineName)}`).query(options));
+  },
+  createMachineImage: function (machineName: string, options?: Options): Promise<Response> {
+    return end(request.post(`${buildPath(machineName)}`).send(options));
   }
 }
