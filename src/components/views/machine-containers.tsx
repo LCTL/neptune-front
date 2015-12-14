@@ -6,10 +6,13 @@ import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
 import { CreateMachineContainerLink } from '../shared/links';
 import MachineContainerTable from '../container/table';
+import { ToggleShowAllContainersButton } from '../container/buttons';
 
 @connect(
   state => ({
-    containersByName: state.container.containersByMachineName
+    machineName: state.router.params.machineName,
+    containersByName: state.container.containersByMachineName,
+    showAll: state.container.showAll
   }),
   dispatch => ({
     containerActions: bindActionCreators(containerActions, dispatch)
@@ -17,13 +20,12 @@ import MachineContainerTable from '../container/table';
 )
 class MachineContainersView extends React.Component<any, any>{
   componentWillMount() {
-    const machineName = this.props.params.machineName;
-    this.props.containerActions.fetchMachineContainerList(machineName, {all: true});
+    const { machineName, showAll, containerActions } = this.props;
+    containerActions.fetchMachineContainerList(machineName, {all: showAll});
   }
 
   render() {
-    const machineName = this.props.params.machineName;
-    const { containersByName } = this.props;
+    const { machineName, containersByName, showAll, containerActions } = this.props;
     return (
       <OneColumn>
         <OneColumn>
@@ -33,6 +35,14 @@ class MachineContainersView extends React.Component<any, any>{
             <i className='plus icon'></i>
             Create Container
           </CreateMachineContainerLink>
+          <ToggleShowAllContainersButton
+            className={`basic right floated ${showAll ? 'purple' : 'violet'}`}
+            machineName={machineName}
+            showAll={showAll}
+            setShowAll={containerActions.setShowAll}
+            fetchMachineContainerList={containerActions.fetchMachineContainerList}>
+            {showAll ? 'Show Running' : 'Show All'}
+          </ToggleShowAllContainersButton>
         </OneColumn>
         <CenterCircularHeader icon="grid">
           Containers

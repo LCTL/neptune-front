@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import ASYNC_STATUS from '../constants/async-status';
-import { FETCH_MACHINE_CONTAINER_LIST } from '../constants/action-types';
+import { FETCH_MACHINE_CONTAINER_LIST, SET_SHOW_ALL_CONTAINERS } from '../constants/action-types';
 
 function containersByMachineName(state = {}, action) {
   if (action.type === FETCH_MACHINE_CONTAINER_LIST) {
@@ -18,6 +18,15 @@ function containersByMachineName(state = {}, action) {
   }
 }
 
+function showAll(state = false, action) {
+  switch(action.type) {
+    case SET_SHOW_ALL_CONTAINERS:
+      return action.value;
+  }
+  return state;
+}
+
 export default combineReducers({
-  containersByMachineName
+  containersByMachineName,
+  showAll
 })
