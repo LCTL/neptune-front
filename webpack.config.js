@@ -17,10 +17,12 @@ module.exports = {
       'prettysize',
       'react',
       'react-dom',
+      'react-redux',
       'react-router',
       'react-semantify',
       'redux',
       'redux-router',
+      'redux-thunk',
       'superagent',
       './node_modules/semantic-ui/dist/semantic.js',
       '!style!css!./node_modules/semantic-ui/dist/semantic.css'
