@@ -5,6 +5,7 @@ import container from '../reducers/container-reducer'
 import docker from '../reducers/docker-reducer';
 import image from '../reducers/image-reducer';
 import registry from '../reducers/registry-reducer';
+import error from '../reducers/error-reducer';
 
 const createHistory = require('history/lib/createHashHistory');
 const thunkMiddleware = require('redux-thunk');
@@ -22,7 +23,8 @@ const reducer = combineReducers({
   docker,
   container,
   image,
-  registry
+  registry,
+  error
 });
 
 export default compose(

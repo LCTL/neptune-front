@@ -23,3 +23,13 @@ export interface AutoCompleteResult {
   title: string,
   description: string
 }
+
+export interface AsyncError {
+  message: string,
+  status: number
+}
+
+export interface AsyncErrorWrapper {
+  timestamp: number,
+  error: AsyncError
+}
