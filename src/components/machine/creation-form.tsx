@@ -103,7 +103,9 @@ export const DriverSelection = React.createClass<any, any>({
   select: function(data) {
     var driver = Object.keys(drivers).map(key => drivers[key])
       .filter((driver) => driver.name === data.driver)[0];
-    this.props.select(driver);
+    if (driver) {
+      this.props.select(driver);
+    }
   },
   render: function() {
     const options = [];
@@ -118,6 +120,7 @@ export const DriverSelection = React.createClass<any, any>({
     return (
       <Form onChange={this.select}>
         <DropdownField name="driver" label="Driver" className="search selection">
+          <i className="dropdown icon"></i>
           <div className="default text">{text}</div>
           <div className="menu">
             {options}
