@@ -18,3 +18,8 @@ export interface PathInfo {
   label?: string
   dynamicLabel?: (params: any) => string
 }
+
+export interface AutoCompleteResult {
+  title: string,
+  description: string
+}

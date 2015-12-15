@@ -2,21 +2,29 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createMachineContainer } from '../../actions/container-actions';
+import { fetchMachineImageList } from '../../actions/image-actions';
 import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
 import MachineContainerCreationForm from '../container/creation-form';
 
 @connect(
   state => ({
-    machineName: state.router.params.machineName
+    machineName: state.router.params.machineName,
+    autoCompleteImages: state.container.autoCompleteImagesByMachineName[state.router.params.machineName],
+    showAllImage: state.image.showAll
   }),
   dispatch => ({
-    createMachineContainer: bindActionCreators(createMachineContainer, dispatch)
+    createMachineContainer: bindActionCreators(createMachineContainer, dispatch),
+    fetchMachineImageList: bindActionCreators(fetchMachineImageList, dispatch)
   })
 )
 class MachineContainerCreationView extends React.Component<any, any>{
+  componentWillMount() {
+    const { machineName, showAllImage, fetchMachineImageList } = this.props;
+    fetchMachineImageList(machineName, {all: showAllImage});
+  }
   render() {
-    const { machineName, createMachineContainer } = this.props;
+    const { machineName, autoCompleteImages, createMachineContainer } = this.props;
     return (
       <OneColumn>
         <CenterCircularHeader icon="grid layout">
@@ -24,6 +32,7 @@ class MachineContainerCreationView extends React.Component<any, any>{
         </CenterCircularHeader>
         <MachineContainerCreationForm
           machineName={machineName}
+          autoCompleteImages={autoCompleteImages}
           createMachineContainer={createMachineContainer} />
       </OneColumn>
     )

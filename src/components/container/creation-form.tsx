@@ -1,13 +1,16 @@
 import * as React from 'react';
+import { AutoCompleteResult } from '../../constants/interfaces';
 import {
   Form,
   InputField,
+  AutoCompleteInputField,
   SubmitButton,
   SubmitButtonControlMixin
 } from '../shared/forms';
 import { MachineProps } from '../shared/props'
 
 interface CreationFormProps extends MachineProps {
+  autoCompleteImages: AutoCompleteResult[],
   createMachineContainer: (machineName: string) => void
 }
 
@@ -23,9 +26,10 @@ export default React.createClass<CreationFormProps, any>({
     return (
       <Form onValidSubmit={this.create} onValid={this.enableButton} onInvalid={this.disableButton}>
         <div className="two fields">
-          <InputField
+          <AutoCompleteInputField
             name="Image"
             label="Image"
+            source={this.props.autoCompleteImages}
             required />
           <InputField
             name="name"
