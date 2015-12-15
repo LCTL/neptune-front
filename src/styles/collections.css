@@ -12,3 +12,9 @@
     margin-top: var(--space);
   }
 }
+
+.field {
+  .labels {
+    margin-top: var(--space);
+  }
+}

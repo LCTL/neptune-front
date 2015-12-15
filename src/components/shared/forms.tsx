@@ -38,6 +38,10 @@ interface AutoCompleteInputFieldProps extends FieldProps {
   source?: AutoCompleteResult[]
 }
 
+interface MultipleValueInputTextField extends FieldProps {
+  labelsClassName?: string
+}
+
 interface HiddenFieldProps {
   name: string,
   value: string
@@ -171,6 +175,71 @@ export const AutoCompleteInputField = React.createClass<AutoCompleteInputFieldPr
             }
           })()
         }
+        {this.getErrorComponent()}
+      </Field>
+    );
+  }
+});
+
+export const MultipleValueInputTextField = React.createClass<MultipleValueInputTextField, any>({
+  mixins: [Formsy.Mixin, InputMixin],
+  getInitialState: function() {
+    return {
+      values: []
+    }
+  },
+  onKeyDown: function(event) {
+    const value = event.target.value;
+    if (event.keyCode == 13 && value) {
+      this.addValue(event);
+    }
+  },
+  addValue: function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    const input = this.refs.input;
+    const value = input.value;
+    const values = this.state.values.slice();
+    values.push(value);
+    this.setState({
+      values: values
+    })
+    this.setValue(values);
+    input.value = '';
+  },
+  removeValue: function(value) {
+    const values = this.state.values.filter(v => v !== value);
+    this.setState({
+      values: values
+    })
+    this.setValue(values);
+  },
+  render: function() {
+    return (
+      <Field className={`${this.getErrorClass()} ${this.getFieldClass()}`}>
+        <label htmlFor={this.state.id}>{this.props.label}{this.props.required ? ' *': ''}</label>
+        <div className="ui action input">
+          <input
+            {...this.props}
+            id={this.state.id}
+            type="text"
+            ref="input"
+            onKeyDown={this.onKeyDown} />
+          <button className="ui icon basic button" onClick={this.addValue}>
+            <i className="add icon"></i>
+          </button>
+        </div>
+        <div className={`ui labels ${this.props.labelsClassName || ''}`}>
+          {
+            this.state.values.map((v) => {
+              return (
+                <a className="ui label">
+                  {v} <i className="icon close" onClick={this.removeValue.bind(this, v)}></i>
+                </a>
+              )
+            })
+          }
+        </div>
         {this.getErrorComponent()}
       </Field>
     );
