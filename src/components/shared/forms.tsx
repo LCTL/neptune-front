@@ -166,6 +166,10 @@ export const CheckboxField = React.createClass<FieldProps, any>({
 
 export const DropdownField = React.createClass<FieldProps, any>({
   mixins: [Formsy.Mixin, InputMixin],
+  onSearchChange: function(event) {
+    this.onChange(event.target.value);
+    event.stopPropagation();
+  },
   onChange: function(value) {
     this.setValue(value);
   },
@@ -176,6 +180,15 @@ export const DropdownField = React.createClass<FieldProps, any>({
         <Semantify.Dropdown
           {...this.props}
           init={{onChange: this.onChange}}>
+          {
+            (() => {
+              if (/search/.test(this.props.className)){
+                return (
+                  <input className="search" onChange={this.onSearchChange} />
+                )
+              }
+            })()
+          }
           {this.props.children}
         </Semantify.Dropdown>
         {this.getErrorComponent()}
