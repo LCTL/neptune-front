@@ -21,6 +21,18 @@ function createOperatingReducer(actionType: string) {
   }
 }
 
+function fetchList(state = false, action: AsyncAction) {
+  if (action.type === ACTION_TYPE.FETCH_MACHINE_LIST) {
+    switch(action.asyncStatus) {
+      case ASYNC_STATUS.START:
+        return true
+      case ASYNC_STATUS.ENDED:
+        return false
+    }
+  }
+  return state;
+}
+
 function machinesByName(state = {}, action: AsyncAction) {
   if (action.type === ACTION_TYPE.FETCH_MACHINE_LIST) {
     switch (action.asyncStatus) {
@@ -78,6 +90,7 @@ export default combineReducers({
   machinesByName,
   statusesByName,
   operating: combineReducers({
+    fetchList,
     create: createOperatingReducer(ACTION_TYPE.CREATE_MACHINE),
     remove: createOperatingReducer(ACTION_TYPE.REMOVE_MACHINE),
     start: createOperatingReducer(ACTION_TYPE.START_MACHINE),

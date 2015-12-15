@@ -6,6 +6,7 @@ import * as action from '../../actions/machine-actions';
 import { OneColumn } from '../shared/grids';
 import { HugeHeader } from '../shared/headers';
 import Breadcrumb from '../shared/breadcrumb'
+import { Loader } from '../shared/loaders';
 import MachineTable from '../machine/table';
 
 @connect(
@@ -40,13 +41,17 @@ class Machines extends React.Component<any, any>{
   }
 
   render() {
+    const { operating } = this.props;
     return (
       <OneColumn>
         <HugeHeader icon="server">
           Machines
         </HugeHeader>
         <Breadcrumb router={this.props.router} />
-        <MachineTable {...this.props} />
+        <OneColumn>
+          <MachineTable {...this.props} />
+          <Loader active={operating.fetchList} dimmerClassName="inverted" />
+        </OneColumn>
       </OneColumn>
     );
   }
