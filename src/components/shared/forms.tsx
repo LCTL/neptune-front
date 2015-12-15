@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { AutoCompleteResult } from '../../constants/interfaces';
 import { Button } from './buttons';
 
 const Semantify = require('react-semantify');
@@ -31,6 +32,10 @@ interface FieldProps {
   required?: boolean,
   disabled?: boolean,
   readOnly?: boolean
+}
+
+interface AutoCompleteInputFieldProps extends FieldProps {
+  source?: AutoCompleteResult[]
 }
 
 interface HiddenFieldProps {
@@ -124,6 +129,48 @@ export const InputField = React.createClass<FieldProps, any>({
           id={this.state.id}
           type={this.props.type || 'text'}
           onChange={this.changeValue} />
+        {this.getErrorComponent()}
+      </Field>
+    );
+  }
+});
+
+export const AutoCompleteInputField = React.createClass<AutoCompleteInputFieldProps, any>({
+  mixins: [Formsy.Mixin, InputMixin],
+  onSelect: function(result, response) {
+    this.setValue(result.title);
+  },
+  render: function() {
+    const searchInit: any = {onSelect: this.onSelect}
+    const input = (
+      <input
+        {...this.props}
+        className={`prompt ${this.props.className}`}
+        id={this.state.id}
+        type="text"
+        onChange={this.changeValue} />
+    );
+
+    if (this.props.source) {
+      searchInit.source = this.props.source;
+    }
+
+    return (
+      <Field className={`${this.getErrorClass()} ${this.getFieldClass()}`}>
+        <label htmlFor={this.state.id}>{this.props.label}{this.props.required ? ' *': ''}</label>
+        {
+          (() => {
+            if (searchInit.source) {
+              return (
+                <Semantify.Search init={searchInit}>
+                  {input}
+                </Semantify.Search>
+              );
+            } else {
+              return input;
+            }
+          })()
+        }
         {this.getErrorComponent()}
       </Field>
     );
