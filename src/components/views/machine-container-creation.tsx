@@ -24,7 +24,7 @@ class MachineContainerCreationView extends React.Component<any, any>{
     fetchMachineImageList(machineName, {all: showAllImage});
   }
   render() {
-    const { machineName, autoCompleteImages, createMachineContainer } = this.props;
+    const { machineName, history, autoCompleteImages, createMachineContainer } = this.props;
     return (
       <OneColumn>
         <CenterCircularHeader icon="grid layout">
@@ -32,6 +32,7 @@ class MachineContainerCreationView extends React.Component<any, any>{
         </CenterCircularHeader>
         <MachineContainerCreationForm
           machineName={machineName}
+          history={history}
           autoCompleteImages={autoCompleteImages}
           createMachineContainer={createMachineContainer} />
       </OneColumn>

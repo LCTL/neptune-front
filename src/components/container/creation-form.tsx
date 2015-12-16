@@ -12,6 +12,7 @@ import {
 import { MachineProps } from '../shared/props'
 
 interface CreationFormProps extends MachineProps {
+  history: any,
   autoCompleteImages: AutoCompleteResult[],
   createMachineContainer: (machineName: string) => void
 }
@@ -21,7 +22,7 @@ export default React.createClass<CreationFormProps, any>({
     SubmitButtonControlMixin,
   ],
   create: function(data) {
-    const { machineName, createMachineContainer } = this.props;
+    const { machineName, history, createMachineContainer } = this.props;
     data = _(data)
       .omit(_.isUndefined)
       .omit(_.isNull)
@@ -57,6 +58,7 @@ export default React.createClass<CreationFormProps, any>({
     }
 
     createMachineContainer(machineName, data);
+    history.pushState(null, `/machines/${machineName}/containers`);
   },
   render: function() {
     return (

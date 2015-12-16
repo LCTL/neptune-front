@@ -1,7 +1,43 @@
 import { combineReducers } from 'redux';
 import ASYNC_STATUS from '../constants/async-status';
 import * as ACTION_TYPES from '../constants/action-types';
-import { AutoCompleteResult } from '../constants/interfaces';
+import { AutoCompleteResult, AsyncAction } from '../constants/interfaces';
+
+function createOperatingReducer(actionType: string) {
+  return (state = [], action: AsyncAction) => {
+    if (action.type === actionType) {
+      let id = action.args[1];
+      switch (action.asyncStatus) {
+        case ASYNC_STATUS.START:
+          if (!_.isString(id)) {
+            id = Date.now().toString();
+            action.args.push(id);
+          }
+          return state.concat([id]);
+        case ASYNC_STATUS.ENDED:
+          if (!_.isString(id)) {
+            id = _.last(action.args);
+          }
+          return state.filter(n => n !== id);
+      }
+    }
+    return state;
+  }
+}
+
+const create = createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_CONTAINER);
+
+function operatingByMachineName(state = {}, action) {
+  if (action.asyncStatus) {
+    const machineName = action.args[0];
+    const operation = state[machineName] || {};
+    operation.create = create(operation.create, action);
+    return _.assign({}, state, {
+      [machineName]: operation
+    });
+  }
+  return state;
+}
 
 function containersByMachineName(state = {}, action) {
   if (action.type === ACTION_TYPES.FETCH_MACHINE_CONTAINER_LIST) {
@@ -14,9 +50,26 @@ function containersByMachineName(state = {}, action) {
       default:
         return state;
     }
-  } else {
-    return state
+  } else if (action.type === ACTION_TYPES.CREATE_MACHINE_CONTAINER) {
+    switch (action.asyncStatus) {
+      case ASYNC_STATUS.START:
+        const machineName = action.args[0];
+        const options = action.args[1];
+        let containers = state[machineName] || [];
+        containers = containers.slice();
+        containers.unshift({
+          Id: Date.now().toString(),
+          Names: ['/' + options.name || '/'],
+          Command: options.Cmd,
+          Image: options.Image,
+          Status: 'Creating'
+        });
+        return _.assign({}, state, {
+          [machineName]: containers
+        });
+    }
   }
+  return state
 }
 
 function autoCompleteImagesByMachineName(state = {}, action) {
@@ -52,6 +105,7 @@ function showAll(state = false, action) {
 }
 
 export default combineReducers({
+  operatingByMachineName,
   containersByMachineName,
   autoCompleteImagesByMachineName,
   showAll
