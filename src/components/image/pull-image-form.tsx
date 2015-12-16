@@ -8,14 +8,16 @@ import {
 import { MachineProps } from '../shared/props'
 
 interface PullFormProps extends MachineProps {
+  history: any,
   createMachineImage: (machineName: string, options: any) => void
 }
 
 export default React.createClass<PullFormProps, any>({
   mixins: [SubmitButtonControlMixin],
   pull(data) {
-    const { machineName, createMachineImage } = this.props;
+    const { machineName, history, createMachineImage } = this.props;
     createMachineImage(machineName, data);
+    history.pushState(null, `/machines/${machineName}/images`);
   },
   render() {
     return (

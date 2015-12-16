@@ -22,7 +22,7 @@ import { LoadMoreRegistryImageButton } from '../image/buttons';
 )
 class MachineContainerCreationView extends React.Component<any, any>{
   render() {
-    const { machineName, search, createMachineImage, searchImages } = this.props;
+    const { machineName, search, history, createMachineImage, searchImages } = this.props;
     var options = {}
     var result = []
     return (
@@ -31,6 +31,7 @@ class MachineContainerCreationView extends React.Component<any, any>{
           Pull Image
         </CenterCircularHeader>
         <MachinePullImageForm
+          history={history}
           machineName={machineName}
           createMachineImage={createMachineImage} />
         <br />

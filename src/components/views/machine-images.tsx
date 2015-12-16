@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { concatObjectArrays } from '../../utils/object-utils';
 import * as imageActions from '../../actions/image-actions';
 import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
@@ -11,7 +12,8 @@ import { ToggleShowAllImageButton } from '../image/buttons';
 @connect(
   state => ({
     machineName: state.router.params.machineName,
-    imagesByName: state.image.imagesByMachineName,
+    images: state.image.imagesByMachineName[state.router.params.machineName],
+    operating: state.image.operatingByMachineName[state.router.params.machineName],
     showAll: state.image.showAll
   }),
   dispatch => ({
@@ -20,12 +22,23 @@ import { ToggleShowAllImageButton } from '../image/buttons';
 )
 class MachineImagesView extends React.Component<any, any>{
   componentWillMount() {
-    const { machineName, showAll, imageActions } = this.props;
-    imageActions.fetchMachineImageList(machineName, {all: showAll});
+    const { machineName, images, showAll, imageActions } = this.props;
+    if (_.isEmpty(images)) {
+      imageActions.fetchMachineImageList(machineName, {all: showAll});
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { machineName, operating, showAll, imageActions } = this.props;
+    const currentOperating = concatObjectArrays(operating);
+    const nextOperating = concatObjectArrays(nextProps.operating);
+    if (currentOperating.length > nextOperating.length){
+      imageActions.fetchMachineImageList(machineName, {all: showAll});
+    }
   }
 
   render() {
-    const { machineName, imagesByName, showAll, imageActions } = this.props;
+    const { machineName, images, showAll, imageActions } = this.props;
     return (
       <OneColumn>
         <OneColumn>
@@ -48,7 +61,7 @@ class MachineImagesView extends React.Component<any, any>{
           Images
         </CenterCircularHeader>
         <br />
-        <MachineImageTable images={imagesByName[machineName]} />
+        <MachineImageTable images={images} />
       </OneColumn>
     )
   }

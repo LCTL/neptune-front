@@ -8,6 +8,7 @@ class Header extends React.Component<any, any>{
     return (
       <thead>
         <tr>
+          <th className="collapsing"></th>
           <th>Repository</th>
           <th>Tag</th>
           <th>ID</th>
@@ -24,16 +25,22 @@ class Row extends React.Component<any, any>{
     const { image } = this.props;
     const repositories: string[] = [];
     const tags: string[] = [];
+    let id = image.Id || ''
+    let pulling = (<span />);
     image.RepoTags.map(repoTag => {
       let str = repoTag.split(':');
       repositories.push(str[0]);
       tags.push(str[1]);
     });
+    if (image.status === 'Pulling') {
+      pulling = (<i className="spinner icon loading" />)
+    }
     return (
       <tr>
+        <td>{pulling}</td>
         <td>{repositories.join(',')}</td>
         <td>{tags.join(',')}</td>
-        <td>{image.Id.substring(0, 12)}</td>
+        <td>{id.substring(0, 12)}</td>
         <td>{prettysize(image.VirtualSize)}</td>
         <td>{image.Created}</td>
       </tr>
