@@ -7,8 +7,10 @@ import image from '../reducers/image-reducer';
 import registry from '../reducers/registry-reducer';
 import error from '../reducers/error-reducer';
 
+const createLogger = require('redux-logger');
 const createHistory = require('history/lib/createHashHistory');
 const thunkMiddleware = require('redux-thunk');
+const logger = createLogger();
 const {
   ReduxRouter,
   routerStateReducer,
@@ -28,6 +30,6 @@ const reducer = combineReducers({
 });
 
 export default compose(
-  applyMiddleware(thunkMiddleware),
+  applyMiddleware(thunkMiddleware, logger),
   reduxReactRouter({ createHistory })
 )(createStore)(reducer);
