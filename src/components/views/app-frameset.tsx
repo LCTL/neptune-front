@@ -7,11 +7,11 @@ import { CommonProps } from '../shared/props';
 const { Divider } = require('react-semantify');
 const notie = require('notie');
 
-interface AsyncErrorAlarmProps extends CommonProps {
+interface AsyncErrorNotifyerProps extends CommonProps {
   asyncErrors: AsyncErrorWrapper[]
 }
 
-class AsyncErrorAlarm extends React.Component<AsyncErrorAlarmProps, any>{
+class AsyncErrorNotifyer extends React.Component<AsyncErrorNotifyerProps, any>{
   componentWillReceiveProps(nextProps) {
     if (this.props.asyncErrors.length < nextProps.asyncErrors.length) {
       const warppers: AsyncErrorWrapper[] = nextProps.asyncErrors;
@@ -35,7 +35,7 @@ class AppFrameset extends React.Component<any, any>{
     const { asyncErrors, router } = this.props;
     return (
       <div className="ui container">
-        <AsyncErrorAlarm asyncErrors={asyncErrors} />
+        <AsyncErrorNotifyer asyncErrors={asyncErrors} />
         <TopMenu router={router} />
         <Divider className="bottom-space" />
         {this.props.children}
