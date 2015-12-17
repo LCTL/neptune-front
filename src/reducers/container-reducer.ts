@@ -30,7 +30,7 @@ const create = createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_CONTAINER);
 function operatingByMachineName(state = {}, action) {
   if (action.asyncStatus) {
     const machineName = action.args[0];
-    const operation = state[machineName] || {};
+    const operation:any = _.assign({}, state[machineName] || {});
     operation.create = create(operation.create, action);
     return _.assign({}, state, {
       [machineName]: operation
