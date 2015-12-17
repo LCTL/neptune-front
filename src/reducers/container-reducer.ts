@@ -101,7 +101,7 @@ function autoCompleteImagesByMachineName(state = {}, action) {
   return state
 }
 
-function showAll(state = false, action) {
+function showAll(state = true, action) {
   switch(action.type) {
     case ACTION_TYPES.SET_SHOW_ALL_CONTAINERS:
       return action.value;
