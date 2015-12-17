@@ -95,6 +95,10 @@ export default React.createClass<CreationFormProps, any>({
             label="Port Bindings (<host_port>:<container_exposed_port>/<protocol>)"
             placeholder="A map of exposed container ports and the host port they should map to" />
         </div>
+        <MultipleValueInputTextField
+          name="Env"
+          label="Environment variables (VAR=value)"
+          placeholder="A list of environment variables" />
         <InputField
           name="WorkingDir"
           label="Working Directory"
