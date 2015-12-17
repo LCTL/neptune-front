@@ -60,7 +60,11 @@ class MachineContainersView extends React.Component<any, any>{
           Containers
         </CenterCircularHeader>
         <br />
-        <MachineContainerTable containers={containersByName[machineName]} />
+        <MachineContainerTable
+          machineName={machineName}
+          containers={containersByName[machineName]}
+          startMachineContainer={containerActions.startMachineContainer}
+          stopMachineContainer={containerActions.stopMachineContainer} />
       </OneColumn>
     );
   }

@@ -27,3 +27,19 @@ export interface ActiveLinkProps extends CommonProps {
 export interface IconProps extends CommonProps {
   icon?: string
 }
+
+export interface MachineContainerProps extends MachineProps {
+  containerId: string
+}
+
+export interface MachineContainerStyleableProps extends MachineContainerProps, StyleableProps {
+
+}
+
+export interface StartMachineContainerActionProps extends CommonProps {
+  startMachineContainer: (machineName: string, containerId: string, options?: any) => void
+}
+
+export interface StopMachineContainerActionProps extends CommonProps {
+  stopMachineContainer: (machineName: string, containerId: string, options?: any) => void
+}

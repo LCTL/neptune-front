@@ -1,15 +1,19 @@
 import * as React from 'react';
 import { CommonProps, MachineProps } from '../shared/props'
 import { Button } from '../shared/buttons';
+import { StartMachineContainerActionProps, StopMachineContainerActionProps } from '../shared/props';
+import { AutoSwitchStartStopButton } from './buttons';
 
 const Semantify = require('react-semantify');
 const Link = require('react-router').Link
 
-interface MachineContainerTable {
+interface MachineContainerTable extends
+  MachineProps, StartMachineContainerActionProps, StopMachineContainerActionProps {
   containers: any[]
 }
 
-interface MachineContainerTableRowProps extends CommonProps {
+interface MachineContainerTableRowProps extends
+  MachineProps, StartMachineContainerActionProps, StopMachineContainerActionProps {
   container: any
 }
 
@@ -18,6 +22,7 @@ const Header = React.createClass<any, any>({
     return (
       <thead>
         <tr>
+          <th className="collapsing"></th>
           <th>Names</th>
           <th>Image</th>
           <th>Command</th>
@@ -31,7 +36,7 @@ const Header = React.createClass<any, any>({
 
 const Row = React.createClass<MachineContainerTableRowProps, any>({
   render: function() {
-    var container = this.props.container;
+    const { machineName, container, startMachineContainer, stopMachineContainer } = this.props;
     var ports = [];
     var names = [];
     var port = '';
@@ -57,6 +62,15 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
     }
     return (
       <tr>
+        <td className="collapsing">
+          <AutoSwitchStartStopButton
+            className="tiny compact"
+            machineName={machineName}
+            containerStatus={container.Status}
+            containerId={container.Id}
+            startMachineContainer={startMachineContainer}
+            stopMachineContainer={stopMachineContainer} />
+        </td>
         <td>{name}</td>
         <td>{container.Image}</td>
         <td>{container.Command}</td>
@@ -69,12 +83,22 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
 
 const Body = React.createClass<MachineContainerTable, any>({
   render: function() {
+    const {
+      machineName,
+      containers,
+      startMachineContainer,
+      stopMachineContainer
+    } = this.props;
     return (
       <tbody>
         {
-          _.values(this.props.containers).map((container:any) => {
+          _.values(containers).map((container:any) => {
             return (
-              <Row key={container.Id} container={container}/>
+              <Row key={container.Id}
+                machineName={machineName}
+                container={container}
+                startMachineContainer={startMachineContainer}
+                stopMachineContainer={stopMachineContainer} />
             )
           })
         }
@@ -85,11 +109,20 @@ const Body = React.createClass<MachineContainerTable, any>({
 
 export default React.createClass<MachineContainerTable, any>({
   render: function() {
-    var { machineName, containers } = this.props;
+    const {
+      machineName,
+      containers,
+      startMachineContainer,
+      stopMachineContainer
+    } = this.props;
     return (
       <Semantify.Table>
         <Header />
-        <Body containers={containers} />
+        <Body
+          containers={containers}
+          machineName={machineName}
+          startMachineContainer={startMachineContainer}
+          stopMachineContainer={stopMachineContainer} />
       </Semantify.Table>
     );
   }

@@ -25,15 +25,19 @@ function createOperatingReducer(actionType: string) {
   }
 }
 
-const create = createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_CONTAINER);
+const operations = {
+  create: createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_CONTAINER),
+  start: createOperatingReducer(ACTION_TYPES.START_MACHINE_CONTAINER),
+  stop: createOperatingReducer(ACTION_TYPES.STOP_MACHINE_CONTAINER),
+}
 
 function operatingByMachineName(state = {}, action) {
   if (action.asyncStatus) {
     const machineName = action.args[0];
-    const operation:any = _.assign({}, state[machineName] || {});
-    operation.create = create(operation.create, action);
+    const operating:any = _.assign({}, state[machineName] || {});
+    ['create', 'start', 'stop'].forEach(type => operating[type] = operations[type](operating.create, action))
     return _.assign({}, state, {
-      [machineName]: operation
+      [machineName]: operating
     });
   }
   return state;

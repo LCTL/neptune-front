@@ -12,5 +12,11 @@ export default {
   },
   create: function (machineName: string, options: Options): Promise<Response> {
     return end(request.post(`${buildPath(machineName)}`).send(options));
+  },
+  start: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
+    return end(request.post(`${buildPath(machineName)}/${containerId}/start`).send(options));
+  },
+  stop: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
+    return end(request.post(`${buildPath(machineName)}/${containerId}/stop`).send(options));
   }
 }
