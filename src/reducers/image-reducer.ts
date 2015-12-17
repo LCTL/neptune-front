@@ -53,15 +53,20 @@ function createOperatingReducer(actionType: string) {
   }
 }
 
+const operations = {
+  pull: createOperatingReducer(ACTION_TYPES.PULL_MACHINE_IMAGE),
+  remove: createOperatingReducer(ACTION_TYPES.REMOVE_MACHINE_IMAGE)
+}
+
 const pull = createOperatingReducer(ACTION_TYPES.PULL_MACHINE_IMAGE);
 
 function operatingByMachineName(state = {}, action) {
   if (action.asyncStatus) {
     const machineName = action.args[0];
-    const operation:any = _.assign({}, state[machineName] || {});
-    operation.pull = pull(operation.pull, action);
+    const operating:any = _.assign({}, state[machineName] || {});
+    _.keys(operations).forEach(key => operating[key] = operations[key](operating[key], action));
     return _.assign({}, state, {
-      [machineName]: operation
+      [machineName]: operating
     });
   }
   return state;

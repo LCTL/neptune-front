@@ -47,3 +47,15 @@ export interface StopMachineContainerActionProps extends CommonProps {
 export interface RemoveMachineContainerActionProps extends CommonProps {
   removeMachineContainer: (machineName: string, containerId: string, options?: any) => void
 }
+
+export interface MachineImageProps extends MachineProps {
+  imageName: string
+}
+
+export interface MachineImageStyleableProps extends MachineImageProps, StyleableProps {
+
+}
+
+export interface RemoveMachineImageActionProps extends CommonProps {
+  removeMachineImage: (machineName: string, imageName: string, options?: any) => void
+}

@@ -13,5 +13,8 @@ export default {
   },
   createMachineImage: function (machineName: string, options?: Options): Promise<Response> {
     return end(request.post(`${buildPath(machineName)}`).send(options));
+  },
+  removeMachineImage: function (machineName: string, imageName: string, options?: Options): Promise<Response> {
+    return end(request.delete(`${buildPath(machineName)}/${imageName}`).send(options));
   }
 }

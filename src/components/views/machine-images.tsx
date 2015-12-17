@@ -61,7 +61,10 @@ class MachineImagesView extends React.Component<any, any>{
           Images
         </CenterCircularHeader>
         <br />
-        <MachineImageTable images={images} />
+        <MachineImageTable
+          machineName={machineName}
+          images={images}
+          removeMachineImage={imageActions.removeMachineImage} />
       </OneColumn>
     )
   }
