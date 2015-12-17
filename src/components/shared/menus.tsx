@@ -3,6 +3,7 @@ import { ActiveLink } from './links';
 import { MachineProps } from './props';
 
 const Semantify = require('react-semantify');
+const { Link } = require('react-router');
 
 interface MachineDetailMenuProps extends MachineProps {
   router: any
@@ -12,8 +13,10 @@ export const TopMenu = React.createClass<any, any>({
   render: function(){
     return (
       <Semantify.Menu className="top secondary">
-        <div className="header item">Neptune</div>
-        <ActiveLink to="/" router={this.props.router}>Machine</ActiveLink>
+        <div className="header item">
+          <Link to="/">Neptune</Link>
+        </div>
+        <ActiveLink to="/machines" router={this.props.router}>Machines</ActiveLink>
       </Semantify.Menu>
     );
   }
