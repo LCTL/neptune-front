@@ -5,7 +5,8 @@ import {
   MachineStyleableProps,
   MachineContainerStyleableProps,
   StartMachineContainerActionProps,
-  StopMachineContainerActionProps
+  StopMachineContainerActionProps,
+  RemoveMachineContainerActionProps
 } from '../shared/props';
 
 interface ToggleShowAllContainersButtonProps extends MachineStyleableProps {
@@ -19,6 +20,10 @@ interface StartContainerButtonProps extends MachineContainerStyleableProps, Star
 }
 
 interface StopContainerButtonProps extends MachineContainerStyleableProps, StopMachineContainerActionProps {
+
+}
+
+interface RemoveContainerButtonProps extends MachineContainerStyleableProps, RemoveMachineContainerActionProps {
 
 }
 
@@ -71,6 +76,22 @@ export class StopContainerButton extends React.Component<StopContainerButtonProp
     return (
       <Button className={`icon yellow ${className}`} onClick={this.stopMachineContainer.bind(this)}>
         <i className='stop icon'></i>
+        {this.props.children}
+      </Button>
+    )
+  }
+}
+
+export class RemoveContainerButton extends React.Component<RemoveContainerButtonProps, any>{
+  removeMachineContainer() {
+    const { machineName, containerId, removeMachineContainer } = this.props;
+    removeMachineContainer(machineName, containerId);
+  }
+  render() {
+    const { className } = this.props;
+    return (
+      <Button className={`icon red ${className}`} onClick={this.removeMachineContainer.bind(this)}>
+        <i className='trash icon'></i>
         {this.props.children}
       </Button>
     )

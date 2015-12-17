@@ -18,5 +18,8 @@ export default {
   },
   stop: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
     return end(request.post(`${buildPath(machineName)}/${containerId}/stop`).send(options));
+  },
+  remove: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
+    return end(request.delete(`${buildPath(machineName)}/${containerId}`).send(options));
   }
 }

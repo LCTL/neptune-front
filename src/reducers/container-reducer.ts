@@ -29,13 +29,14 @@ const operations = {
   create: createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_CONTAINER),
   start: createOperatingReducer(ACTION_TYPES.START_MACHINE_CONTAINER),
   stop: createOperatingReducer(ACTION_TYPES.STOP_MACHINE_CONTAINER),
+  remove: createOperatingReducer(ACTION_TYPES.REMOVE_MACHINE_CONTAINER)
 }
 
 function operatingByMachineName(state = {}, action) {
   if (action.asyncStatus) {
     const machineName = action.args[0];
     const operating:any = _.assign({}, state[machineName] || {});
-    ['create', 'start', 'stop'].forEach(type => operating[type] = operations[type](operating.create, action))
+    _.keys(operations).forEach(key => operating[key] = operations[key](operating[key], action))
     return _.assign({}, state, {
       [machineName]: operating
     });

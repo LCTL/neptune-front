@@ -10,6 +10,8 @@ export const startMachineContainer
   = apiActionCreator(ACTION_TYPES.START_MACHINE_CONTAINER, api.start);
 export const stopMachineContainer
   = apiActionCreator(ACTION_TYPES.STOP_MACHINE_CONTAINER, api.stop);
+export const removeMachineContainer
+  = apiActionCreator(ACTION_TYPES.REMOVE_MACHINE_CONTAINER, api.remove);
 
 export const setShowAll = (showAll: boolean) => ({
   type: ACTION_TYPES.SET_SHOW_ALL_CONTAINERS,

@@ -43,3 +43,7 @@ export interface StartMachineContainerActionProps extends CommonProps {
 export interface StopMachineContainerActionProps extends CommonProps {
   stopMachineContainer: (machineName: string, containerId: string, options?: any) => void
 }
+
+export interface RemoveMachineContainerActionProps extends CommonProps {
+  removeMachineContainer: (machineName: string, containerId: string, options?: any) => void
+}

@@ -28,11 +28,11 @@ class MachineContainersView extends React.Component<any, any>{
   }
 
   componentWillReceiveProps(nextProps) {
-    const { machineName, operating, containerActions } = this.props;
+    const { machineName, operating, showAll, containerActions } = this.props;
     const currentOperating = concatObjectArrays(this.props.operating);
     const nextOperating = concatObjectArrays(nextProps.operating);
     if (currentOperating.length > nextOperating.length){
-      containerActions.fetchMachineContainerList(machineName);
+      containerActions.fetchMachineContainerList(machineName, {all: showAll});
     }
   }
 
@@ -64,7 +64,8 @@ class MachineContainersView extends React.Component<any, any>{
           machineName={machineName}
           containers={containersByName[machineName]}
           startMachineContainer={containerActions.startMachineContainer}
-          stopMachineContainer={containerActions.stopMachineContainer} />
+          stopMachineContainer={containerActions.stopMachineContainer}
+          removeMachineContainer={containerActions.removeMachineContainer} />
       </OneColumn>
     );
   }

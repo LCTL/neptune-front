@@ -1,19 +1,29 @@
 import * as React from 'react';
 import { CommonProps, MachineProps } from '../shared/props'
 import { Button } from '../shared/buttons';
-import { StartMachineContainerActionProps, StopMachineContainerActionProps } from '../shared/props';
-import { AutoSwitchStartStopButton } from './buttons';
+import {
+  StartMachineContainerActionProps,
+  StopMachineContainerActionProps,
+  RemoveMachineContainerActionProps
+} from '../shared/props';
+import { AutoSwitchStartStopButton, RemoveContainerButton } from './buttons';
 
 const Semantify = require('react-semantify');
 const Link = require('react-router').Link
 
 interface MachineContainerTable extends
-  MachineProps, StartMachineContainerActionProps, StopMachineContainerActionProps {
+  MachineProps,
+  StartMachineContainerActionProps,
+  StopMachineContainerActionProps,
+  RemoveMachineContainerActionProps {
   containers: any[]
 }
 
 interface MachineContainerTableRowProps extends
-  MachineProps, StartMachineContainerActionProps, StopMachineContainerActionProps {
+  MachineProps,
+  StartMachineContainerActionProps,
+  StopMachineContainerActionProps,
+  RemoveMachineContainerActionProps {
   container: any
 }
 
@@ -28,6 +38,7 @@ const Header = React.createClass<any, any>({
           <th>Command</th>
           <th>Status</th>
           <th>Ports</th>
+          <th className="collapsing"></th>
         </tr>
       </thead>
     );
@@ -36,11 +47,18 @@ const Header = React.createClass<any, any>({
 
 const Row = React.createClass<MachineContainerTableRowProps, any>({
   render: function() {
-    const { machineName, container, startMachineContainer, stopMachineContainer } = this.props;
+    const {
+      machineName,
+      container,
+      startMachineContainer,
+      stopMachineContainer,
+      removeMachineContainer
+    } = this.props;
     var ports = [];
     var names = [];
     var port = '';
     var name = container.Names.map(name => name.substring(1)).join(', ');
+    var removeButton = <noscript />;
     if (container.Ports) {
       ports = container.Ports.map(port => {
         var result = "";
@@ -60,6 +78,17 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
       });
       port = ports.join(', ')
     }
+
+    if (!/up/i.test(container.Status)){
+      removeButton = (
+        <RemoveContainerButton
+          className="tiny compact"
+          machineName={machineName}
+          containerId={container.Id}
+          removeMachineContainer={removeMachineContainer} />
+      );
+    }
+
     return (
       <tr>
         <td className="collapsing">
@@ -76,6 +105,9 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
         <td>{container.Command}</td>
         <td>{container.Status}</td>
         <td>{port}</td>
+        <td className="collapsing">
+          {removeButton}
+        </td>
       </tr>
     )
   }
@@ -87,7 +119,8 @@ const Body = React.createClass<MachineContainerTable, any>({
       machineName,
       containers,
       startMachineContainer,
-      stopMachineContainer
+      stopMachineContainer,
+      removeMachineContainer
     } = this.props;
     return (
       <tbody>
@@ -98,7 +131,8 @@ const Body = React.createClass<MachineContainerTable, any>({
                 machineName={machineName}
                 container={container}
                 startMachineContainer={startMachineContainer}
-                stopMachineContainer={stopMachineContainer} />
+                stopMachineContainer={stopMachineContainer}
+                removeMachineContainer={removeMachineContainer} />
             )
           })
         }
@@ -113,7 +147,8 @@ export default React.createClass<MachineContainerTable, any>({
       machineName,
       containers,
       startMachineContainer,
-      stopMachineContainer
+      stopMachineContainer,
+      removeMachineContainer
     } = this.props;
     return (
       <Semantify.Table>
@@ -122,7 +157,8 @@ export default React.createClass<MachineContainerTable, any>({
           containers={containers}
           machineName={machineName}
           startMachineContainer={startMachineContainer}
-          stopMachineContainer={stopMachineContainer} />
+          stopMachineContainer={stopMachineContainer}
+          removeMachineContainer={removeMachineContainer} />
       </Semantify.Table>
     );
   }
