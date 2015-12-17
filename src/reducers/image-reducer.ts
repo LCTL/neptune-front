@@ -12,7 +12,7 @@ function imagesByMachineName(state = {}, action) {
           [machineName]: action.result
         });
     }
-  } else if (action.type === ACTION_TYPES.CREATE_MACHINE_IMAGE
+  } else if (action.type === ACTION_TYPES.PULL_MACHINE_IMAGE
       && action.asyncStatus === ASYNC_STATUS.START) {
       const machineName = action.args[0];
       const options = action.args[1];
@@ -53,7 +53,7 @@ function createOperatingReducer(actionType: string) {
   }
 }
 
-const pull = createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_IMAGE);
+const pull = createOperatingReducer(ACTION_TYPES.PULL_MACHINE_IMAGE);
 
 function operatingByMachineName(state = {}, action) {
   if (action.asyncStatus) {

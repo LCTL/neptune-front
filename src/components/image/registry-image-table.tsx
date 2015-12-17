@@ -5,7 +5,7 @@ import { PullMachineImageButton } from './buttons'
 const { Table } = require('react-semantify');
 
 interface CreateImageAction {
-  createMachineImage: (machineName: string, options: any) => void
+  pullMachineImage: (machineName: string, options: any) => void
 }
 
 interface HubImageTableProps extends MachineProps, CreateImageAction {
@@ -33,7 +33,7 @@ class Head extends React.Component<any, any>{
 
 class Row extends React.Component<RowProps, any>{
   render() {
-    const { machineName, image, createMachineImage } = this.props;
+    const { machineName, image, pullMachineImage } = this.props;
     var baseUrl = 'https://hub.docker.com';
     if (image.is_official){
       baseUrl += '/_';
@@ -57,7 +57,7 @@ class Row extends React.Component<RowProps, any>{
           <PullMachineImageButton
             className="basic blue icon compact"
             machineName={machineName}
-            createMachineImage={createMachineImage}
+            pullMachineImage={pullMachineImage}
             imageName={image.name}>
             <i className='arrow down icon'></i>
           </PullMachineImageButton>

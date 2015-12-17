@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createMachineImage } from '../../actions/image-actions';
+import { pullMachineImage } from '../../actions/image-actions';
 import { searchImages } from '../../actions/registry-actions';
 import { OneColumn, TwoColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
@@ -16,13 +16,13 @@ import { LoadMoreRegistryImageButton } from '../image/buttons';
     search: state.registry.search,
   }),
   dispatch => ({
-    createMachineImage: bindActionCreators(createMachineImage, dispatch),
+    pullMachineImage: bindActionCreators(pullMachineImage, dispatch),
     searchImages: bindActionCreators(searchImages, dispatch)
   })
 )
 class MachineContainerCreationView extends React.Component<any, any>{
   render() {
-    const { machineName, search, history, createMachineImage, searchImages } = this.props;
+    const { machineName, search, history, pullMachineImage, searchImages } = this.props;
     var options = {}
     var result = []
     return (
@@ -33,7 +33,7 @@ class MachineContainerCreationView extends React.Component<any, any>{
         <MachinePullImageForm
           history={history}
           machineName={machineName}
-          createMachineImage={createMachineImage} />
+          pullMachineImage={pullMachineImage} />
         <br />
         <div className="ui horizontal divider">Or</div>
         <br />
@@ -45,7 +45,7 @@ class MachineContainerCreationView extends React.Component<any, any>{
                 <SearchResultTable
                   images={search.results}
                   machineName={machineName}
-                  createMachineImage={createMachineImage} />
+                  pullMachineImage={pullMachineImage} />
               )
             }
           })()
