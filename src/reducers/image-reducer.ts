@@ -58,7 +58,7 @@ const pull = createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_IMAGE);
 function operatingByMachineName(state = {}, action) {
   if (action.asyncStatus) {
     const machineName = action.args[0];
-    const operation = state[machineName] || {};
+    const operation:any = _.assign({}, state[machineName] || {});
     operation.pull = pull(operation.pull, action);
     return _.assign({}, state, {
       [machineName]: operation
