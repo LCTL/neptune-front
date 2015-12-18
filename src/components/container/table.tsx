@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import * as React from 'react';
 import * as DateUtils from '../../utils/data-utils';
-import { CommonProps, MachineProps } from '../shared/props'
+import { CommonProps, MachineIpProps } from '../shared/props'
 import { Button } from '../shared/buttons';
 import {
   StartMachineContainerActionProps,
@@ -14,7 +14,7 @@ const Semantify = require('react-semantify');
 const Link = require('react-router').Link
 
 interface MachineContainerTable extends
-  MachineProps,
+  MachineIpProps,
   StartMachineContainerActionProps,
   StopMachineContainerActionProps,
   RemoveMachineContainerActionProps {
@@ -22,7 +22,7 @@ interface MachineContainerTable extends
 }
 
 interface MachineContainerTableRowProps extends
-  MachineProps,
+  MachineIpProps,
   StartMachineContainerActionProps,
   StopMachineContainerActionProps,
   RemoveMachineContainerActionProps {
@@ -52,6 +52,7 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
   render: function() {
     const {
       machineName,
+      machineIp,
       container,
       startMachineContainer,
       stopMachineContainer,
@@ -59,7 +60,6 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
     } = this.props;
     var ports = [];
     var names = [];
-    var port = '';
     var name = container.Names.map(name => name.substring(1)).join(', ');
     var removeButton = <noscript />;
     if (container.Ports) {
@@ -77,9 +77,22 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
         if (port.Type) {
           result += '/' + port.Type;
         }
-        return result;
+
+        if (port.PublicPort) {
+          return (
+            <p>
+              <a href={`http://${machineIp}:${port.PublicPort}`} target="_blank">
+                {result}
+              </a>
+            </p>
+          );
+        } else {
+          return (
+            <p>{result}</p>
+          );
+        }
+
       });
-      port = ports.join(', ')
     }
 
     if (!/up/i.test(container.Status)){
@@ -107,7 +120,7 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
         <td>{container.Image}</td>
         <td>{container.Command}</td>
         <td>{container.Status}</td>
-        <td>{port}</td>
+        <td>{ports}</td>
         <td>{moment(DateUtils.dockerTimestampToJsTimestamp(container.Created)).fromNow()}</td>
         <td className="collapsing">
           {removeButton}
@@ -121,6 +134,7 @@ const Body = React.createClass<MachineContainerTable, any>({
   render: function() {
     const {
       machineName,
+      machineIp,
       containers,
       startMachineContainer,
       stopMachineContainer,
@@ -134,6 +148,7 @@ const Body = React.createClass<MachineContainerTable, any>({
               <Row key={container.Id}
                 machineName={machineName}
                 container={container}
+                machineIp={machineIp}
                 startMachineContainer={startMachineContainer}
                 stopMachineContainer={stopMachineContainer}
                 removeMachineContainer={removeMachineContainer} />
@@ -149,6 +164,7 @@ export default React.createClass<MachineContainerTable, any>({
   render: function() {
     const {
       machineName,
+      machineIp,
       containers,
       startMachineContainer,
       stopMachineContainer,
@@ -160,6 +176,7 @@ export default React.createClass<MachineContainerTable, any>({
         <Body
           containers={containers}
           machineName={machineName}
+          machineIp={machineIp}
           startMachineContainer={startMachineContainer}
           stopMachineContainer={stopMachineContainer}
           removeMachineContainer={removeMachineContainer} />

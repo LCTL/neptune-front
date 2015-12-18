@@ -5,7 +5,8 @@ import {
   CREATE_MACHINE,
   REMOVE_MACHINE,
   START_MACHINE,
-  STOP_MACHINE
+  STOP_MACHINE,
+  FETCH_MACHINE_IP
 } from '../constants/action-types';
 import { apiActionCreator } from '../utils/action-utils';
 
@@ -15,3 +16,4 @@ export const create = apiActionCreator(CREATE_MACHINE, api.create);
 export const remove = apiActionCreator(REMOVE_MACHINE, api.remove);
 export const start = apiActionCreator(START_MACHINE, api.start);
 export const stop = apiActionCreator(STOP_MACHINE, api.stop);
+export const fetchIp = apiActionCreator(FETCH_MACHINE_IP, api.fetchIp);

@@ -21,6 +21,18 @@ function createOperatingReducer(actionType: string) {
   }
 }
 
+function createSingleValueByNameReducer(actionType: string) {
+  return (state = [], action: AsyncAction) => {
+    if (action.type === actionType && action.asyncStatus === ASYNC_STATUS.COMPLETED) {
+      const name = action.args[0];
+      return _.assign({}, state, {
+        [name]: action.result.value
+      })
+    }
+    return state;
+  }
+}
+
 function fetchList(state = false, action: AsyncAction) {
   if (action.type === ACTION_TYPE.FETCH_MACHINE_LIST) {
     switch(action.asyncStatus) {
@@ -70,25 +82,10 @@ function machinesByName(state = {}, action: AsyncAction) {
   return state;
 };
 
-function statusesByName(state = {}, action: AsyncAction) {
-  if (action.type === ACTION_TYPE.FETCH_MACHINE_STATUS) {
-    const name = action.args[0];
-    switch (action.asyncStatus) {
-      case ASYNC_STATUS.COMPLETED:
-        return _.assign({}, state, {
-          [name]: action.result.value
-        })
-      default:
-        return state;
-    }
-  } else {
-    return state;
-  }
-}
-
 export default combineReducers({
   machinesByName,
-  statusesByName,
+  statusesByName: createSingleValueByNameReducer(ACTION_TYPE.FETCH_MACHINE_STATUS),
+  ipsByName: createSingleValueByNameReducer(ACTION_TYPE.FETCH_MACHINE_IP),
   operating: combineReducers({
     fetchList,
     create: createOperatingReducer(ACTION_TYPE.CREATE_MACHINE),

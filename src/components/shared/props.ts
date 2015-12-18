@@ -11,6 +11,10 @@ export interface MachineProps extends CommonProps {
   machineName: string
 }
 
+export interface MachineIpProps extends MachineProps {
+  machineIp: string
+}
+
 export interface MachineStyleableProps extends StyleableProps, MachineProps {
 
 }

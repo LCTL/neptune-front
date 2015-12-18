@@ -13,6 +13,7 @@ import { ToggleShowAllContainersButton } from '../container/buttons';
 @connect(
   state => ({
     machineName: state.router.params.machineName,
+    machineIp: state.machine.ipsByName[state.router.params.machineName],
     containersByName: state.container.containersByMachineName,
     operating: state.container.operatingByMachineName[state.router.params.machineName],
     showAll: state.container.showAll
@@ -37,7 +38,7 @@ class MachineContainersView extends React.Component<any, any>{
   }
 
   render() {
-    const { machineName, containersByName, showAll, containerActions } = this.props;
+    const { machineName, machineIp, containersByName, showAll, containerActions } = this.props;
     return (
       <OneColumn>
         <OneColumn>
@@ -62,6 +63,7 @@ class MachineContainersView extends React.Component<any, any>{
         <br />
         <MachineContainerTable
           machineName={machineName}
+          machineIp={machineIp}
           containers={containersByName[machineName]}
           startMachineContainer={containerActions.startMachineContainer}
           stopMachineContainer={containerActions.stopMachineContainer}

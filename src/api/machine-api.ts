@@ -28,5 +28,8 @@ export default {
   },
   inspect: function(name: string, options: Options): Promise<Response> {
     return end(request.get(`${buildPath(name)}`).send(options));
+  },
+  fetchIp: function(name: string, options?: Options): Promise<Response> {
+    return end(request.get(`${buildPath(name)}/ip`).query(options));
   }
 }
