@@ -1,4 +1,6 @@
+import * as moment from 'moment';
 import * as React from 'react';
+import * as DateUtils from '../../utils/data-utils';
 import { RemoveImageButton } from './buttons';
 import { MachineProps, RemoveMachineImageActionProps } from '../shared/props'
 
@@ -67,7 +69,7 @@ class Row extends React.Component<TableRowProps, any>{
         <td>{tags.join(',')}</td>
         <td>{id.substring(0, 12)}</td>
         <td>{prettysize(image.VirtualSize)}</td>
-        <td>{image.Created}</td>
+        <td>{moment(DateUtils.dockerTimestampToJsTimestamp(image.Created)).fromNow()}</td>
         <td>{removeButton}</td>
       </tr>
     )

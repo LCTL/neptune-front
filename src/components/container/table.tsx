@@ -1,4 +1,6 @@
+import * as moment from 'moment';
 import * as React from 'react';
+import * as DateUtils from '../../utils/data-utils';
 import { CommonProps, MachineProps } from '../shared/props'
 import { Button } from '../shared/buttons';
 import {
@@ -38,6 +40,7 @@ const Header = React.createClass<any, any>({
           <th>Command</th>
           <th>Status</th>
           <th>Ports</th>
+          <th>Created</th>
           <th className="collapsing"></th>
         </tr>
       </thead>
@@ -105,6 +108,7 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
         <td>{container.Command}</td>
         <td>{container.Status}</td>
         <td>{port}</td>
+        <td>{moment(DateUtils.dockerTimestampToJsTimestamp(container.Created)).fromNow()}</td>
         <td className="collapsing">
           {removeButton}
         </td>

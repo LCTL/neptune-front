@@ -13,6 +13,7 @@ module.exports = {
       'http-proxy',
       'jquery',
       'lodash',
+      'moment',
       'notie',
       'prettysize',
       'react',
