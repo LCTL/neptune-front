@@ -26,6 +26,7 @@ function createOperatingReducer(actionType: string) {
 }
 
 const operations = {
+  inspect: createOperatingReducer(ACTION_TYPES.INSPECT_MACHINE_CONTAINER),
   create: createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_CONTAINER),
   start: createOperatingReducer(ACTION_TYPES.START_MACHINE_CONTAINER),
   stop: createOperatingReducer(ACTION_TYPES.STOP_MACHINE_CONTAINER),
@@ -101,6 +102,20 @@ function autoCompleteImagesByMachineName(state = {}, action) {
   return state
 }
 
+function containerInfosByMachineName(state = {}, action: AsyncAction) {
+  if (action.type === ACTION_TYPES.INSPECT_MACHINE_CONTAINER
+    && action.asyncStatus === ASYNC_STATUS.COMPLETED) {
+      const machineName = action.args[0];
+      const containerId = action.args[1];
+      const machineContainers = _.assign({}, state[machineName]);
+      machineContainers[containerId] = action.result;
+      return _.assign({}, state, {
+        [machineName]: machineContainers
+      });
+  }
+  return state;
+}
+
 function showAll(state = true, action) {
   switch(action.type) {
     case ACTION_TYPES.SET_SHOW_ALL_CONTAINERS:
@@ -112,6 +127,7 @@ function showAll(state = true, action) {
 export default combineReducers({
   operatingByMachineName,
   containersByMachineName,
+  containerInfosByMachineName,
   autoCompleteImagesByMachineName,
   showAll
 })

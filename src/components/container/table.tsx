@@ -116,7 +116,11 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
             startMachineContainer={startMachineContainer}
             stopMachineContainer={stopMachineContainer} />
         </td>
-        <td>{name}</td>
+        <td>
+          <Link to={`/machines/${machineName}/containers/${container.Id}`}>
+            {name}
+          </Link>
+        </td>
         <td>{container.Image}</td>
         <td>{container.Command}</td>
         <td>{container.Status}</td>

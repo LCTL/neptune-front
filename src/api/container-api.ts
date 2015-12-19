@@ -10,6 +10,9 @@ export default {
   list: function (machineName: string, options?: Options): Promise<Response> {
     return end(request.get(`${buildPath(machineName)}`).query(options));
   },
+  inspect: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
+    return end(request.get(`${buildPath(machineName)}/${containerId}`).query(options));
+  },
   create: function (machineName: string, options: Options): Promise<Response> {
     return end(request.post(`${buildPath(machineName)}`).send(options));
   },
