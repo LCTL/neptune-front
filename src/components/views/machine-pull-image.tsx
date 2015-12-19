@@ -5,6 +5,7 @@ import { pullMachineImage } from '../../actions/image-actions';
 import { searchImages } from '../../actions/registry-actions';
 import { OneColumn, TwoColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
+import { Loader } from '../shared/loaders';
 import SearchInput from '../image/search-registry-image-input';
 import SearchResultTable from '../image/registry-image-table';
 import MachinePullImageForm from '../image/pull-image-form';
@@ -14,7 +15,8 @@ import { LoadMoreRegistryImageButton } from '../image/buttons';
   state => ({
     machineName: state.router.params.machineName,
     search: state.registry.search,
-    pulling: state.image.operatingByMachineName[state.router.params.machineName].pull
+    pulling: state.image.operatingByMachineName[state.router.params.machineName].pull,
+    searching: state.registry.operating.search
   }),
   dispatch => ({
     pullMachineImage: bindActionCreators(pullMachineImage, dispatch),
@@ -23,7 +25,15 @@ import { LoadMoreRegistryImageButton } from '../image/buttons';
 )
 class MachineContainerCreationView extends React.Component<any, any>{
   render() {
-    const { machineName, search, history, pulling, pullMachineImage, searchImages } = this.props;
+    const {
+      machineName,
+      search,
+      history,
+      pulling,
+      searching,
+      pullMachineImage,
+      searchImages
+    } = this.props;
     var options = {}
     var result = []
     return (
@@ -38,34 +48,37 @@ class MachineContainerCreationView extends React.Component<any, any>{
         <br />
         <div className="ui horizontal divider">Or</div>
         <br />
-        <SearchInput searchImages={searchImages} />
-        {
-          (() => {
-            if (search.results) {
-              return (
-                <SearchResultTable
-                  images={search.results}
-                  machineName={machineName}
-                  pulling={pulling}
-                  pullMachineImage={pullMachineImage} />
-              )
-            }
-          })()
-        }
-        {
-          (() => {
-            if (search.page && search.num_pages && search.page < search.num_pages) {
-              const page = parseInt(search.page) + 1;
-              return (
-                <LoadMoreRegistryImageButton
-                  className="fluid basic blue"
-                  query={search.query}
-                  page={page}
-                  searchImages={searchImages} />
-              )
-            }
-          })()
-        }
+        <OneColumn>
+          <SearchInput searchImages={searchImages} />
+          {
+            (() => {
+              if (search.results) {
+                return (
+                  <SearchResultTable
+                    images={search.results}
+                    machineName={machineName}
+                    pulling={pulling}
+                    pullMachineImage={pullMachineImage} />
+                )
+              }
+            })()
+          }
+          {
+            (() => {
+              if (search.page && search.num_pages && search.page < search.num_pages) {
+                const page = parseInt(search.page) + 1;
+                return (
+                  <LoadMoreRegistryImageButton
+                    className="fluid basic blue"
+                    query={search.query}
+                    page={page}
+                    searchImages={searchImages} />
+                )
+              }
+            })()
+          }
+          <Loader active={searching} dimmerClassName="inverted" />
+        </OneColumn>
       </OneColumn>
     )
   }

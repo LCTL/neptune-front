@@ -27,6 +27,23 @@ function search(state = {}, action: AsyncAction) {
   return state;
 }
 
+function createOperatingReducer(actionType: string) {
+  return (state = false, action: AsyncAction) => {
+    if (actionType === action.type) {
+      switch (action.asyncStatus) {
+        case ASYNC_STATUS.START:
+          return true;
+        case ASYNC_STATUS.COMPLETED:
+          return false;
+      }
+    }
+    return state;
+  }
+}
+
 export default combineReducers({
-  search
+  search,
+  operating: combineReducers({
+    search: createOperatingReducer(SEARCH_REGISTRY_IMAGES)
+  })
 })
