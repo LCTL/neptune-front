@@ -10,10 +10,12 @@ interface CreateImageAction {
 
 interface HubImageTableProps extends MachineProps, CreateImageAction {
   images: any[],
+  pulling: string[]
 }
 
 interface RowProps extends MachineProps, CreateImageAction {
-  image: any
+  image: any,
+  pulling: string[]
 }
 
 class Head extends React.Component<any, any>{
@@ -33,7 +35,7 @@ class Head extends React.Component<any, any>{
 
 class Row extends React.Component<RowProps, any>{
   render() {
-    const { machineName, image, pullMachineImage } = this.props;
+    const { machineName, image, pulling, pullMachineImage } = this.props;
     var baseUrl = 'https://hub.docker.com';
     if (image.is_official){
       baseUrl += '/_';
@@ -58,6 +60,7 @@ class Row extends React.Component<RowProps, any>{
             className="basic blue icon compact"
             machineName={machineName}
             pullMachineImage={pullMachineImage}
+            pulling={pulling}
             imageName={image.name}>
             <i className='arrow down icon'></i>
           </PullMachineImageButton>

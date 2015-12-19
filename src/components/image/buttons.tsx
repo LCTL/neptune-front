@@ -15,7 +15,8 @@ interface LoadMoreRegistryImageButtonProps extends StyleableProps {
 
 interface PullMachineImageButtonProps extends MachineStyleableProps {
   imageName: string,
-  pullMachineImage: (machineName: string, options: any) => void
+  pullMachineImage: (machineName: string, options: any) => void,
+  pulling: string[]
 }
 
 interface ToggleShowAllImageButtonProps extends MachineStyleableProps {
@@ -53,9 +54,14 @@ export class PullMachineImageButton extends React.Component<PullMachineImageButt
     });
   }
   render() {
-    const { className } = this.props;
+    const { className, imageName, pulling } = this.props;
+    const disabledAndLoading = pulling.indexOf(imageName) >= 0;
     return (
-      <Button className={`${className}`} onClick={this.pullMachineImage.bind(this)}>
+      <Button
+        className={`${className}`}
+        onClick={this.pullMachineImage.bind(this)}
+        loading={disabledAndLoading}
+        disabled={disabledAndLoading}>
         {this.props.children}
       </Button>
     )

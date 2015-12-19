@@ -14,6 +14,7 @@ import { LoadMoreRegistryImageButton } from '../image/buttons';
   state => ({
     machineName: state.router.params.machineName,
     search: state.registry.search,
+    pulling: state.image.operatingByMachineName[state.router.params.machineName].pull
   }),
   dispatch => ({
     pullMachineImage: bindActionCreators(pullMachineImage, dispatch),
@@ -22,7 +23,7 @@ import { LoadMoreRegistryImageButton } from '../image/buttons';
 )
 class MachineContainerCreationView extends React.Component<any, any>{
   render() {
-    const { machineName, search, history, pullMachineImage, searchImages } = this.props;
+    const { machineName, search, history, pulling, pullMachineImage, searchImages } = this.props;
     var options = {}
     var result = []
     return (
@@ -45,6 +46,7 @@ class MachineContainerCreationView extends React.Component<any, any>{
                 <SearchResultTable
                   images={search.results}
                   machineName={machineName}
+                  pulling={pulling}
                   pullMachineImage={pullMachineImage} />
               )
             }
