@@ -3,6 +3,7 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { concatObjectArrays } from '../../utils/object-utils';
+import * as containerUtils from '../../utils/container-utils';
 import * as containerActions from '../../actions/container-actions';
 import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
@@ -14,31 +15,61 @@ import { ToggleShowAllContainersButton } from '../container/buttons';
   state => ({
     machineName: state.router.params.machineName,
     machineIp: state.machine.ipsByName[state.router.params.machineName],
-    containersByName: state.container.containersByMachineName,
+    containers: state.container.containersByMachineName[state.router.params.machineName],
     operating: state.container.operatingByMachineName[state.router.params.machineName],
     showAll: state.container.showAll
   }),
   dispatch => ({
     containerActions: bindActionCreators(containerActions, dispatch)
+  }),
+  (stateProps, dispatchProps) => _.assign({}, stateProps, {
+    fetchContainerList: _.partial(
+      dispatchProps.containerActions.fetchMachineContainerList,
+      stateProps.machineName),
+    startContainer: _.partial(
+      dispatchProps.containerActions.startMachineContainer,
+      stateProps.machineName),
+    stopContainer: _.partial(
+      dispatchProps.containerActions.stopMachineContainer,
+      stateProps.machineName),
+    removeContainer: _.partial(
+      dispatchProps.containerActions.removeMachineContainer,
+      stateProps.machineName),
+    setShowAll: dispatchProps.containerActions.setShowAll,
+    createHostUrl: containerUtils.hostUrlFnFactory(stateProps.machineIp),
+    createContainerDetailPath:
+      containerUtils.machineContainerDetailPathFnFactory(stateProps.machineName)
   })
 )
 class MachineContainersView extends React.Component<any, any>{
   componentWillMount() {
-    const { machineName, showAll, containerActions } = this.props;
-    containerActions.fetchMachineContainerList(machineName, {all: showAll});
+    const { showAll, fetchContainerList } = this.props;
+    fetchContainerList({all: showAll});
   }
 
   componentWillReceiveProps(nextProps) {
-    const { machineName, operating, showAll, containerActions } = this.props;
+    const { operating, showAll, fetchContainerList } = this.props;
     const currentOperating = concatObjectArrays(this.props.operating);
     const nextOperating = concatObjectArrays(nextProps.operating);
     if (currentOperating.length > nextOperating.length){
-      containerActions.fetchMachineContainerList(machineName, {all: showAll});
+      fetchContainerList({all: showAll});
     }
   }
 
   render() {
-    const { machineName, machineIp, containersByName, showAll, containerActions } = this.props;
+    const {
+      machineName,
+      machineIp,
+      containers,
+      showAll,
+      fetchContainerList,
+      startContainer,
+      stopContainer,
+      removeContainer,
+      setShowAll,
+      createHostUrl,
+      createContainerDetailPath
+    } = this.props;
     return (
       <OneColumn>
         <OneColumn>
@@ -50,10 +81,9 @@ class MachineContainersView extends React.Component<any, any>{
           </CreateMachineContainerLink>
           <ToggleShowAllContainersButton
             className={`basic right floated ${showAll ? 'purple' : 'violet'}`}
-            machineName={machineName}
             showAll={showAll}
-            setShowAll={containerActions.setShowAll}
-            fetchMachineContainerList={containerActions.fetchMachineContainerList}>
+            setShowAll={setShowAll}
+            fetchContainerList={fetchContainerList}>
             {showAll ? 'Show Running' : 'Show All'}
           </ToggleShowAllContainersButton>
         </OneColumn>
@@ -62,12 +92,12 @@ class MachineContainersView extends React.Component<any, any>{
         </CenterCircularHeader>
         <br />
         <MachineContainerTable
-          machineName={machineName}
-          machineIp={machineIp}
-          containers={containersByName[machineName]}
-          startMachineContainer={containerActions.startMachineContainer}
-          stopMachineContainer={containerActions.stopMachineContainer}
-          removeMachineContainer={containerActions.removeMachineContainer} />
+          containers={containers}
+          startContainer={startContainer}
+          stopContainer={stopContainer}
+          removeContainer={removeContainer}
+          createHostUrl={createHostUrl}
+          createContainerDetailPath={createContainerDetailPath} />
       </OneColumn>
     );
   }

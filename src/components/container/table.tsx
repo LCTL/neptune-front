@@ -4,28 +4,32 @@ import * as DateUtils from '../../utils/data-utils';
 import { CommonProps, MachineIpProps } from '../shared/props'
 import { Button } from '../shared/buttons';
 import {
-  StartMachineContainerActionProps,
-  StopMachineContainerActionProps,
-  RemoveMachineContainerActionProps
+  StartContainerActionProps,
+  StopContainerActionProps,
+  RemoveContainerActionProps,
+  CreateContainerHostUrlActionProps,
+  CreateContainerDetailPathActionProps
 } from '../shared/props';
 import { AutoSwitchStartStopButton, RemoveContainerButton } from './buttons';
 
 const Semantify = require('react-semantify');
 const Link = require('react-router').Link
 
-interface MachineContainerTable extends
-  MachineIpProps,
-  StartMachineContainerActionProps,
-  StopMachineContainerActionProps,
-  RemoveMachineContainerActionProps {
+interface ContainerTable extends
+  CreateContainerHostUrlActionProps,
+  CreateContainerDetailPathActionProps,
+  StartContainerActionProps,
+  StopContainerActionProps,
+  RemoveContainerActionProps {
   containers: any[]
 }
 
-interface MachineContainerTableRowProps extends
-  MachineIpProps,
-  StartMachineContainerActionProps,
-  StopMachineContainerActionProps,
-  RemoveMachineContainerActionProps {
+interface ContainerTableRowProps extends
+  CreateContainerHostUrlActionProps,
+  CreateContainerDetailPathActionProps,
+  StartContainerActionProps,
+  StopContainerActionProps,
+  RemoveContainerActionProps {
   container: any
 }
 
@@ -48,15 +52,17 @@ const Header = React.createClass<any, any>({
   }
 });
 
-const Row = React.createClass<MachineContainerTableRowProps, any>({
+const Row = React.createClass<ContainerTableRowProps, any>({
   render: function() {
     const {
       machineName,
       machineIp,
       container,
-      startMachineContainer,
-      stopMachineContainer,
-      removeMachineContainer
+      startContainer,
+      stopContainer,
+      removeContainer,
+      createHostUrl,
+      createContainerDetailPath
     } = this.props;
     var ports = [];
     var names = [];
@@ -81,7 +87,7 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
         if (port.PublicPort) {
           return (
             <p>
-              <a href={`http://${machineIp}:${port.PublicPort}`} target="_blank">
+              <a href={createHostUrl(port.PublicPort)} target="_blank">
                 {result}
               </a>
             </p>
@@ -99,9 +105,8 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
       removeButton = (
         <RemoveContainerButton
           className="tiny compact"
-          machineName={machineName}
           containerId={container.Id}
-          removeMachineContainer={removeMachineContainer} />
+          removeContainer={removeContainer} />
       );
     }
 
@@ -110,14 +115,13 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
         <td className="collapsing">
           <AutoSwitchStartStopButton
             className="tiny compact"
-            machineName={machineName}
             containerStatus={container.Status}
             containerId={container.Id}
-            startMachineContainer={startMachineContainer}
-            stopMachineContainer={stopMachineContainer} />
+            startContainer={startContainer}
+            stopContainer={stopContainer} />
         </td>
         <td>
-          <Link to={`/machines/${machineName}/containers/${container.Id}`}>
+          <Link to={createContainerDetailPath(container.Id)}>
             {name}
           </Link>
         </td>
@@ -134,15 +138,15 @@ const Row = React.createClass<MachineContainerTableRowProps, any>({
   }
 });
 
-const Body = React.createClass<MachineContainerTable, any>({
+const Body = React.createClass<ContainerTable, any>({
   render: function() {
     const {
-      machineName,
-      machineIp,
       containers,
-      startMachineContainer,
-      stopMachineContainer,
-      removeMachineContainer
+      startContainer,
+      stopContainer,
+      removeContainer,
+      createHostUrl,
+      createContainerDetailPath
     } = this.props;
     return (
       <tbody>
@@ -150,12 +154,12 @@ const Body = React.createClass<MachineContainerTable, any>({
           _.values(containers).map((container:any) => {
             return (
               <Row key={container.Id}
-                machineName={machineName}
                 container={container}
-                machineIp={machineIp}
-                startMachineContainer={startMachineContainer}
-                stopMachineContainer={stopMachineContainer}
-                removeMachineContainer={removeMachineContainer} />
+                startContainer={startContainer}
+                stopContainer={stopContainer}
+                removeContainer={removeContainer}
+                createHostUrl={createHostUrl}
+                createContainerDetailPath={createContainerDetailPath} />
             )
           })
         }
@@ -164,26 +168,12 @@ const Body = React.createClass<MachineContainerTable, any>({
   }
 });
 
-export default React.createClass<MachineContainerTable, any>({
+export default React.createClass<ContainerTable, any>({
   render: function() {
-    const {
-      machineName,
-      machineIp,
-      containers,
-      startMachineContainer,
-      stopMachineContainer,
-      removeMachineContainer
-    } = this.props;
     return (
       <Semantify.Table>
         <Header />
-        <Body
-          containers={containers}
-          machineName={machineName}
-          machineIp={machineIp}
-          startMachineContainer={startMachineContainer}
-          stopMachineContainer={stopMachineContainer}
-          removeMachineContainer={removeMachineContainer} />
+        <Body {...this.props} />
       </Semantify.Table>
     );
   }

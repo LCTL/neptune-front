@@ -32,24 +32,40 @@ export interface IconProps extends CommonProps {
   icon?: string
 }
 
-export interface MachineContainerProps extends MachineProps {
+export interface ContainerProps {
   containerId: string
 }
 
-export interface MachineContainerStyleableProps extends MachineContainerProps, StyleableProps {
+export interface ContainerStyleableProps extends ContainerProps, StyleableProps {
 
 }
 
-export interface StartMachineContainerActionProps extends CommonProps {
-  startMachineContainer: (machineName: string, containerId: string, options?: any) => void
+export interface FetchContainerListActionProps extends CommonProps {
+  fetchContainerList: (options: any) => void
 }
 
-export interface StopMachineContainerActionProps extends CommonProps {
-  stopMachineContainer: (machineName: string, containerId: string, options?: any) => void
+export interface CreateContainerActionProps extends CommonProps {
+  createContainer: (options: any) => void
 }
 
-export interface RemoveMachineContainerActionProps extends CommonProps {
-  removeMachineContainer: (machineName: string, containerId: string, options?: any) => void
+export interface StartContainerActionProps extends CommonProps {
+  startContainer: (containerId: string, options?: any) => void
+}
+
+export interface StopContainerActionProps extends CommonProps {
+  stopContainer: (containerId: string, options?: any) => void
+}
+
+export interface RemoveContainerActionProps extends CommonProps {
+  removeContainer: (containerId: string, options?: any) => void
+}
+
+export interface CreateContainerHostUrlActionProps extends CommonProps {
+  createHostUrl: (hostPort: string) => string
+}
+
+export interface CreateContainerDetailPathActionProps extends CommonProps {
+  createContainerDetailPath: (containerId: string) => string
 }
 
 export interface MachineImageProps extends MachineProps {

@@ -9,12 +9,10 @@ import {
   SubmitButton,
   SubmitButtonControlMixin
 } from '../shared/forms';
-import { MachineProps } from '../shared/props'
+import { CreateContainerActionProps } from '../shared/props'
 
-interface CreationFormProps extends MachineProps {
-  history: any,
-  autoCompleteImages: AutoCompleteResult[],
-  createMachineContainer: (machineName: string) => void
+interface CreationFormProps extends CreateContainerActionProps {
+  autoCompleteImages: AutoCompleteResult[]
 }
 
 export default React.createClass<CreationFormProps, any>({
@@ -22,7 +20,7 @@ export default React.createClass<CreationFormProps, any>({
     SubmitButtonControlMixin,
   ],
   create: function(data) {
-    const { machineName, history, createMachineContainer } = this.props;
+    const { history, createContainer } = this.props;
     data = _(data)
       .omit(_.isUndefined)
       .omit(_.isNull)
@@ -57,8 +55,7 @@ export default React.createClass<CreationFormProps, any>({
       data.HostConfig.PortBindings = bindinngs;
     }
 
-    createMachineContainer(machineName, data);
-    history.pushState(null, `/machines/${machineName}/containers`);
+    createContainer(data);
   },
   render: function() {
     return (

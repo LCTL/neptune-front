@@ -2,43 +2,42 @@ import * as React from 'react';
 import { Button } from '../shared/buttons';
 import {
   StyleableProps,
-  MachineStyleableProps,
-  MachineContainerStyleableProps,
-  StartMachineContainerActionProps,
-  StopMachineContainerActionProps,
-  RemoveMachineContainerActionProps
+  FetchContainerListActionProps,
+  ContainerStyleableProps,
+  StartContainerActionProps,
+  StopContainerActionProps,
+  RemoveContainerActionProps
 } from '../shared/props';
 
-interface ToggleShowAllContainersButtonProps extends MachineStyleableProps {
+interface ToggleShowAllContainersButtonProps extends StyleableProps, FetchContainerListActionProps {
   showAll: boolean,
-  setShowAll: (showAll: boolean) => void,
-  fetchMachineContainerList: (machineName: string, options: any) => void
+  setShowAll: (showAll: boolean) => void
 }
 
-interface StartContainerButtonProps extends MachineContainerStyleableProps, StartMachineContainerActionProps {
-
-}
-
-interface StopContainerButtonProps extends MachineContainerStyleableProps, StopMachineContainerActionProps {
+interface StartContainerButtonProps extends ContainerStyleableProps, StartContainerActionProps {
 
 }
 
-interface RemoveContainerButtonProps extends MachineContainerStyleableProps, RemoveMachineContainerActionProps {
+interface StopContainerButtonProps extends ContainerStyleableProps, StopContainerActionProps {
+
+}
+
+interface RemoveContainerButtonProps extends ContainerStyleableProps, RemoveContainerActionProps {
 
 }
 
 interface AutoSwitchStartStopButtonProps extends
-  MachineContainerStyleableProps,
-  StartMachineContainerActionProps,
-  StopMachineContainerActionProps {
+  ContainerStyleableProps,
+  StartContainerActionProps,
+  StopContainerActionProps {
     containerStatus: string
 }
 
 export class ToggleShowAllContainersButton extends React.Component<ToggleShowAllContainersButtonProps, any>{
   fetchMachineImageList() {
-    const { machineName, showAll, setShowAll, fetchMachineContainerList } = this.props;
+    const { showAll, setShowAll, fetchContainerList } = this.props;
     setShowAll(!showAll);
-    fetchMachineContainerList(machineName, {all: !showAll});
+    fetchContainerList({all: !showAll});
   }
   render() {
     const { className } = this.props;
@@ -52,8 +51,8 @@ export class ToggleShowAllContainersButton extends React.Component<ToggleShowAll
 
 export class StartContainerButton extends React.Component<StartContainerButtonProps, any>{
   startMachineContainer() {
-    const { machineName, containerId, startMachineContainer } = this.props;
-    startMachineContainer(machineName, containerId);
+    const { containerId, startContainer } = this.props;
+    startContainer(containerId);
   }
   render() {
     const { className } = this.props;
@@ -68,8 +67,8 @@ export class StartContainerButton extends React.Component<StartContainerButtonPr
 
 export class StopContainerButton extends React.Component<StopContainerButtonProps, any>{
   stopMachineContainer() {
-    const { machineName, containerId, stopMachineContainer } = this.props;
-    stopMachineContainer(machineName, containerId);
+    const { containerId, stopContainer } = this.props;
+    stopContainer(containerId);
   }
   render() {
     const { className } = this.props;
@@ -84,8 +83,8 @@ export class StopContainerButton extends React.Component<StopContainerButtonProp
 
 export class RemoveContainerButton extends React.Component<RemoveContainerButtonProps, any>{
   removeMachineContainer() {
-    const { machineName, containerId, removeMachineContainer } = this.props;
-    removeMachineContainer(machineName, containerId);
+    const { containerId, removeContainer } = this.props;
+    removeContainer(containerId);
   }
   render() {
     const { className } = this.props;
@@ -102,28 +101,25 @@ export class AutoSwitchStartStopButton extends React.Component<AutoSwitchStartSt
   render() {
     const {
       className,
-      machineName,
       containerStatus,
       containerId,
-      startMachineContainer,
-      stopMachineContainer
+      startContainer,
+      stopContainer
     } = this.props;
     let button = (<noscript />);
     if (/up/i.test(containerStatus)) {
       button = (
         <StopContainerButton
           className={className}
-          machineName={machineName}
           containerId={containerId}
-          stopMachineContainer={stopMachineContainer} />
+          stopContainer={stopContainer} />
       );
     } else if (/(exit|created)/i.test(containerStatus)) {
       button = (
         <StartContainerButton
           className={className}
-          machineName={machineName}
           containerId={containerId}
-          startMachineContainer={startMachineContainer} />
+          startContainer={startContainer} />
       );
     }
     return button;
