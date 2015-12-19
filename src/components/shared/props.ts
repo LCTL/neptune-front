@@ -68,14 +68,26 @@ export interface CreateContainerDetailPathActionProps extends CommonProps {
   createContainerDetailPath: (containerId: string) => string
 }
 
-export interface MachineImageProps extends MachineProps {
+export interface ImageProps extends CommonProps {
   imageName: string
 }
 
-export interface MachineImageStyleableProps extends MachineImageProps, StyleableProps {
+export interface ImageStyleableProps extends ImageProps, StyleableProps {
 
 }
 
-export interface RemoveMachineImageActionProps extends CommonProps {
-  removeMachineImage: (machineName: string, imageName: string, options?: any) => void
+export interface FetchImageListActionProps extends CommonProps {
+  fetchImageList: (options: any) => void
+}
+
+export interface PullImageActionProps extends CommonProps {
+  pullImage: (options: any) => void
+}
+
+export interface RemoveImageActionProps extends CommonProps {
+  removeImage: (imageName: string, options?: any) => void
+}
+
+export interface SearchRegistryImageActionProps extends CommonProps {
+  searchImages: (options: any) => void
 }

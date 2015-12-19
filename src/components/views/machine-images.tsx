@@ -6,7 +6,7 @@ import * as imageActions from '../../actions/image-actions';
 import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
 import { PullMachineImageLink } from '../shared/links';
-import MachineImageTable from '../image/table';
+import ImageTable from '../image/table';
 import { ToggleShowAllImageButton } from '../image/buttons';
 
 @connect(
@@ -18,27 +18,45 @@ import { ToggleShowAllImageButton } from '../image/buttons';
   }),
   dispatch => ({
     imageActions: bindActionCreators(imageActions, dispatch)
+  }),
+  (stateProps, dispatchProps, ownProps) => _.assign({}, stateProps, ownProps, {
+    fetchImageList: _.partial(
+      dispatchProps.imageActions.fetchMachineImageList,
+      stateProps.machineName
+    ),
+    removeImage: _.partial(
+      dispatchProps.imageActions.removeMachineImage,
+      stateProps.machineName
+    ),
+    setShowAll: dispatchProps.imageActions.setShowAll
   })
 )
 class MachineImagesView extends React.Component<any, any>{
   componentWillMount() {
-    const { machineName, images, showAll, imageActions } = this.props;
+    const { images, showAll, fetchImageList } = this.props;
     if (_.isEmpty(images)) {
-      imageActions.fetchMachineImageList(machineName, {all: showAll});
+      fetchImageList({all: showAll});
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { machineName, operating, showAll, imageActions } = this.props;
+    const { operating, showAll, fetchImageList } = this.props;
     const currentOperating = concatObjectArrays(operating);
     const nextOperating = concatObjectArrays(nextProps.operating);
     if (currentOperating.length > nextOperating.length){
-      imageActions.fetchMachineImageList(machineName, {all: showAll});
+      fetchImageList({all: showAll});
     }
   }
 
   render() {
-    const { machineName, images, showAll, imageActions } = this.props;
+    const {
+      machineName,
+      images,
+      showAll,
+      setShowAll,
+      fetchImageList,
+      removeImage
+    } = this.props;
     return (
       <OneColumn>
         <OneColumn>
@@ -50,10 +68,9 @@ class MachineImagesView extends React.Component<any, any>{
           </PullMachineImageLink>
           <ToggleShowAllImageButton
             className={`basic right floated ${showAll ? 'purple' : 'violet'}`}
-            machineName={machineName}
             showAll={showAll}
-            setShowAll={imageActions.setShowAll}
-            fetchMachineImageList={imageActions.fetchMachineImageList}>
+            setShowAll={setShowAll}
+            fetchImageList={fetchImageList}>
             {showAll ? 'Show Taged' : 'Show All'}
           </ToggleShowAllImageButton>
         </OneColumn>
@@ -61,10 +78,9 @@ class MachineImagesView extends React.Component<any, any>{
           Images
         </CenterCircularHeader>
         <br />
-        <MachineImageTable
-          machineName={machineName}
+        <ImageTable
           images={images}
-          removeMachineImage={imageActions.removeMachineImage} />
+          removeImage={removeImage} />
       </OneColumn>
     )
   }

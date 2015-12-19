@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { SearchRegistryImageActionProps } from '../shared/props';
 
-interface SearchHubImageInputProps {
+interface SearchHubImageInputProps  extends SearchRegistryImageActionProps {
   value?: string
-  searchImages: (options: any) => void;
 }
 
 class SearchHubImageInput extends React.Component<SearchHubImageInputProps, any>{

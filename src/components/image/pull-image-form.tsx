@@ -5,19 +5,13 @@ import {
   SubmitButton,
   SubmitButtonControlMixin
 } from '../shared/forms';
-import { MachineProps } from '../shared/props'
+import { PullImageActionProps } from '../shared/props'
 
-interface PullFormProps extends MachineProps {
-  history: any,
-  pullMachineImage: (machineName: string, options: any) => void
-}
-
-export default React.createClass<PullFormProps, any>({
+export default React.createClass<PullImageActionProps, any>({
   mixins: [SubmitButtonControlMixin],
   pull(data) {
-    const { machineName, history, pullMachineImage } = this.props;
-    pullMachineImage(machineName, data);
-    history.pushState(null, `/machines/${machineName}/images`);
+    const { pullImage } = this.props;
+    pullImage(data);
   },
   render() {
     return (

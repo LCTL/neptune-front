@@ -1,19 +1,15 @@
 import * as React from 'react';
-import { MachineProps } from '../shared/props'
+import { PullImageActionProps } from '../shared/props'
 import { PullMachineImageButton } from './buttons'
 
 const { Table } = require('react-semantify');
 
-interface CreateImageAction {
-  pullMachineImage: (machineName: string, options: any) => void
-}
-
-interface HubImageTableProps extends MachineProps, CreateImageAction {
+interface HubImageTableProps extends PullImageActionProps {
   images: any[],
   pulling: string[]
 }
 
-interface RowProps extends MachineProps, CreateImageAction {
+interface RowProps extends PullImageActionProps {
   image: any,
   pulling: string[]
 }
@@ -35,7 +31,7 @@ class Head extends React.Component<any, any>{
 
 class Row extends React.Component<RowProps, any>{
   render() {
-    const { machineName, image, pulling, pullMachineImage } = this.props;
+    const { image, pulling, pullImage } = this.props;
     var baseUrl = 'https://hub.docker.com';
     if (image.is_official){
       baseUrl += '/_';
@@ -58,8 +54,7 @@ class Row extends React.Component<RowProps, any>{
         <td className="collapsing">
           <PullMachineImageButton
             className="basic blue icon compact"
-            machineName={machineName}
-            pullMachineImage={pullMachineImage}
+            pullImage={pullImage}
             pulling={pulling}
             imageName={image.name}>
             <i className='arrow down icon'></i>
@@ -72,7 +67,6 @@ class Row extends React.Component<RowProps, any>{
 
 class Body extends React.Component<HubImageTableProps, any>{
   render() {
-    const { machineName } = this.props;
     return (
       <tbody>
         {

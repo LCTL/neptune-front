@@ -21,17 +21,25 @@ import { LoadMoreRegistryImageButton } from '../image/buttons';
   dispatch => ({
     pullMachineImage: bindActionCreators(pullMachineImage, dispatch),
     searchImages: bindActionCreators(searchImages, dispatch)
+  }),
+  (stateProps, dispatchProps, ownProps) => _.assign({}, stateProps, ownProps, {
+    pullImage: _.partial(dispatchProps.pullMachineImage, stateProps.machineName),
+    searchImages: dispatchProps.searchImages
   })
 )
-class MachineContainerCreationView extends React.Component<any, any>{
+class MachinePullImageView extends React.Component<any, any>{
+  componentWillReceiveProps(nextProps) {
+    const { machineName, history } = this.props;
+    if (this.props.pulling.length < nextProps.pulling.length){
+      history.pushState(null, `/machines/${machineName}/images`);
+    }
+  }
   render() {
     const {
-      machineName,
       search,
-      history,
       pulling,
       searching,
-      pullMachineImage,
+      pullImage,
       searchImages
     } = this.props;
     var options = {}
@@ -42,9 +50,7 @@ class MachineContainerCreationView extends React.Component<any, any>{
           Pull Image
         </CenterCircularHeader>
         <MachinePullImageForm
-          history={history}
-          machineName={machineName}
-          pullMachineImage={pullMachineImage} />
+          pullImage={pullImage} />
         <br />
         <div className="ui horizontal divider">Or</div>
         <br />
@@ -56,9 +62,8 @@ class MachineContainerCreationView extends React.Component<any, any>{
                 return (
                   <SearchResultTable
                     images={search.results}
-                    machineName={machineName}
                     pulling={pulling}
-                    pullMachineImage={pullMachineImage} />
+                    pullImage={pullImage} />
                 )
               }
             })()
@@ -84,4 +89,4 @@ class MachineContainerCreationView extends React.Component<any, any>{
   }
 }
 
-export default MachineContainerCreationView;
+export default MachinePullImageView;

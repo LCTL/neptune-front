@@ -2,16 +2,16 @@ import * as moment from 'moment';
 import * as React from 'react';
 import * as DateUtils from '../../utils/data-utils';
 import { RemoveImageButton } from './buttons';
-import { MachineProps, RemoveMachineImageActionProps } from '../shared/props'
+import { RemoveImageActionProps } from '../shared/props'
 
 const Semantify = require('react-semantify');
 const prettysize = require('prettysize');
 
-interface TableProps extends MachineProps, RemoveMachineImageActionProps {
+interface TableProps extends RemoveImageActionProps {
   images: any[],
 }
 
-interface TableRowProps extends MachineProps, RemoveMachineImageActionProps {
+interface TableRowProps extends RemoveImageActionProps {
   image: any,
 }
 
@@ -35,7 +35,7 @@ class Header extends React.Component<any, any>{
 
 class Row extends React.Component<TableRowProps, any>{
   render() {
-    const { machineName, image, removeMachineImage } = this.props;
+    const { image, removeImage } = this.props;
     const repositories: string[] = [];
     const tags: string[] = [];
     const imageName = _.isEmpty(image.RepoTags) ? undefined : image.RepoTags[0];
@@ -56,9 +56,8 @@ class Row extends React.Component<TableRowProps, any>{
       removeButton = (
         <RemoveImageButton
           className="tiny compact"
-          machineName={machineName}
           imageName={imageName}
-          removeMachineImage={removeMachineImage}  />
+          removeImage={removeImage}  />
       );
     }
 
@@ -78,16 +77,15 @@ class Row extends React.Component<TableRowProps, any>{
 
 class Body extends React.Component<TableProps, any>{
   render() {
-    const { machineName, removeMachineImage } = this.props;
+    const { removeImage } = this.props;
     return (
       <tbody>
         {
           _.values(this.props.images).map((image:any) => {
             return (
               <Row key={image.Id}
-                machineName={machineName}
                 image={image}
-                removeMachineImage={removeMachineImage} />
+                removeImage={removeImage} />
             )
           })
         }
@@ -98,14 +96,13 @@ class Body extends React.Component<TableProps, any>{
 
 class ImageTable extends React.Component<TableProps, any>{
   render() {
-    const { machineName, removeMachineImage } = this.props;
+    const { removeImage } = this.props;
     return (
       <Semantify.Table>
         <Header />
         <Body
-          machineName={machineName}
           images={this.props.images}
-          removeMachineImage={removeMachineImage} />
+          removeImage={removeImage} />
       </Semantify.Table>
     );
   }

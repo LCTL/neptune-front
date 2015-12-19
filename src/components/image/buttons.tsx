@@ -2,31 +2,30 @@ import * as React from 'react';
 import { Button } from '../shared/buttons';
 import {
   StyleableProps,
-  MachineStyleableProps,
-  MachineImageStyleableProps,
-  RemoveMachineImageActionProps
+  ImageStyleableProps,
+  FetchImageListActionProps,
+  PullImageActionProps,
+  RemoveImageActionProps,
+  SearchRegistryImageActionProps
 } from '../shared/props';
 
-interface LoadMoreRegistryImageButtonProps extends StyleableProps {
+interface LoadMoreRegistryImageButtonProps extends StyleableProps, SearchRegistryImageActionProps {
   query: string,
-  page: number,
-  searchImages: (options: any) => void
+  page: number
 }
 
-interface PullMachineImageButtonProps extends MachineStyleableProps {
+interface PullMachineImageButtonProps extends StyleableProps, PullImageActionProps {
   imageName: string,
-  pullMachineImage: (machineName: string, options: any) => void,
   pulling: string[]
 }
 
-interface ToggleShowAllImageButtonProps extends MachineStyleableProps {
+interface ToggleShowAllImageButtonProps extends StyleableProps, FetchImageListActionProps {
   showAll: boolean,
-  setShowAll: (showAll: boolean) => void,
-  fetchMachineImageList: (machineName: string, options: any) => void
+  setShowAll: (showAll: boolean) => void
 }
 
 interface RemoveImageButtonProps extends
-  MachineImageStyleableProps, RemoveMachineImageActionProps {
+  ImageStyleableProps, RemoveImageActionProps {
 
 }
 
@@ -48,8 +47,8 @@ export class LoadMoreRegistryImageButton extends React.Component<LoadMoreRegistr
 
 export class PullMachineImageButton extends React.Component<PullMachineImageButtonProps, any> {
   pullMachineImage() {
-    const { machineName, imageName, pullMachineImage } = this.props;
-    pullMachineImage(machineName, {
+    const { imageName, pullImage } = this.props;
+    pullImage({
       fromImage: imageName
     });
   }
@@ -70,9 +69,9 @@ export class PullMachineImageButton extends React.Component<PullMachineImageButt
 
 export class ToggleShowAllImageButton extends React.Component<ToggleShowAllImageButtonProps, any>{
   fetchMachineImageList() {
-    const { machineName, showAll, setShowAll, fetchMachineImageList } = this.props;
+    const { showAll, setShowAll, fetchImageList } = this.props;
     setShowAll(!showAll);
-    fetchMachineImageList(machineName, {all: !showAll});
+    fetchImageList({all: !showAll});
   }
   render() {
     const { className } = this.props;
@@ -86,8 +85,8 @@ export class ToggleShowAllImageButton extends React.Component<ToggleShowAllImage
 
 export class RemoveImageButton extends React.Component<RemoveImageButtonProps, any>{
   removeMachineImage() {
-    const { machineName, imageName, removeMachineImage } = this.props;
-    removeMachineImage(machineName, imageName);
+    const { imageName, removeImage } = this.props;
+    removeImage(imageName);
   }
   render() {
     const { className } = this.props;
