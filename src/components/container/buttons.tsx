@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { concatObjectArrays } from '../../utils/object-utils';
-import { Button } from '../shared/buttons';
+import { Button, OperationButton } from '../shared/buttons';
 import {
   StyleableProps,
   OperatingProps,
@@ -78,17 +78,16 @@ export class StartContainerButton extends React.Component<StartContainerButtonPr
   }
   render() {
     const { className, containerId, operating } = this.props;
-    const loading = isActionOperating(containerId, 'start', operating)
-    const disabled = isOperating(containerId, operating);
     return (
-      <Button
+      <OperationButton
         className={`icon green ${className}`}
-        loading={loading}
-        disabled={disabled}
+        operating={operating}
+        operatingKey={containerId}
+        operatingName="start"
         onClick={this.startMachineContainer.bind(this)}>
         <i className='play icon'></i>
         {this.props.children}
-      </Button>
+      </OperationButton>
     )
   }
 }
@@ -100,17 +99,16 @@ export class StopContainerButton extends React.Component<StopContainerButtonProp
   }
   render() {
     const { className, containerId, operating } = this.props;
-    const loading = isActionOperating(containerId, 'stop', operating)
-    const disabled = isOperating(containerId, operating);
     return (
-      <Button
+      <OperationButton
         className={`icon yellow ${className}`}
-        loading={loading}
-        disabled={disabled}
+        operating={operating}
+        operatingKey={containerId}
+        operatingName="stop"
         onClick={this.stopMachineContainer.bind(this)}>
         <i className='stop icon'></i>
         {this.props.children}
-      </Button>
+      </OperationButton>
     )
   }
 }
@@ -122,17 +120,16 @@ export class RemoveContainerButton extends React.Component<RemoveContainerButton
   }
   render() {
     const { className, containerId, operating } = this.props;
-    const loading = isActionOperating(containerId, 'remove', operating)
-    const disabled = isOperating(containerId, operating);
     return (
-      <Button
+      <OperationButton
         className={`icon red ${className}`}
-        loading={loading}
-        disabled={disabled}
+        operating={operating}
+        operatingKey={containerId}
+        operatingName="remove"
         onClick={this.removeMachineContainer.bind(this)}>
         <i className='trash icon'></i>
         {this.props.children}
-      </Button>
+      </OperationButton>
     )
   }
 }
