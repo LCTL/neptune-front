@@ -89,10 +89,11 @@ class MachineContainerCreationView extends React.Component<any, any>{
               ) {
                 return (
                   <RemoveContainerButton
-                    className="right floated"
+                    className="labeled right floated"
                     operating={operating}
                     containerId={containerInfo.Id}
                     removeContainer={removeContainer}>
+                    Remove
                   </RemoveContainerButton>
                 )
               }
@@ -103,12 +104,14 @@ class MachineContainerCreationView extends React.Component<any, any>{
               if (containerInfo) {
                 return (
                   <AutoSwitchStartStopButton
-                    className="right floated"
+                    className="labeled right floated"
                     operating={operating}
                     containerId={containerInfo.Id}
                     containerStatus={containerInfo.State.Status}
                     startContainer={startContainer}
-                    stopContainer={stopContainer}>
+                    stopContainer={stopContainer}
+                    startChildren="Start"
+                    stopChildren="Stop">
                   </AutoSwitchStartStopButton>
                 )
               }

@@ -42,7 +42,9 @@ interface AutoSwitchStartStopButtonProps extends
   ContainerStyleableProps,
   StartContainerActionProps,
   StopContainerActionProps {
-    containerStatus: string
+    containerStatus: string,
+    stopChildren?: any,
+    startChildren?: any
 }
 
 function isOperating(containerId: string, operating) {
@@ -143,7 +145,9 @@ export class AutoSwitchStartStopButton extends React.Component<AutoSwitchStartSt
       operating,
       containerId,
       startContainer,
-      stopContainer
+      stopContainer,
+      stopChildren,
+      startChildren
     } = this.props;
     let button = (<noscript />);
     if (/up|running/i.test(containerStatus)) {
@@ -152,7 +156,9 @@ export class AutoSwitchStartStopButton extends React.Component<AutoSwitchStartSt
           className={className}
           operating={operating}
           containerId={containerId}
-          stopContainer={stopContainer} />
+          stopContainer={stopContainer}>
+          {stopChildren}
+        </StopContainerButton>
       );
     } else if (/(exit|created)/i.test(containerStatus)) {
       button = (
@@ -160,7 +166,9 @@ export class AutoSwitchStartStopButton extends React.Component<AutoSwitchStartSt
           className={className}
           operating={operating}
           containerId={containerId}
-          startContainer={startContainer} />
+          startContainer={startContainer}>
+          {startChildren}
+        </StartContainerButton>
       );
     }
     return button;
