@@ -4,6 +4,7 @@ import * as DateUtils from '../../utils/date-utils';
 import { CommonProps, MachineIpProps } from '../shared/props'
 import { Button } from '../shared/buttons';
 import {
+  OperatingProps,
   StartContainerActionProps,
   StopContainerActionProps,
   RemoveContainerActionProps,
@@ -16,6 +17,7 @@ const Semantify = require('react-semantify');
 const Link = require('react-router').Link
 
 interface ContainerTable extends
+  OperatingProps,
   CreateContainerHostUrlActionProps,
   CreateContainerDetailPathActionProps,
   StartContainerActionProps,
@@ -25,6 +27,7 @@ interface ContainerTable extends
 }
 
 interface ContainerTableRowProps extends
+  OperatingProps,
   CreateContainerHostUrlActionProps,
   CreateContainerDetailPathActionProps,
   StartContainerActionProps,
@@ -55,8 +58,7 @@ const Header = React.createClass<any, any>({
 const Row = React.createClass<ContainerTableRowProps, any>({
   render: function() {
     const {
-      machineName,
-      machineIp,
+      operating,
       container,
       startContainer,
       stopContainer,
@@ -105,6 +107,7 @@ const Row = React.createClass<ContainerTableRowProps, any>({
       removeButton = (
         <RemoveContainerButton
           className="tiny compact"
+          operating={operating}
           containerId={container.Id}
           removeContainer={removeContainer} />
       );
@@ -115,6 +118,7 @@ const Row = React.createClass<ContainerTableRowProps, any>({
         <td className="collapsing">
           <AutoSwitchStartStopButton
             className="tiny compact"
+            operating={operating}
             containerStatus={container.Status}
             containerId={container.Id}
             startContainer={startContainer}
@@ -142,6 +146,7 @@ const Body = React.createClass<ContainerTable, any>({
   render: function() {
     const {
       containers,
+      operating,
       startContainer,
       stopContainer,
       removeContainer,
@@ -154,6 +159,7 @@ const Body = React.createClass<ContainerTable, any>({
           _.values(containers).map((container:any) => {
             return (
               <Row key={container.Id}
+                operating={operating}
                 container={container}
                 startContainer={startContainer}
                 stopContainer={stopContainer}

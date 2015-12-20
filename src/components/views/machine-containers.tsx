@@ -60,6 +60,7 @@ class MachineContainersView extends React.Component<any, any>{
     const {
       machineName,
       machineIp,
+      operating,
       containers,
       showAll,
       fetchContainerList,
@@ -92,6 +93,7 @@ class MachineContainersView extends React.Component<any, any>{
         </CenterCircularHeader>
         <br />
         <MachineContainerTable
+          operating={operating}
           containers={containers}
           startContainer={startContainer}
           stopContainer={stopContainer}

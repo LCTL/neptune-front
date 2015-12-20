@@ -7,6 +7,10 @@ export interface StyleableProps extends CommonProps {
   className?: string
 }
 
+export interface OperatingProps extends CommonProps {
+  operating: any
+}
+
 export interface MachineProps extends CommonProps {
   machineName: string
 }

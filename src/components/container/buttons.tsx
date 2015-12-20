@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { concatObjectArrays } from '../../utils/object-utils';
 import { Button } from '../shared/buttons';
 import {
   StyleableProps,
+  OperatingProps,
   FetchContainerListActionProps,
   ContainerStyleableProps,
   StartContainerActionProps,
@@ -14,23 +16,41 @@ interface ToggleShowAllContainersButtonProps extends StyleableProps, FetchContai
   setShowAll: (showAll: boolean) => void
 }
 
-interface StartContainerButtonProps extends ContainerStyleableProps, StartContainerActionProps {
+interface StartContainerButtonProps extends
+  OperatingProps,
+  ContainerStyleableProps,
+  StartContainerActionProps {
 
 }
 
-interface StopContainerButtonProps extends ContainerStyleableProps, StopContainerActionProps {
+interface StopContainerButtonProps extends
+  OperatingProps,
+  ContainerStyleableProps,
+  StopContainerActionProps {
 
 }
 
-interface RemoveContainerButtonProps extends ContainerStyleableProps, RemoveContainerActionProps {
+interface RemoveContainerButtonProps extends
+  OperatingProps,
+  ContainerStyleableProps,
+  RemoveContainerActionProps {
 
 }
 
 interface AutoSwitchStartStopButtonProps extends
+  OperatingProps,
   ContainerStyleableProps,
   StartContainerActionProps,
   StopContainerActionProps {
     containerStatus: string
+}
+
+function isOperating(containerId: string, operating) {
+  return _.includes(concatObjectArrays(operating), containerId);
+}
+
+function isActionOperating(containerId: string, action: string, operating) {
+  return _.includes(operating[action], containerId);
 }
 
 export class ToggleShowAllContainersButton extends React.Component<ToggleShowAllContainersButtonProps, any>{
@@ -55,9 +75,15 @@ export class StartContainerButton extends React.Component<StartContainerButtonPr
     startContainer(containerId);
   }
   render() {
-    const { className } = this.props;
+    const { className, containerId, operating } = this.props;
+    const loading = isActionOperating(containerId, 'start', operating)
+    const disabled = isOperating(containerId, operating);
     return (
-      <Button className={`icon green ${className}`} onClick={this.startMachineContainer.bind(this)}>
+      <Button
+        className={`icon green ${className}`}
+        loading={loading}
+        disabled={disabled}
+        onClick={this.startMachineContainer.bind(this)}>
         <i className='play icon'></i>
         {this.props.children}
       </Button>
@@ -71,9 +97,15 @@ export class StopContainerButton extends React.Component<StopContainerButtonProp
     stopContainer(containerId);
   }
   render() {
-    const { className } = this.props;
+    const { className, containerId, operating } = this.props;
+    const loading = isActionOperating(containerId, 'stop', operating)
+    const disabled = isOperating(containerId, operating);
     return (
-      <Button className={`icon yellow ${className}`} onClick={this.stopMachineContainer.bind(this)}>
+      <Button
+        className={`icon yellow ${className}`}
+        loading={loading}
+        disabled={disabled}
+        onClick={this.stopMachineContainer.bind(this)}>
         <i className='stop icon'></i>
         {this.props.children}
       </Button>
@@ -87,9 +119,15 @@ export class RemoveContainerButton extends React.Component<RemoveContainerButton
     removeContainer(containerId);
   }
   render() {
-    const { className } = this.props;
+    const { className, containerId, operating } = this.props;
+    const loading = isActionOperating(containerId, 'remove', operating)
+    const disabled = isOperating(containerId, operating);
     return (
-      <Button className={`icon red ${className}`} onClick={this.removeMachineContainer.bind(this)}>
+      <Button
+        className={`icon red ${className}`}
+        loading={loading}
+        disabled={disabled}
+        onClick={this.removeMachineContainer.bind(this)}>
         <i className='trash icon'></i>
         {this.props.children}
       </Button>
@@ -102,6 +140,7 @@ export class AutoSwitchStartStopButton extends React.Component<AutoSwitchStartSt
     const {
       className,
       containerStatus,
+      operating,
       containerId,
       startContainer,
       stopContainer
@@ -111,6 +150,7 @@ export class AutoSwitchStartStopButton extends React.Component<AutoSwitchStartSt
       button = (
         <StopContainerButton
           className={className}
+          operating={operating}
           containerId={containerId}
           stopContainer={stopContainer} />
       );
@@ -118,6 +158,7 @@ export class AutoSwitchStartStopButton extends React.Component<AutoSwitchStartSt
       button = (
         <StartContainerButton
           className={className}
+          operating={operating}
           containerId={containerId}
           startContainer={startContainer} />
       );
