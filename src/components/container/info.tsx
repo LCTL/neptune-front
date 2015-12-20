@@ -70,10 +70,10 @@ class ContainerInfo extends React.Component<ContainerInfoProps, any> {
           <Row name="Entrypoint" value={this.arrayString(info.Config.Entrypoint, ' ')} />
           <Row name="Command" value={this.arrayString(info.Config.Cmd, ' ')} />
           <Row name="Environment Variable" value={this.arrayString(info.Config.Env, ';')} />
-          <Row name="Exposed Ports" value={this.arrayString(Object.keys(info.Config.ExposedPorts), ', ')} />
+          <Row name="Exposed Ports" value={this.arrayString(Object.keys(info.Config.ExposedPorts || {}), ', ')} />
           <Row name="Port Bindings" value={portBindings} />
           <Row name="Working Directory" value={info.Config.WorkingDir} />
-          <Row name="Volumes" value={this.arrayString(Object.keys(info.Config.Volumes), '; ')} />
+          <Row name="Volumes" value={this.arrayString(Object.keys(info.Config.Volumes || {}), '; ')} />
           <Row name="User" value={info.Config.User} />
         </tbody>
       </Table>
