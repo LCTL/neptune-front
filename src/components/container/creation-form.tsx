@@ -55,6 +55,18 @@ export default React.createClass<CreationFormProps, any>({
       data.HostConfig.PortBindings = bindinngs;
     }
 
+    if (data.HostConfig && data.HostConfig.Binds) {
+      let binds = data.HostConfig.Binds.filter(value => _.includes(value, ':'));
+      let volumes = data.HostConfig.Binds.filter(value => !_.includes(value, ':'));
+      data.HostConfig.Binds = binds;
+      // https://github.com/docker/docker/issues/15908
+      // 'volumes' key is undocumented in the API docs.
+      if (!_.isEmpty(volumes)) {
+        data.Volumes = {}
+        volumes.forEach(volume => data.Volumes[volume] = {});
+      }
+    }
+
     createContainer(data);
   },
   render: function() {
