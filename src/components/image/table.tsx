@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import * as React from 'react';
-import * as DateUtils from '../../utils/data-utils';
+import * as DateUtils from '../../utils/date-utils';
 import { RemoveImageButton } from './buttons';
 import { RemoveImageActionProps } from '../shared/props'
 
