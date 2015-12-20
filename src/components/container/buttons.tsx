@@ -107,7 +107,7 @@ export class AutoSwitchStartStopButton extends React.Component<AutoSwitchStartSt
       stopContainer
     } = this.props;
     let button = (<noscript />);
-    if (/up/i.test(containerStatus)) {
+    if (/up|running/i.test(containerStatus)) {
       button = (
         <StopContainerButton
           className={className}
