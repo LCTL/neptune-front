@@ -74,6 +74,7 @@ class ContainerInfo extends React.Component<ContainerInfoProps, any> {
           <Row name="Port Bindings" value={portBindings} />
           <Row name="Working Directory" value={info.Config.WorkingDir} />
           <Row name="Volumes" value={this.arrayString(Object.keys(info.Config.Volumes || {}), '; ')} />
+          <Row name="Host Mapped Volumes" value={this.arrayString(info.HostConfig.Binds, ', ')} />
           <Row name="User" value={info.Config.User} />
         </tbody>
       </Table>
