@@ -1,7 +1,12 @@
 import { Response } from 'superagent';
 
+export interface ApiStreamResponse {
+  promise: Promise<Response>,
+  onprogress?: (data) => void
+}
+
 export interface API {
-  (...args): Promise<Response>
+  (...args): Promise<Response> | ApiStreamResponse
 }
 
 export interface AsyncAction {
@@ -10,7 +15,8 @@ export interface AsyncAction {
   id: string,
   args: any[],
   result?: any,
-  err?: any
+  err?: any,
+  progressData?: any
 }
 
 export interface PathInfo {

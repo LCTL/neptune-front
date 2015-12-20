@@ -11,8 +11,10 @@ export function apiActionCreator(actionType:string, api: API) {
         id,
         args,
       })
-      api(...args)
-        .then(res => res.body)
+      const response:any = api(...args)
+      const promise = response.promise || response;
+
+      promise.then(res => res.body)
         .then(result => dispatch({
           type: actionType,
           asyncStatus: ASYNC_STATUS.COMPLETED,
@@ -33,6 +35,17 @@ export function apiActionCreator(actionType:string, api: API) {
           id,
           args
         }));
+
+      if (response.promise) {
+        response.onprogress = (progressData) => dispatch({
+          type: actionType,
+          asyncStatus: ASYNC_STATUS.PROGRESS,
+          progressData,
+          id,
+          args
+        })
+      }
+
     }
   }
 }

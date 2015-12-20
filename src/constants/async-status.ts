@@ -1,6 +1,7 @@
 export default {
   START: 'START',
   FAILED: 'ERROR',
+  PROGRESS: 'PROGRESS',
   COMPLETED: 'COMPLETED',
   ENDED: 'ENDED'
 };
