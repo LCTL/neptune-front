@@ -1,4 +1,6 @@
-export interface CommonProps {
+import * as React from 'react';
+
+export interface CommonProps extends React.DOMAttributes {
   //key?: any,
   children?: any
 }
