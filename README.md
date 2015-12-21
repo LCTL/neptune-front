@@ -24,6 +24,7 @@ Recommend install **Oracle VirtualBox** for development. (https://www.virtualbox
 1. git clone https://github.com/lawrence0819/neptune-front
 2. cd neptune-front
 3. npm run dev
+4. Browser: http://localhost:8080/webpack-dev-server/index.html
 
 ## Screenshot
 
