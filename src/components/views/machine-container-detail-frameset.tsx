@@ -6,11 +6,12 @@ import { hostUrlFnFactory } from '../../utils/container-utils';
 import * as containerActions from '../../actions/container-actions';
 import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
+import { MachineContainerDetailMenu } from '../shared/menus';
 import { AutoSwitchStartStopButton, RemoveContainerButton } from '../container/buttons';
-import ContainerInfo from '../container/info';
 
 @connect(
   state => {
+    const router = state.router;
     const machineName = state.router.params.machineName;
     const machineIp = state.machine.ipsByName[machineName];
     const containerId = state.router.params.containerId;
@@ -20,6 +21,7 @@ import ContainerInfo from '../container/info';
       var containerInfo = containerInfosByMachineName[machineName][containerId];
     }
     return {
+      router,
       machineName,
       machineIp,
       containerId,
@@ -47,12 +49,16 @@ import ContainerInfo from '../container/info';
       dispatchProps.containerActions.removeMachineContainer,
       stateProps.machineName
     ),
+    fetchContainerLogs: _.partial(
+      dispatchProps.containerActions.fetchMachineContainerLogs,
+      stateProps.machineName
+    ),
     createHostUrl: hostUrlFnFactory(stateProps.machineIp),
   })
 )
-class MachineContainerCreationView extends React.Component<any, any>{
+class MachineContainerDetailFrameset extends React.Component<any, any>{
   componentWillMount() {
-    const { inspect, containerId } = this.props;
+    const { inspect, containerId, fetchContainerLogs } = this.props;
     inspect(containerId);
   }
   componentWillReceiveProps(nextProps) {
@@ -71,12 +77,16 @@ class MachineContainerCreationView extends React.Component<any, any>{
   }
   render() {
     const {
+      router,
+      machineName,
+      containerId,
       operating,
       containerInfo,
       startContainer,
       stopContainer,
       removeContainer,
-      createHostUrl
+      createHostUrl,
+      children
     } = this.props;
     return (
       <OneColumn>
@@ -121,17 +131,12 @@ class MachineContainerCreationView extends React.Component<any, any>{
         <CenterCircularHeader icon="grid layout">
           {containerInfo && containerInfo.Name ? containerInfo.Name.substring(1) : ''}
         </CenterCircularHeader>
+        <MachineContainerDetailMenu router={router} machineName={machineName} containerId={containerId} />
         <br />
-        {
-          (() => {
-            if (containerInfo) {
-              return (<ContainerInfo info={containerInfo} createHostUrl={createHostUrl} />)
-            }
-          })()
-        }
+        {children}
       </OneColumn>
     )
   }
 }
 
-export default MachineContainerCreationView;
+export default MachineContainerDetailFrameset;

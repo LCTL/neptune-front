@@ -20,11 +20,9 @@ export function stream(request: Request<any>): ApiStreamResponse {
   request.on('progress', e => {
     if (response.onprogress) {
       const xhr = e.target;
-      let response = xhr.responseText;
-      if (response) {
-        response = response.trim().replace(/}/g, '},');
-        response = response.substr(0, response.length - 1);
-        response.onprogress(JSON.parse(`[${response}]`));
+      let text = xhr.responseText;
+      if (text) {
+        response.onprogress(text);
       }
     }
   });

@@ -9,7 +9,9 @@ import MachineDetail from './components/views/machine-detail-frameset';
 import MachineDashboard from './components/views/machine-dashboard'
 import MachineContainers from './components/views/machine-containers'
 import MachineContainerCreation from './components/views/machine-container-creation';
-import MachineContainerDetail from './components/views/machine-container-detail'
+import MachineContainerDetailFrameset from './components/views/machine-container-detail-frameset'
+import MachineContainerInfo from './components/views/machine-container-info';
+import MachineContainerLog from './components/views/machine-container-log';
 import MachineImages from './components/views/machine-images';
 import MachinePullImage from './components/views/machine-pull-image';
 
@@ -30,7 +32,11 @@ render((
           <IndexRoute component={MachineDashboard} />
           <Route path='containers' component={MachineContainers} />
           <Route path='create-container' component={MachineContainerCreation} />
-          <Route path='containers/:containerId' component={MachineContainerDetail} />
+          <Route path='containers/:containerId' component={MachineContainerDetailFrameset}>
+            <IndexRoute component={MachineContainerInfo} />
+            <Route path='info' component={MachineContainerInfo} />
+            <Route path='logs' component={MachineContainerLog} />
+          </Route>
           <Route path='images' component={MachineImages} />
           <Route path='pull-image' component={MachinePullImage} />
         </Route>

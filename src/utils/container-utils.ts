@@ -3,4 +3,4 @@ export const hostUrlFnFactory
 
 export const machineContainerDetailPathFnFactory
   = (machineName: string) =>
-    (containerId: string) => `/machines/${machineName}/containers/${containerId}`
+    (containerId: string) => `/machines/${machineName}/containers/${containerId}/info`

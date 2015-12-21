@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { ActiveLink } from './links';
-import { MachineProps } from './props';
+import { MachineProps, ContainerProps } from './props';
 
 const Semantify = require('react-semantify');
 const { Link } = require('react-router');
 
 interface MachineDetailMenuProps extends MachineProps {
+  router: any
+}
+
+interface MachineContainerDetailMenuProps extends MachineProps, ContainerProps {
   router: any
 }
 
@@ -34,3 +38,15 @@ export const MachineDetailMenu = React.createClass<MachineDetailMenuProps, any>(
     );
   }
 });
+
+export class MachineContainerDetailMenu extends React.Component<MachineContainerDetailMenuProps, any>{
+  render(){
+    var { router, machineName, containerId } = this.props;
+    return (
+      <Semantify.Menu className="top attached tabular">
+        <ActiveLink to={`/machines/${machineName}/containers/${containerId}/info`} router={router}>Info</ActiveLink>
+        <ActiveLink to={`/machines/${machineName}/containers/${containerId}/logs`} router={router}>Logs</ActiveLink>
+      </Semantify.Menu>
+    );
+  }
+};

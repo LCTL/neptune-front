@@ -116,6 +116,36 @@ function containerInfosByMachineName(state = {}, action: AsyncAction) {
   return state;
 }
 
+function containerLogsByMachineName(state = {}, action: AsyncAction) {
+  if (action.type === ACTION_TYPES.FETCH_MACHINE_CONTAINER_LOGS) {
+    let logs = '';
+
+    if (action.asyncStatus === ASYNC_STATUS.COMPLETED) {
+      logs = action.result || "";
+    } else if (action.asyncStatus === ASYNC_STATUS.PROGRESS) {
+      logs = action.progressData || "";
+    }
+
+    if (logs) {
+      const machineName = action.args[0];
+      const containerId = action.args[1];
+      const machineContainers = _.assign({}, state[machineName]);
+      var temp = ''
+      //TODO: first 8 characters are invalid code ??
+      logs.split(/\r\n|\r|\n/g).forEach(line => temp += line.substr(8) + '\n');
+      machineContainers[containerId] = {
+        requestId: action.id,
+        logs: temp
+      }
+      return _.assign({}, state, {
+        [machineName]: machineContainers
+      });
+    }
+
+  }
+  return state;
+}
+
 function showAll(state = true, action) {
   switch(action.type) {
     case ACTION_TYPES.SET_SHOW_ALL_CONTAINERS:
@@ -128,6 +158,7 @@ export default combineReducers({
   operatingByMachineName,
   containersByMachineName,
   containerInfosByMachineName,
+  containerLogsByMachineName,
   autoCompleteImagesByMachineName,
   showAll
 })

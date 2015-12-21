@@ -1,6 +1,6 @@
 const request = require('superagent');
 import { Response } from 'superagent';
-import { apiBaseUrl, end, Options} from './shared'
+import { apiBaseUrl, end, stream, Options} from './shared'
 
 function buildPath(machineName: string): string {
   return `${apiBaseUrl}/machines/${machineName}/containers`;
@@ -12,6 +12,9 @@ export default {
   },
   inspect: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
     return end(request.get(`${buildPath(machineName)}/${containerId}`).query(options));
+  },
+  logs: function (machineName: string, containerId: string, options?: Options) {
+    return stream(request.get(`${buildPath(machineName)}/${containerId}/logs`).query(options));
   },
   create: function (machineName: string, options: Options): Promise<Response> {
     return end(request.post(`${buildPath(machineName)}`).send(options));
