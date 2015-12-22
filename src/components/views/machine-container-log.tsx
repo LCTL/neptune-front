@@ -50,7 +50,7 @@ class MachineContainerLogView extends React.Component<any, any>{
     const { logWrapper } = this.props;
     if (logWrapper) {
       return (
-        <pre>
+        <pre className="container logs">
           {logWrapper.logs}
         </pre>
       );
