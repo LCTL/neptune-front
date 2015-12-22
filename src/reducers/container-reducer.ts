@@ -130,12 +130,10 @@ function containerLogsByMachineName(state = {}, action: AsyncAction) {
       const machineName = action.args[0];
       const containerId = action.args[1];
       const machineContainers = _.assign({}, state[machineName]);
-      var temp = ''
-      //TODO: first 8 characters are invalid code ??
-      logs.split(/\r\n|\r|\n/g).forEach(line => temp += line.substr(8) + '\n');
+      //TODO: remove control character but still remain strange character
       machineContainers[containerId] = {
         requestId: action.id,
-        logs: temp
+        logs: logs.replace(/[^\x20-\xE007F\n]/g, '')
       }
       return _.assign({}, state, {
         [machineName]: machineContainers
