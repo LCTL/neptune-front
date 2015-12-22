@@ -6,6 +6,7 @@ import {
   InputField,
   AutoCompleteInputField,
   MultipleValueInputTextField,
+  CheckboxField,
   SubmitButton,
   SubmitButtonControlMixin
 } from '../shared/forms';
@@ -116,6 +117,18 @@ export default React.createClass<CreationFormProps, any>({
           name="HostConfig.Binds"
           label="Binds Volume (container_path, host_path:container_path, host_path:container_path:ro)"
           placeholder="A list of volume bindings for this container" />
+        <CheckboxField
+          className="toggle"
+          name="HostConfig.PublishAllPorts"
+          label="Publish All Ports (Allocates a random host port for all of a container’s exposed ports)" />
+        <CheckboxField
+          className="toggle"
+          name="HostConfig.Privileged"
+          label="Privileged (Gives the container full access to the host)" />
+        <CheckboxField
+          className="toggle"
+          name="HostConfig.ReadonlyRootfs"
+          label="Read only Rootfs (Mount the container’s root filesystem as read only)" />
         <SubmitButton className="green" disabled={this.state.disableSubmit} text="Create" />
       </Form>
     )
