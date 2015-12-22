@@ -2,6 +2,7 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchMachineContainerLogs } from '../../actions/container-actions';
+import { abort } from '../../actions/http-request-actions';
 
 @connect(
   state => {
@@ -19,19 +20,28 @@ import { fetchMachineContainerLogs } from '../../actions/container-actions';
   },
   dispatch => ({
     fetchMachineContainerLogs: bindActionCreators(fetchMachineContainerLogs, dispatch),
+    abortLogRequest: bindActionCreators(abort, dispatch)
   }),
   (stateProps, dispatchProps, ownProps) => _.assign({}, stateProps, ownProps, {
     fetchLogs: _.partial(
       dispatchProps.fetchMachineContainerLogs,
       stateProps.machineName,
       stateProps.containerId
-    )
+    ),
+    abortLogRequest: dispatchProps.abortLogRequest
   })
 )
 class MachineContainerLogView extends React.Component<any, any>{
+  componentWillUnmount() {
+    const { logWrapper, abortLogRequest } = this.props;
+    if (logWrapper && logWrapper.requestId) {
+      abortLogRequest(logWrapper.requestId);
+    }
+  }
   componentWillMount() {
     const { containerId, fetchLogs } = this.props;
     fetchLogs({
+      follow: true,
       stdout: true,
       stderr: true
     });

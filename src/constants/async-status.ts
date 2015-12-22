@@ -3,5 +3,6 @@ export default {
   FAILED: 'ERROR',
   PROGRESS: 'PROGRESS',
   COMPLETED: 'COMPLETED',
+  ABORTED: 'ABORTED',
   ENDED: 'ENDED'
 };

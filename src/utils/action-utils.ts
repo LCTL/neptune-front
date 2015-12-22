@@ -1,3 +1,4 @@
+import * as _ from 'lodash'
 import ASYNC_STATUS from '../constants/async-status';
 import { API } from '../constants/interfaces';
 
@@ -37,10 +38,27 @@ export function apiActionCreator(actionType:string, api: API) {
         }));
 
       if (response.promise) {
+        const request = response.request;
+        request.abort = _.wrap(request.abort.bind(request), (fn) => {
+          fn();
+          dispatch({
+            type: actionType,
+            asyncStatus: ASYNC_STATUS.ABORTED,
+            id,
+            args
+          });
+          dispatch({
+            type: actionType,
+            asyncStatus: ASYNC_STATUS.ENDED,
+            id,
+            args
+          });
+        })
         response.onprogress = (progressData) => dispatch({
           type: actionType,
           asyncStatus: ASYNC_STATUS.PROGRESS,
           progressData,
+          request: response.request,
           id,
           args
         })

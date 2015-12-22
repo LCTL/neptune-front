@@ -27,7 +27,8 @@ export function stream(request: Request<any>): ApiStreamResponse {
     }
   });
   response = {
-    promise: _end.apply(request)
+    promise: _end.apply(request),
+    request: request
   };
   return response;
 }

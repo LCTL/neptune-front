@@ -6,6 +6,7 @@ import docker from '../reducers/docker-reducer';
 import image from '../reducers/image-reducer';
 import registry from '../reducers/registry-reducer';
 import error from '../reducers/error-reducer';
+import httpRequest from '../reducers/http-request-reducer';
 
 const createLogger = require('redux-logger');
 const createHistory = require('history/lib/createHashHistory');
@@ -26,7 +27,8 @@ const reducer = combineReducers({
   container,
   image,
   registry,
-  error
+  error,
+  httpRequest
 });
 
 export default compose(

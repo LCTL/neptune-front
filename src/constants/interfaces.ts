@@ -1,7 +1,8 @@
-import { Response } from 'superagent';
+import { Request, Response } from 'superagent';
 
 export interface ApiStreamResponse {
   promise: Promise<Response>,
+  request: Request<any>,
   onprogress?: (data) => void
 }
 
@@ -16,7 +17,8 @@ export interface AsyncAction {
   args: any[],
   result?: any,
   err?: any,
-  progressData?: any
+  progressData?: any,
+  request?: Request<any>
 }
 
 export interface PathInfo {
