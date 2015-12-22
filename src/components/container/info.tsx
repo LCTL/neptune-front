@@ -34,10 +34,13 @@ class ContainerInfo extends React.Component<ContainerInfoProps, any> {
   }
   createPortBindings(info): any {
     const { createHostUrl } = this.props;
-    if (info && info.HostConfig && info.HostConfig.PortBindings) {
-      const bindings = info.HostConfig.PortBindings;
+    if (info && info.NetworkSettings && info.NetworkSettings.Ports) {
+      const bindings = info.NetworkSettings.Ports;
       return Object.keys(bindings).map(key => {
         const values: any[] = bindings[key];
+        if (!values) {
+          return;
+        }
         return values.map(value => {
           var hostIpPort = value.HostIp;
           if (hostIpPort === '') {
