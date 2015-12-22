@@ -13,7 +13,6 @@ import { AutoSwitchStartStopButton, RemoveContainerButton } from '../container/b
   state => {
     const router = state.router;
     const machineName = state.router.params.machineName;
-    const machineIp = state.machine.ipsByName[machineName];
     const containerId = state.router.params.containerId;
     const containerInfosByMachineName = state.container.containerInfosByMachineName;
     const operating = state.container.operatingByMachineName[machineName];
@@ -23,7 +22,6 @@ import { AutoSwitchStartStopButton, RemoveContainerButton } from '../container/b
     return {
       router,
       machineName,
-      machineIp,
       containerId,
       operating,
       containerInfo: containerInfo
@@ -52,8 +50,7 @@ import { AutoSwitchStartStopButton, RemoveContainerButton } from '../container/b
     fetchContainerLogs: _.partial(
       dispatchProps.containerActions.fetchMachineContainerLogs,
       stateProps.machineName
-    ),
-    createHostUrl: hostUrlFnFactory(stateProps.machineIp),
+    )
   })
 )
 class MachineContainerDetailFrameset extends React.Component<any, any>{
@@ -85,7 +82,6 @@ class MachineContainerDetailFrameset extends React.Component<any, any>{
       startContainer,
       stopContainer,
       removeContainer,
-      createHostUrl,
       children
     } = this.props;
     return (

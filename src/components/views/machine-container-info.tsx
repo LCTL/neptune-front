@@ -7,6 +7,7 @@ import ContainerInfo from '../container/info';
 @connect(
   state => {
     const machineName = state.router.params.machineName;
+    const machineIp = state.machine.ipsByName[machineName];
     const containerId = state.router.params.containerId;
     const containerInfosByMachineName = state.container.containerInfosByMachineName;
     if (_.has(containerInfosByMachineName, `${machineName}.${containerId}`)) {
@@ -14,6 +15,7 @@ import ContainerInfo from '../container/info';
     }
     return {
       machineName,
+      machineIp,
       containerInfo: containerInfo,
     }
   },
