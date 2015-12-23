@@ -16,6 +16,10 @@ export const inspectMachineContainer
   = apiActionCreator(ACTION_TYPES.INSPECT_MACHINE_CONTAINER, api.inspect);
 export const fetchMachineContainerLogs
   = apiActionCreator(ACTION_TYPES.FETCH_MACHINE_CONTAINER_LOGS, api.logs);
+export const pauseMachineContainer
+  = apiActionCreator(ACTION_TYPES.PAUSE_MACHINE_CONTAINER, api.pause);
+export const unpauseMachineContainer
+  = apiActionCreator(ACTION_TYPES.UNPAUSE_MACHINE_CONTAINER, api.unpause);
 
 export const setShowAll = (showAll: boolean) => ({
   type: ACTION_TYPES.SET_SHOW_ALL_CONTAINERS,

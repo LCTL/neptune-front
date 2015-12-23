@@ -8,7 +8,9 @@ import {
   ContainerStyleableProps,
   StartContainerActionProps,
   StopContainerActionProps,
-  RemoveContainerActionProps
+  RemoveContainerActionProps,
+  PauseContainerActionProps,
+  UnpauseContainerActionProps
 } from '../shared/props';
 
 interface ToggleShowAllContainersButtonProps extends StyleableProps, FetchContainerListActionProps {
@@ -28,6 +30,14 @@ interface StopContainerButtonProps extends
   ContainerStyleableProps,
   StopContainerActionProps {
 
+}
+
+interface PauseContainerButtonProps extends
+  OperatingProps,
+  ContainerStyleableProps,
+  PauseContainerActionProps,
+  UnpauseContainerActionProps {
+    paused: boolean
 }
 
 interface RemoveContainerButtonProps extends
@@ -107,6 +117,36 @@ export class StopContainerButton extends React.Component<StopContainerButtonProp
         operatingName="stop"
         onClick={this.stopMachineContainer.bind(this)}>
         <i className='stop icon'></i>
+        {this.props.children}
+      </OperationButton>
+    )
+  }
+}
+
+export class PauseToggleContainerButton extends React.Component<PauseContainerButtonProps, any>{
+  togglePauseContainer() {
+    const { containerId, paused, pauseContainer, unpauseContainer } = this.props;
+    if (paused) {
+      unpauseContainer(containerId);
+    } else {
+      pauseContainer(containerId);
+    }
+  }
+  render() {
+    const { className, containerId, operating, paused } = this.props;
+    const operatingName = paused ? 'unpause' : 'pause';
+    let activeClassName = ''
+    if (paused) {
+      activeClassName = 'active'
+    }
+    return (
+      <OperationButton
+        className={`icon toggle ${activeClassName} ${className}`}
+        operating={operating}
+        operatingKey={containerId}
+        operatingName={operatingName}
+        onClick={this.togglePauseContainer.bind(this)}>
+        <i className='pause icon'></i>
         {this.props.children}
       </OperationButton>
     )

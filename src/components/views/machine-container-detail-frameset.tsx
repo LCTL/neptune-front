@@ -3,11 +3,16 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { hostUrlFnFactory } from '../../utils/container-utils';
+import { concatObjectArrays } from '../../utils/object-utils';
 import * as containerActions from '../../actions/container-actions';
 import { OneColumn } from '../shared/grids';
 import { CenterCircularHeader } from '../shared/headers';
 import { MachineContainerDetailMenu } from '../shared/menus';
-import { AutoSwitchStartStopButton, RemoveContainerButton } from '../container/buttons';
+import {
+  AutoSwitchStartStopButton,
+  RemoveContainerButton,
+  PauseToggleContainerButton
+} from '../container/buttons';
 
 @connect(
   state => {
@@ -47,6 +52,14 @@ import { AutoSwitchStartStopButton, RemoveContainerButton } from '../container/b
       dispatchProps.containerActions.removeMachineContainer,
       stateProps.machineName
     ),
+    pauseContainer: _.partial(
+      dispatchProps.containerActions.pauseMachineContainer,
+      stateProps.machineName
+    ),
+    unpauseContainer: _.partial(
+      dispatchProps.containerActions.unpauseMachineContainer,
+      stateProps.machineName
+    ),
     fetchContainerLogs: _.partial(
       dispatchProps.containerActions.fetchMachineContainerLogs,
       stateProps.machineName
@@ -60,17 +73,19 @@ class MachineContainerDetailFrameset extends React.Component<any, any>{
   }
   componentWillReceiveProps(nextProps) {
     const { machineName, containerId, operating, inspect, history } = this.props;
-    const startOrStop = operating.start.concat(operating.stop);
-    const nextStartOrStop = nextProps.operating.start.concat(nextProps.operating.stop);
+    const currentOperating = concatObjectArrays(_.omit(operating, 'inspect'));
+    const nextOperating = concatObjectArrays(nextProps.operating);
     const remove = operating.remove;
     const nextRemove = nextProps.operating.remove;
-    if (startOrStop.indexOf(containerId) > -1
-      && nextStartOrStop.indexOf(containerId) === -1 ){
-      inspect(containerId);
-    } else if (remove.indexOf(containerId) > -1
+    if (remove.indexOf(containerId) > -1
       && nextRemove.indexOf(containerId) === -1) {
       history.pushState(null, `/machines/${machineName}/containers`);
+    } else if (
+      _.includes(currentOperating, containerId)
+      && !_.includes(nextOperating, containerId)){
+      inspect(containerId);
     }
+
   }
   render() {
     const {
@@ -82,6 +97,8 @@ class MachineContainerDetailFrameset extends React.Component<any, any>{
       startContainer,
       stopContainer,
       removeContainer,
+      pauseContainer,
+      unpauseContainer,
       children
     } = this.props;
     return (
@@ -119,6 +136,24 @@ class MachineContainerDetailFrameset extends React.Component<any, any>{
                     startChildren="Start"
                     stopChildren="Stop">
                   </AutoSwitchStartStopButton>
+                )
+              }
+            })()
+          }
+          {
+            (() => {
+              if (containerInfo && containerInfo.State.Running) {
+                const paused = containerInfo.State.Paused;
+                return (
+                  <PauseToggleContainerButton
+                    className="labeled right floated"
+                    operating={operating}
+                    containerId={containerInfo.Id}
+                    paused={paused}
+                    pauseContainer={pauseContainer}
+                    unpauseContainer={unpauseContainer}>
+                    { paused ? 'Unpaused': 'Pause' }
+                  </PauseToggleContainerButton>
                 )
               }
             })()

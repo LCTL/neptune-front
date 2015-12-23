@@ -62,6 +62,14 @@ export interface StopContainerActionProps extends CommonProps {
   stopContainer: (containerId: string, options?: any) => void
 }
 
+export interface PauseContainerActionProps extends CommonProps {
+  pauseContainer: (containerId: string, options?: any) => void
+}
+
+export interface UnpauseContainerActionProps extends CommonProps {
+  unpauseContainer: (containerId: string, options?: any) => void
+}
+
 export interface RemoveContainerActionProps extends CommonProps {
   removeContainer: (containerId: string, options?: any) => void
 }

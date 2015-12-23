@@ -30,7 +30,9 @@ const operations = {
   create: createOperatingReducer(ACTION_TYPES.CREATE_MACHINE_CONTAINER),
   start: createOperatingReducer(ACTION_TYPES.START_MACHINE_CONTAINER),
   stop: createOperatingReducer(ACTION_TYPES.STOP_MACHINE_CONTAINER),
-  remove: createOperatingReducer(ACTION_TYPES.REMOVE_MACHINE_CONTAINER)
+  remove: createOperatingReducer(ACTION_TYPES.REMOVE_MACHINE_CONTAINER),
+  pause: createOperatingReducer(ACTION_TYPES.PAUSE_MACHINE_CONTAINER),
+  unpause: createOperatingReducer(ACTION_TYPES.UNPAUSE_MACHINE_CONTAINER)
 }
 
 function operatingByMachineName(state = {}, action) {

@@ -27,5 +27,11 @@ export default {
   },
   remove: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
     return end(request.delete(`${buildPath(machineName)}/${containerId}`).send(options));
+  },
+  pause: function (machineName: string, containerId: string, options?: Options) {
+    return end(request.post(`${buildPath(machineName)}/${containerId}/pause`).send(options));
+  },
+  unpause: function (machineName: string, containerId: string, options?: Options) {
+    return end(request.post(`${buildPath(machineName)}/${containerId}/unpause`).send(options));
   }
 }
