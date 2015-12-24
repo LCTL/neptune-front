@@ -6,7 +6,7 @@ This project is not completed and under heavy development now. Please do not use
 
 ## Supported Function
 
-### Machine
+**Machine**
 
 1. Create*
 2. Start
@@ -17,7 +17,7 @@ This project is not completed and under heavy development now. Please do not use
 
 1. Oracle VirtualBox
 
-### Container
+**Container**
 
 1. Create
 2. Start
@@ -28,12 +28,12 @@ This project is not completed and under heavy development now. Please do not use
 7. Inspect
 8. Log Stream
 
-### Image
+**Image**
 
 1. Pull
 2. Remove
 
-### Docker Registry
+**Docker Registry**
 
 1. Search
 
