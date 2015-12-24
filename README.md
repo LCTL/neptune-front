@@ -4,6 +4,39 @@ Neptune is a Docker management system. It can manage Docker machine, container, 
 
 This project is not completed and under heavy development now. Please do not use this for production in this stage.
 
+## Supported Function
+
+### Machine
+
+1. Create*
+2. Start
+3. Stop
+4. Remove
+
+**Machine Driver**
+
+1. Oracle VirtualBox
+
+### Container
+
+1. Create
+2. Start
+3. Stop
+4. Pause
+5. Unpause
+6. Remove
+7. Inspect
+8. Log Stream
+
+### Image
+
+1. Pull
+2. Remove
+
+### Docker Registry
+
+1. Search
+
 ## Required Software
 
 1. Node.js (https://nodejs.org/en/)
