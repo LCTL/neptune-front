@@ -1,0 +1,24 @@
+{
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "declaration": false,
+    "jsx": "react"
+  },
+  "filesGlob": [
+    "./**/*.ts*",
+    "!./node_modules/**/*.ts",
+    "!./dist/**/*.ts",
+    "!./typings/*/**/*.ts"
+  ],
+  "files": [
+    "./typings/tsd.d.ts"
+  ],
+  "atom": {
+    "rewriteTsconfig": false
+  }
+}
