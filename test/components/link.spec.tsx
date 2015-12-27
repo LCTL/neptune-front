@@ -12,15 +12,19 @@ describe('Link', () => {
   beforeEach(function() {
     this.link = <Link to="/x" className="ok">test</Link>;
     this.component = ReactTestUtils.renderIntoDocument(this.link);
-    this.renderedDOM = findDOMNode(this.component);
+    this.renderedDOM = ReactTestUtils.findRenderedDOMComponentWithClass(this.component, 'ok');
   });
 
-  it('render "a" element', function() {
+  it('should render "a" element', function() {
     expect(this.renderedDOM.tagName).to.match(/a/i);
   });
 
-  it('className should be equal "ok"', function() {
+  it('should render className and equal "ok"', function() {
     expect(this.renderedDOM.className).to.eq('ok');
+  });
+
+  it('should render "test" in child', function() {
+    expect(this.renderedDOM.innerHTML).to.eq('test');
   });
 
 });
