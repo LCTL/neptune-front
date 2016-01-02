@@ -2,8 +2,8 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as ReactTestUtils from 'react-addons-test-utils';
 import { expect } from 'chai';
-import { Link } from '../../src/components/shared/links';
-import * as app from '../../src/app';
+import { Link } from '../../../src/components/shared/links';
+import * as app from '../../../src/app';
 
 const ReactShallowRenderer = ReactTestUtils.createRenderer();
 
