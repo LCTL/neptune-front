@@ -3,10 +3,20 @@ import ASYNC_STATUS from '../constants/async-status';
 import * as ACTION_TYPES from '../constants/action-types';
 import { AutoCompleteResult, AsyncAction } from '../constants/interfaces';
 
-function createOperatingReducer(actionType: string) {
+function createContainerTemp(options) {
+  return {
+    Id: Date.now().toString(),
+    Names: ['/' + options.name || '/'],
+    Command: options.Cmd,
+    Image: options.Image,
+    Status: 'Creating'
+  };
+}
+
+function createOperatingReducer(actionType: string, containerIdArgsIndex: number = 1) {
   return (state = [], action: AsyncAction) => {
     if (action.type === actionType) {
-      let id = action.args[1];
+      let id = action.args[containerIdArgsIndex];
       switch (action.asyncStatus) {
         case ASYNC_STATUS.START:
           if (!_.isString(id)) {
@@ -33,6 +43,16 @@ const operations = {
   remove: createOperatingReducer(ACTION_TYPES.REMOVE_MACHINE_CONTAINER),
   pause: createOperatingReducer(ACTION_TYPES.PAUSE_MACHINE_CONTAINER),
   unpause: createOperatingReducer(ACTION_TYPES.UNPAUSE_MACHINE_CONTAINER)
+}
+
+const localOperations = {
+  inspect: createOperatingReducer(ACTION_TYPES.INSPECT_CONTAINER, 0),
+  create: createOperatingReducer(ACTION_TYPES.CREATE_CONTAINER, 0),
+  start: createOperatingReducer(ACTION_TYPES.START_CONTAINER, 0),
+  stop: createOperatingReducer(ACTION_TYPES.STOP_CONTAINER, 0),
+  remove: createOperatingReducer(ACTION_TYPES.REMOVE_CONTAINER, 0),
+  pause: createOperatingReducer(ACTION_TYPES.PAUSE_CONTAINER, 0),
+  unpause: createOperatingReducer(ACTION_TYPES.UNPAUSE_CONTAINER, 0)
 }
 
 function operatingByMachineName(state = {}, action) {
@@ -65,13 +85,7 @@ function containersByMachineName(state = {}, action) {
         const options = action.args[1];
         let containers = state[machineName] || [];
         containers = containers.slice();
-        containers.unshift({
-          Id: Date.now().toString(),
-          Names: ['/' + options.name || '/'],
-          Command: options.Cmd,
-          Image: options.Image,
-          Status: 'Creating'
-        });
+        containers.unshift(createContainerTemp(options));
         return _.assign({}, state, {
           [machineName]: containers
         });
@@ -146,6 +160,27 @@ function containerLogsByMachineName(state = {}, action: AsyncAction) {
   return state;
 }
 
+function containers(state = [], action: AsyncAction) {
+  if (action.type === ACTION_TYPES.FETCH_CONTAINER_LIST && action.asyncStatus === ASYNC_STATUS.COMPLETED) {
+    return action.result;
+  } else if (action.type === ACTION_TYPES.CREATE_CONTAINER && action.asyncStatus === ASYNC_STATUS.START) {
+    let options = action.args[1];
+    let containers = state.slice();
+    containers.unshift(createContainerTemp(options));
+    return containers;
+  }
+  return state
+}
+
+function operating(state = {}, action: AsyncAction) {
+  if (action.asyncStatus) {
+    const operating:any = _.assign({}, state);
+    _.keys(localOperations).forEach(key => operating[key] = localOperations[key](operating[key], action))
+    return operating
+  }
+  return state;
+}
+
 function showAll(state = true, action) {
   switch(action.type) {
     case ACTION_TYPES.SET_SHOW_ALL_CONTAINERS:
@@ -160,5 +195,7 @@ export default combineReducers({
   containerInfosByMachineName,
   containerLogsByMachineName,
   autoCompleteImagesByMachineName,
+  containers,
+  operating,
   showAll
 })

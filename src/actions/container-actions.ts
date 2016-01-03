@@ -21,6 +21,25 @@ export const pauseMachineContainer
 export const unpauseMachineContainer
   = apiActionCreator(ACTION_TYPES.UNPAUSE_MACHINE_CONTAINER, api.unpauseMachineContainer);
 
+export const fetchContainerList
+  = apiActionCreator(ACTION_TYPES.FETCH_CONTAINER_LIST, api.fetchList);
+export const createContainer
+  = apiActionCreator(ACTION_TYPES.CREATE_CONTAINER, api.create);
+export const startContainer
+  = apiActionCreator(ACTION_TYPES.START_CONTAINER, api.start);
+export const stopContainer
+  = apiActionCreator(ACTION_TYPES.STOP_CONTAINER, api.stop);
+export const removeContainer
+  = apiActionCreator(ACTION_TYPES.REMOVE_CONTAINER, api.remove);
+export const inspectContainer
+  = apiActionCreator(ACTION_TYPES.INSPECT_CONTAINER, api.inspect);
+export const fetchContainerLogs
+  = apiActionCreator(ACTION_TYPES.FETCH_CONTAINER_LOGS, api.fetchLogs);
+export const pauseContainer
+  = apiActionCreator(ACTION_TYPES.PAUSE_CONTAINER, api.pause);
+export const unpauseContainer
+  = apiActionCreator(ACTION_TYPES.UNPAUSE_CONTAINER, api.unpause);
+
 export const setShowAll = (showAll: boolean) => ({
   type: ACTION_TYPES.SET_SHOW_ALL_CONTAINERS,
   value: showAll

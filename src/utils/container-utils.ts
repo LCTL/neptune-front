@@ -4,3 +4,6 @@ export const hostUrlFnFactory
 export const machineContainerDetailPathFnFactory
   = (machineName: string) =>
     (containerId: string) => `/machines/${machineName}/containers/${containerId}/info`
+
+export const localContainerDetailPathFnFactory
+  = () => (containerId: string) => `/containers/${containerId}/info`
