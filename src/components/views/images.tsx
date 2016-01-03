@@ -5,7 +5,8 @@ import { concatObjectArrays } from '../../utils/object-utils';
 import * as imageActions from '../../actions/image-actions';
 import { OneColumn } from '../shared/grids';
 import { HugeHeader } from '../shared/headers';
-import Breadcrumb from '../shared/breadcrumb'
+import Breadcrumb from '../shared/breadcrumb';
+import { PullImageLink } from '../shared/links';
 import ImageTable from '../image/table';
 import { ToggleShowAllImageButton } from '../image/buttons';
 
@@ -58,6 +59,11 @@ class ImagesView extends React.Component<any, any>{
         </HugeHeader>
         <Breadcrumb router={router} />
         <OneColumn>
+          <PullImageLink
+            className="ui button basic blue right floated">
+            <i className='arrow down icon'></i>
+            Pull Image
+          </PullImageLink>
           <ToggleShowAllImageButton
             className={`basic right floated ${showAll ? 'purple' : 'violet'}`}
             showAll={showAll}

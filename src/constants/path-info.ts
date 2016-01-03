@@ -40,6 +40,10 @@ const PATH_INFOS: PathInfo[] = [
   {
     path: /^\/images$/,
     label: 'Images'
+  },
+  {
+    path: /^\/pull-image$/,
+    label: 'Pull Image'
   }
 ];
 

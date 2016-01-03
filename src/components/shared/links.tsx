@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { ActiveLinkProps, LinkProps, MachineStyleableProps } from './props';
+import { ActiveLinkProps, StyleableProps, LinkProps, MachineStyleableProps } from './props';
 
 const Router = require('react-router');
 
@@ -43,6 +43,18 @@ export class CreateMachineContainerLink extends React.Component<MachineStyleable
     return (
       <Link
         to={`/machines/${this.props.machineName}/create-container`}
+        className={this.props.className}>
+        {this.props.children}
+      </Link>
+    );
+  }
+}
+
+export class PullImageLink extends React.Component<StyleableProps, any>{
+  render() {
+    return (
+      <Link
+        to={`/pull-image`}
         className={this.props.className}>
         {this.props.children}
       </Link>
