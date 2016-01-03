@@ -3,6 +3,17 @@ import ASYNC_STATUS from '../constants/async-status';
 import * as ACTION_TYPES from '../constants/action-types';
 import { AsyncAction } from '../constants/interfaces';
 
+function createImageTemp(options) {
+  const nameTag = `${options.fromImage}${options.tag ? ':' + options.tag : ''}`;
+  return {
+    Created: Date.now(),
+    RepoTags: [nameTag],
+    Size: 0,
+    VirtualSize: 0,
+    status: 'Pulling'
+  }
+}
+
 function imagesByMachineName(state = {}, action) {
   if (action.type === ACTION_TYPES.FETCH_MACHINE_IMAGE_LIST) {
     const machineName = action.args[0];
@@ -16,16 +27,9 @@ function imagesByMachineName(state = {}, action) {
       && action.asyncStatus === ASYNC_STATUS.START) {
       const machineName = action.args[0];
       const options = action.args[1];
-      const nameTag = `${options.fromImage}${options.tag ? ':' + options.tag : ''}`;
       let images = state[machineName] || [];
       images = images.slice();
-      images.unshift({
-        Created: Date.now(),
-        RepoTags: [nameTag],
-        Size: 0,
-        VirtualSize: 0,
-        status: 'Pulling'
-      })
+      images.unshift(createImageTemp(options))
       return _.assign({}, state, {
         [machineName]: images
       });
@@ -34,10 +38,10 @@ function imagesByMachineName(state = {}, action) {
   return state
 }
 
-function createOperatingReducer(actionType: string) {
+function createOperatingReducer(actionType: string, nameIndex: number = 1) {
   return (state = [], action: AsyncAction) => {
     if (action.type === actionType) {
-      let nameTag = action.args[1];
+      let nameTag = action.args[nameIndex];
       if (_.isObject(nameTag)) {
         let options = nameTag;
         nameTag = `${options.fromImage}${options.tag ? ':' + options.tag : ''}`;
@@ -58,6 +62,11 @@ const operations = {
   remove: createOperatingReducer(ACTION_TYPES.REMOVE_MACHINE_IMAGE)
 }
 
+const localOperations = {
+  pull: createOperatingReducer(ACTION_TYPES.PULL_IMAGE, 0),
+  remove: createOperatingReducer(ACTION_TYPES.REMOVE_IMAGE, 0)
+}
+
 const pull = createOperatingReducer(ACTION_TYPES.PULL_MACHINE_IMAGE);
 
 function operatingByMachineName(state = {}, action) {
@@ -68,6 +77,27 @@ function operatingByMachineName(state = {}, action) {
     return _.assign({}, state, {
       [machineName]: operating
     });
+  }
+  return state;
+}
+
+function images(state = [], action: AsyncAction) {
+  if (action.type === ACTION_TYPES.FETCH_IMAGE_LIST && action.asyncStatus === ASYNC_STATUS.COMPLETED) {
+    return action.result;
+  } else if (action.type === ACTION_TYPES.PULL_IMAGE && action.asyncStatus === ASYNC_STATUS.START){
+    const images = state.slice();
+    const options = action.args[0];
+    images.unshift(createImageTemp(options));
+    return images;
+  }
+  return state;
+}
+
+function operating(state = {}, action: AsyncAction) {
+  if (action.asyncStatus) {
+    const operating:any = _.assign({}, state);
+    _.keys(localOperations).forEach(key => operating[key] = localOperations[key](operating[key], action));
+    return operating;
   }
   return state;
 }
@@ -83,5 +113,7 @@ function showAll(state = false, action) {
 export default combineReducers({
   operatingByMachineName,
   imagesByMachineName,
+  images,
+  operating,
   showAll
 })

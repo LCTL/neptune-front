@@ -22,6 +22,7 @@ export const TopMenu = React.createClass<any, any>({
         </div>
         <ActiveLink to="/machines" router={this.props.router}>Machines</ActiveLink>
         <ActiveLink to="/containers" router={this.props.router}>Containers</ActiveLink>
+        <ActiveLink to="/images" router={this.props.router}>Images</ActiveLink>
       </Semantify.Menu>
     );
   }

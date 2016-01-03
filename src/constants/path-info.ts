@@ -36,6 +36,10 @@ const PATH_INFOS: PathInfo[] = [
   {
     path: /^\/containers$/,
     label: 'Containers'
+  },
+  {
+    path: /^\/images$/,
+    label: 'Images'
   }
 ];
 
