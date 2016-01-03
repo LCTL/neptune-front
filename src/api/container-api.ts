@@ -2,36 +2,69 @@ const request = require('superagent');
 import { Response } from 'superagent';
 import { apiBaseUrl, end, stream, Options} from './shared'
 
-function buildPath(machineName: string): string {
+function buildMachinePath(machineName: string): string {
   return `${apiBaseUrl}/machines/${machineName}/containers`;
 }
 
+function buildLocalPath(): string {
+  return `${apiBaseUrl}/local/containers`;
+}
+
 export default {
-  list: function (machineName: string, options?: Options): Promise<Response> {
-    return end(request.get(`${buildPath(machineName)}`).query(options));
+  fetchMachineContainerList: function (machineName: string, options?: Options): Promise<Response> {
+    return end(request.get(`${buildMachinePath(machineName)}`).query(options));
   },
-  inspect: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
-    return end(request.get(`${buildPath(machineName)}/${containerId}`).query(options));
+  inspectMachineContainer: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
+    return end(request.get(`${buildMachinePath(machineName)}/${containerId}`).query(options));
   },
-  logs: function (machineName: string, containerId: string, options?: Options) {
-    return stream(request.get(`${buildPath(machineName)}/${containerId}/logs`).query(options));
+  fetchMachineContainerLogs: function (machineName: string, containerId: string, options?: Options) {
+    return stream(request.get(`${buildMachinePath(machineName)}/${containerId}/logs`).query(options));
   },
-  create: function (machineName: string, options: Options): Promise<Response> {
-    return end(request.post(`${buildPath(machineName)}`).send(options));
+  createMachineContainer: function (machineName: string, options: Options): Promise<Response> {
+    return end(request.post(`${buildMachinePath(machineName)}`).send(options));
   },
-  start: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
-    return end(request.post(`${buildPath(machineName)}/${containerId}/start`).send(options));
+  startMachineContainer: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
+    return end(request.post(`${buildMachinePath(machineName)}/${containerId}/start`).send(options));
   },
-  stop: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
-    return end(request.post(`${buildPath(machineName)}/${containerId}/stop`).send(options));
+  stopMachineContainer: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
+    return end(request.post(`${buildMachinePath(machineName)}/${containerId}/stop`).send(options));
   },
-  remove: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
-    return end(request.delete(`${buildPath(machineName)}/${containerId}`).send(options));
+  removeMachineContainer: function (machineName: string, containerId: string, options?: Options): Promise<Response> {
+    return end(request.delete(`${buildMachinePath(machineName)}/${containerId}`).send(options));
   },
-  pause: function (machineName: string, containerId: string, options?: Options) {
-    return end(request.post(`${buildPath(machineName)}/${containerId}/pause`).send(options));
+  pauseMachineContainer: function (machineName: string, containerId: string, options?: Options) {
+    return end(request.post(`${buildMachinePath(machineName)}/${containerId}/pause`).send(options));
   },
-  unpause: function (machineName: string, containerId: string, options?: Options) {
-    return end(request.post(`${buildPath(machineName)}/${containerId}/unpause`).send(options));
+  unpauseMachineContainer: function (machineName: string, containerId: string, options?: Options) {
+    return end(request.post(`${buildMachinePath(machineName)}/${containerId}/unpause`).send(options));
+  },
+
+  //Local docker
+  fetchList: function (options?: Options) {
+    return end(request.get(`${buildLocalPath()}`).query(options));
+  },
+  inspect: function (containerId: string, options?: Options) {
+    return end(request.get(`${buildLocalPath()}/${containerId}`).query(options));
+  },
+  fetchLogs: function (containerId: string, options?: Options) {
+    return stream(request.get(`${buildLocalPath()}/${containerId}/logs`).query(options));
+  },
+  create: function (options: Options) {
+    return end(request.post(`${buildLocalPath()}`).send(options));
+  },
+  start: function (containerId: string, options?: Options) {
+    return end(request.post(`${buildLocalPath()}/${containerId}/start`).send(options));
+  },
+  stop: function (containerId: string, options?: Options) {
+    return end(request.post(`${buildLocalPath()}/${containerId}/stop`).send(options));
+  },
+  remove: function (containerId: string, options?: Options) {
+    return end(request.delete(`${buildLocalPath()}/${containerId}`).send(options));
+  },
+  pause: function (containerId: string, options?: Options) {
+    return end(request.post(`${buildLocalPath()}/${containerId}/pause`).send(options));
+  },
+  unpause: function (containerId: string, options?: Options) {
+    return end(request.post(`${buildLocalPath()}/${containerId}/unpause`).send(options));
   }
 }
