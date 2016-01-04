@@ -13,6 +13,10 @@ interface MachineContainerDetailMenuProps extends MachineProps, ContainerProps {
   router: any
 }
 
+interface ContainerDetailMenuProps extends ContainerProps {
+  router: any
+}
+
 export const TopMenu = React.createClass<any, any>({
   render: function(){
     return (
@@ -48,6 +52,18 @@ export class MachineContainerDetailMenu extends React.Component<MachineContainer
       <Semantify.Menu className="top attached tabular">
         <ActiveLink to={`/machines/${machineName}/containers/${containerId}/info`} router={router}>Info</ActiveLink>
         <ActiveLink to={`/machines/${machineName}/containers/${containerId}/logs`} router={router}>Logs</ActiveLink>
+      </Semantify.Menu>
+    );
+  }
+};
+
+export class ContainerDetailMenu extends React.Component<ContainerDetailMenuProps, any>{
+  render(){
+    var { router, containerId } = this.props;
+    return (
+      <Semantify.Menu className="top attached tabular">
+        <ActiveLink to={`/containers/${containerId}/info`} router={router}>Info</ActiveLink>
+        <ActiveLink to={`/containers/${containerId}/logs`} router={router}>Logs</ActiveLink>
       </Semantify.Menu>
     );
   }

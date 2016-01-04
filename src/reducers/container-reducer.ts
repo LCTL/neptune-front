@@ -13,6 +13,40 @@ function createContainerTemp(options) {
   };
 }
 
+function imagesToAutoComplete(action) {
+  const images: AutoCompleteResult[] = [];
+  action.result.forEach((image) => {
+    image.RepoTags.forEach((repoTag) => {
+      if (!/none/.test(image.repoTag)) {
+        images.push({
+          title: repoTag,
+          description: ''
+        });
+      }
+    })
+  });
+  return images;
+}
+
+function containerLog(action: AsyncAction) {
+  let logs = '';
+
+  if (action.asyncStatus === ASYNC_STATUS.COMPLETED) {
+    logs = action.result || "";
+  } else if (action.asyncStatus === ASYNC_STATUS.PROGRESS) {
+    logs = action.progressData || "";
+  }
+
+  if (logs) {
+    return  {
+      requestId: action.id,
+      logs: logs.replace(/[^\x20-\xE007F\n]/g, '')
+    };
+  }
+
+  return undefined;
+}
+
 function createOperatingReducer(actionType: string, containerIdArgsIndex: number = 1) {
   return (state = [], action: AsyncAction) => {
     if (action.type === actionType) {
@@ -99,19 +133,8 @@ function autoCompleteImagesByMachineName(state = {}, action) {
     switch (action.asyncStatus) {
       case ASYNC_STATUS.COMPLETED:
         const machineName = action.args[0];
-        const images: AutoCompleteResult[] = [];
-        action.result.forEach((image) => {
-          image.RepoTags.forEach((repoTag) => {
-            if (!/none/.test(image.repoTag)) {
-              images.push({
-                title: repoTag,
-                description: ''
-              });
-            }
-          })
-        });
         return _.assign({}, state, {
-          [machineName]: images
+          [machineName]: imagesToAutoComplete(action)
         });
     }
   }
@@ -133,24 +156,14 @@ function containerInfosByMachineName(state = {}, action: AsyncAction) {
 }
 
 function containerLogsByMachineName(state = {}, action: AsyncAction) {
-  if (action.type === ACTION_TYPES.FETCH_MACHINE_CONTAINER_LOGS) {
-    let logs = '';
-
-    if (action.asyncStatus === ASYNC_STATUS.COMPLETED) {
-      logs = action.result || "";
-    } else if (action.asyncStatus === ASYNC_STATUS.PROGRESS) {
-      logs = action.progressData || "";
-    }
+  if (action.type === ACTION_TYPES.FETCH_CONTAINER_LOGS) {
+    const logs = containerLog(action);
 
     if (logs) {
       const machineName = action.args[0];
       const containerId = action.args[1];
       const machineContainers = _.assign({}, state[machineName]);
-      //TODO: remove control character but still remain strange character
-      machineContainers[containerId] = {
-        requestId: action.id,
-        logs: logs.replace(/[^\x20-\xE007F\n]/g, '')
-      }
+      machineContainers[containerId] = logs
       return _.assign({}, state, {
         [machineName]: machineContainers
       });
@@ -164,7 +177,7 @@ function containers(state = [], action: AsyncAction) {
   if (action.type === ACTION_TYPES.FETCH_CONTAINER_LIST && action.asyncStatus === ASYNC_STATUS.COMPLETED) {
     return action.result;
   } else if (action.type === ACTION_TYPES.CREATE_CONTAINER && action.asyncStatus === ASYNC_STATUS.START) {
-    let options = action.args[1];
+    let options = action.args[0];
     let containers = state.slice();
     containers.unshift(createContainerTemp(options));
     return containers;
@@ -177,6 +190,36 @@ function operating(state = {}, action: AsyncAction) {
     const operating:any = _.assign({}, state);
     _.keys(localOperations).forEach(key => operating[key] = localOperations[key](operating[key], action))
     return operating
+  }
+  return state;
+}
+
+function autoCompleteImages(state = [], action: AsyncAction) {
+  if (action.type === ACTION_TYPES.FETCH_IMAGE_LIST && action.asyncStatus === ASYNC_STATUS.COMPLETED) {
+    return imagesToAutoComplete(action);
+  }
+  return state;
+}
+
+function containerInfosByContainerId(state = {}, action: AsyncAction) {
+  if (action.type === ACTION_TYPES.INSPECT_CONTAINER && action.asyncStatus === ASYNC_STATUS.COMPLETED) {
+      const containerId = action.args[0];
+      const containers = _.assign({}, state);
+      containers[containerId] = action.result;
+      return containers;
+  }
+  return state;
+}
+
+function containerLogsByContainerId(state = {}, action: AsyncAction) {
+  if (action.type === ACTION_TYPES.FETCH_CONTAINER_LOGS) {
+    const containerId = action.args[0];
+    const logs = containerLog(action);
+    if (logs) {
+      return _.assign({}, state, {
+        [containerId]: logs
+      })
+    }
   }
   return state;
 }
@@ -197,5 +240,8 @@ export default combineReducers({
   autoCompleteImagesByMachineName,
   containers,
   operating,
+  autoCompleteImages,
+  containerInfosByContainerId,
+  containerLogsByContainerId,
   showAll
 })

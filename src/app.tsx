@@ -5,6 +5,7 @@ import store from './stores/store';
 import AppFrameset from './components/views/app-frameset';
 import Machines from './components/views/machines';
 import Containers from './components/views/containers';
+import ContainerCreation from './components/views/container-creation';
 import Images from './components/views/images';
 import PullImage from './components/views/pull-image';
 import MachineCreation from './components/views/machine-creation';
@@ -32,6 +33,7 @@ render((
         <Route path='create-machine' component={MachineCreation} />
         <Route path='machines' component={Machines} />
         <Route path='containers' component={Containers} />
+        <Route path='create-container' component={ContainerCreation} />
         <Route path='images' component={Images} />
         <Route path='pull-image' component={PullImage} />
         <Route path='machines/:machineName' component={MachineDetail}>

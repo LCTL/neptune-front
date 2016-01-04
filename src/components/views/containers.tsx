@@ -9,6 +9,7 @@ import { OneColumn } from '../shared/grids';
 import { HugeHeader } from '../shared/headers';
 import Breadcrumb from '../shared/breadcrumb'
 import { Loader } from '../shared/loaders';
+import { CreateContainerLink } from '../shared/links';
 import MachineContainerTable from '../container/table';
 import { ToggleShowAllContainersButton } from '../container/buttons';
 
@@ -70,6 +71,11 @@ class ContainersView extends React.Component<any, any>{
         <Breadcrumb router={router} />
         <OneColumn>
           <OneColumn>
+            <CreateContainerLink
+              className="ui button basic blue right floated">
+              <i className='plus icon'></i>
+              Create Container
+            </CreateContainerLink>
             <ToggleShowAllContainersButton
               className={`basic right floated ${showAll ? 'purple' : 'violet'}`}
               showAll={showAll}

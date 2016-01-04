@@ -50,6 +50,18 @@ export class CreateMachineContainerLink extends React.Component<MachineStyleable
   }
 }
 
+export class CreateContainerLink extends React.Component<StyleableProps, any>{
+  render() {
+    return (
+      <Link
+        to={`/create-container`}
+        className={this.props.className}>
+        {this.props.children}
+      </Link>
+    );
+  }
+}
+
 export class PullImageLink extends React.Component<StyleableProps, any>{
   render() {
     return (
