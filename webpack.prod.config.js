@@ -29,6 +29,7 @@ module.exports = {
       '!style!css!./node_modules/semantic-ui/dist/semantic.css'
     ]
   },
+  devtool: 'source-map',
   output: {
     path: './dist',
     filename: 'bundle.js'
@@ -79,7 +80,18 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     }),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      output: {
+        comments: false
+      }
+    })
   ],
   postcss: function(webpack) {
     return [
@@ -90,14 +102,5 @@ module.exports = {
       require('cssnext')(),
       require('autoprefixer')
     ];
-  },
-  devServer: {
-    proxy: [{
-      path: /\/api\/(.+)/,
-      target: 'http://127.0.0.1:3000/',
-      rewrite: function(req, opt) {
-        req.url = req.url.replace(opt.path, '/$1');
-      }
-    }]
   }
 };

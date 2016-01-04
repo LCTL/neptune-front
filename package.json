@@ -5,7 +5,7 @@
   "main": "/dist/app.js",
   "scripts": {
     "setup": "npm install && tsd install && tsd link",
-    "build": "npm run setup && webpack",
+    "build": "npm run setup && tsc && webpack -p --config webpack.prod.config.js",
     "dev": "npm run setup && npm run dev:webpack",
     "dev:webpack": "webpack-dev-server",
     "test": "karma start"
