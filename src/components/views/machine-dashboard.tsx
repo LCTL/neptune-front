@@ -8,7 +8,8 @@ import { CenterCircularHeader } from '../shared/headers';
 import MachineDashboard from '../machine/dashboard';
 import {
   AutoSwitchStartStopMachineButton,
-  RemoveMachineButton
+  RemoveMachineButton,
+  RegenerateCertsButton
 } from '../machine/buttons';
 
 @connect(
@@ -44,7 +45,7 @@ class MachineDashboardView extends React.Component<any, any>{
   render() {
     const { machineName } = this.props.params;
     const { operating } = this.props
-    const { start, stop, remove } = this.props.machineActions;
+    const { start, stop, remove, regenerateCerts } = this.props.machineActions;
     const status = this.props.statuses[machineName];
     var dockerInfo;
     if (status === 'Running'){
@@ -60,6 +61,13 @@ class MachineDashboardView extends React.Component<any, any>{
             remove={remove}>
             Remove
           </RemoveMachineButton>
+          <RegenerateCertsButton
+            className="labeled right floated"
+            machineName={machineName}
+            operating={operating}
+            regenerateCerts={regenerateCerts}>
+            Regenerate Certs
+          </RegenerateCertsButton>
           <AutoSwitchStartStopMachineButton
             className="labeled right floated"
             machineName={machineName}

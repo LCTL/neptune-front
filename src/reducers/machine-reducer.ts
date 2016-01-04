@@ -91,6 +91,7 @@ export default combineReducers({
     create: createOperatingReducer(ACTION_TYPE.CREATE_MACHINE),
     remove: createOperatingReducer(ACTION_TYPE.REMOVE_MACHINE),
     start: createOperatingReducer(ACTION_TYPE.START_MACHINE),
-    stop: createOperatingReducer(ACTION_TYPE.STOP_MACHINE)
+    stop: createOperatingReducer(ACTION_TYPE.STOP_MACHINE),
+    regenerateCerts: createOperatingReducer(ACTION_TYPE.REGENERATE_MACHINE_CERTS)
   })
 })

@@ -25,6 +25,10 @@ export interface MachineStyleableProps extends StyleableProps, MachineProps {
 
 }
 
+export interface RegenerateMachineCertsProps extends CommonProps {
+  regenerateCerts: (machineName: string) => void;
+}
+
 export interface LinkProps extends StyleableProps {
   to: string
 }

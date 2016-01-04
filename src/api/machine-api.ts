@@ -31,5 +31,8 @@ export default {
   },
   fetchIp: function(name: string, options?: Options): Promise<Response> {
     return end(request.get(`${buildPath(name)}/ip`).query(options));
+  },
+  regenerateCerts: function(name: string, options?: Options) {
+    return end(request.post(`${buildPath(name)}/regenerate-certs`).send(options));
   }
 }

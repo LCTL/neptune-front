@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { MachineStyleableProps } from '../shared/props'
+import { MachineStyleableProps, RegenerateMachineCertsProps } from '../shared/props'
 import { OperationButton } from '../shared/buttons';
 
 interface Operating {
@@ -24,6 +24,11 @@ interface AutoSwitchStartStopMachinButtonProps extends
   status?: string,
   stopChildren?: any,
   startChildren?: any
+}
+
+interface RegenerateCertsButtonProps extends
+  Operating, MachineStyleableProps, RegenerateMachineCertsProps {
+
 }
 
 export const StopMachineButton = React.createClass<MachineStyleableProps, any>({
@@ -114,3 +119,24 @@ export const AutoSwitchStartStopMachineButton = React.createClass<AutoSwitchStar
     return button;
   }
 });
+
+export class RegenerateCertsButton extends React.Component<RegenerateCertsButtonProps, any>{
+  regenerateCerts() {
+    const { machineName, regenerateCerts } = this.props;
+    regenerateCerts(machineName);
+  }
+  render() {
+    const { className, machineName, operating, children } = this.props;
+    return (
+      <OperationButton
+        className={`icon red ${className}`}
+        operating={operating}
+        operatingName="regenerateCerts"
+        operatingKey={machineName}
+        onClick={this.regenerateCerts.bind(this)}>
+        <i className='refresh icon'></i>
+        {children}
+      </OperationButton>
+    )
+  }
+}
