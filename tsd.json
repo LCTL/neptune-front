@@ -61,6 +61,9 @@
     },
     "react/react-addons-test-utils.d.ts": {
       "commit": "1da639a106527e0c4010b354a1efe52a3059a291"
+    },
+    "yargs/yargs.d.ts": {
+      "commit": "0d66537e353802f996a3f67ca1b711f63835f9e7"
     }
   }
 }

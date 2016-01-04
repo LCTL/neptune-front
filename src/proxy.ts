@@ -1,8 +1,19 @@
 import * as http from 'http';
 import * as fs from 'fs';
+import * as yargs from 'yargs';
 const httpProxy = require('http-proxy');
+const pkg = require('../package.json');
+const argv = yargs
+  .default('backUrl', 'http://127.0.0.1:3000')
+  .default('port', 8080)
+  .argv;
+const backUrl = process.env.NEPTUNE_BACK_URL || argv.backUrl;
+const port = process.env.NEPTUNE_FRON_PORT || argv.port;
+
+console.log('Backend URL: %s', backUrl);
+
 const proxy = httpProxy.createProxyServer({
-  target: 'http://127.0.0.1:3000'
+  target: backUrl
 });
 const apiPath = /\/api\/(.+)/;
 const serveAssetsFile = (req, res) => {
@@ -37,4 +48,10 @@ http.createServer((req, res) => {
   } else {
     serveAssetsFile(req, res);
   }
-}).listen(8080);
+}).listen(port, err => {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log('%s listening on port %s', pkg.name, port);
+  }
+});
