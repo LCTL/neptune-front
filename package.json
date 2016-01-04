@@ -8,7 +8,7 @@
     "build": "npm run setup && webpack",
     "dev": "npm run setup && npm run dev:webpack",
     "dev:webpack": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "keywords": [
     "docker",
