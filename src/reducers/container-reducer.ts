@@ -156,7 +156,7 @@ function containerInfosByMachineName(state = {}, action: AsyncAction) {
 }
 
 function containerLogsByMachineName(state = {}, action: AsyncAction) {
-  if (action.type === ACTION_TYPES.FETCH_CONTAINER_LOGS) {
+  if (action.type === ACTION_TYPES.FETCH_MACHINE_CONTAINER_LOGS) {
     const logs = containerLog(action);
 
     if (logs) {
