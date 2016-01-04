@@ -1,5 +1,5 @@
 {
-  "name": "dmm-frontend",
+  "name": "neptune-frontend",
   "version": "0.0.1",
   "description": "Docker Machine Manager (Frontend)",
   "main": "/dist/app.js",
@@ -36,7 +36,8 @@
     "redux-router": "^1.0.0-beta5",
     "redux-thunk": "^1.0.0",
     "semantic-ui": "^2.1.6",
-    "superagent": "^1.4.0"
+    "superagent": "^1.4.0",
+    "yargs": "^3.31.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.1",
