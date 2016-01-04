@@ -7,6 +7,7 @@
   "scripts": {
     "setup": "npm install && tsd install && tsd link",
     "build": "npm run setup && tsc && webpack -p --config webpack.prod.config.js",
+    "start": "node dist/proxy.js",
     "dev": "npm run setup && npm run dev:webpack",
     "dev:webpack": "webpack-dev-server",
     "test": "karma start"
