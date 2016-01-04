@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Docker Machine Manager (Frontend)",
   "main": "/dist/app.js",
+  "bin": "/dist/proxy.js",
   "scripts": {
     "setup": "npm install && tsd install && tsd link",
     "build": "npm run setup && tsc && webpack -p --config webpack.prod.config.js",
