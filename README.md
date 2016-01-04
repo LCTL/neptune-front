@@ -37,6 +37,10 @@ This project is not completed and under heavy development now. Please do not use
 
 1. Search
 
+## Container Quickstart
+1. `docker run -d --privileged -v /var/run/docker.sock:/var/run/docker.sock --name neptune-back lawrence0819/neptune-back`
+2. `docker run -d -p 8080:8080 --link neptune-back:neptune-back --name neptune-front lawrence0819/neptune-front`
+
 ## Required Software
 
 1. Node.js (https://nodejs.org/en/)
