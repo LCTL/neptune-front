@@ -1,6 +1,6 @@
-#Neptune - Docker Management System
+#Neptune - Docker Web UI
 
-Neptune is a Docker management system. It can manage Docker machine, container, image and volume for remote machine or local machine. 
+Neptune is a Docker web UI. It can manage Docker machine, container, image and volume for remote machine or local machine. 
 
 This project is not completed and under heavy development now. Please do not use this for production in this stage.
 
